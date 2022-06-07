@@ -34,11 +34,11 @@ func main() {
 		panic(err)
 	}
 
-	oKp, oPub, oSeed, oJwt, err := CreateOperator("KO")
+	oKp, oPub, oSeed, oJwt, err := CreateOperator("ACE")
 	if err != nil {
 		panic(err)
 	}
-	if err := storeOperator(confs.ConfDir(), "KO", oPub, oSeed, oJwt); err != nil {
+	if err := storeOperator(confs.ConfDir(), "ACE", oPub, oSeed, oJwt); err != nil {
 		panic(err)
 	}
 
@@ -46,7 +46,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "KO", "SYS", sPub, sSeed, sJwt); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "SYS", sPub, sSeed, sJwt); err != nil {
 		panic(err)
 	}
 
@@ -54,7 +54,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "KO", "SYS", "sys", suPub, suSeed, suJwt); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "SYS", "sys", suPub, suSeed, suJwt); err != nil {
 		panic(err)
 	}
 
@@ -62,7 +62,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "KO", "Admin", aPub, aSeed, aJwt); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "Admin", aPub, aSeed, aJwt); err != nil {
 		panic(err)
 	}
 
@@ -70,7 +70,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "KO", "Admin", "admin", auPub, auSeed, auJwt); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "Admin", "admin", auPub, auSeed, auJwt); err != nil {
 		panic(err)
 	}
 
@@ -78,7 +78,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "KO", "X", xPub, xSeed, xJwt); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "X", xPub, xSeed, xJwt); err != nil {
 		panic(err)
 	}
 
@@ -109,7 +109,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "KO", "X", "x", xuPub, xuSeed, xuJwt); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "X", "x", xuPub, xuSeed, xuJwt); err != nil {
 		panic(err)
 	}
 
@@ -117,7 +117,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "KO", "Y", yPub, ySeed, yJwt); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "Y", yPub, ySeed, yJwt); err != nil {
 		panic(err)
 	}
 
@@ -155,7 +155,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "KO", "Y", "y", yuPub, yuSeed, yuJwt); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "Y", "y", yuPub, yuSeed, yuJwt); err != nil {
 		panic(err)
 	}
 
