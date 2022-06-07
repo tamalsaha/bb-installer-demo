@@ -9,6 +9,7 @@ require (
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
 	k8s.io/api v0.24.1
 	k8s.io/apimachinery v0.24.1
+	sigs.k8s.io/yaml v1.2.0
 )
 
 require (

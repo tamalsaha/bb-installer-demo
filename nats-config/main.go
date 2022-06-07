@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 	"time"
 
+	"sigs.k8s.io/yaml"
+
 	confs "github.com/tamalsaha/bb-installer-demo/nats-config/yamls"
 
 	"github.com/nats-io/jwt/v2"
@@ -34,11 +36,13 @@ func main() {
 		panic(err)
 	}
 
+	nc := map[string]string{}
+
 	oKp, oPub, oSeed, oJwt, err := CreateOperator("ACE")
 	if err != nil {
 		panic(err)
 	}
-	if err := storeOperator(confs.ConfDir(), "ACE", oPub, oSeed, oJwt); err != nil {
+	if err := storeOperator(confs.ConfDir(), "ACE", oPub, oSeed, oJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -46,7 +50,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "ACE", "SYS", sPub, sSeed, sJwt); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "SYS", sPub, sSeed, sJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -54,7 +58,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "ACE", "SYS", "sys", suPub, suSeed, suJwt); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "SYS", "sys", suPub, suSeed, suJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -62,7 +66,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "ACE", "Admin", aPub, aSeed, aJwt); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "Admin", aPub, aSeed, aJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -70,15 +74,26 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "ACE", "Admin", "admin", auPub, auSeed, auJwt); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "Admin", "admin", auPub, auSeed, auJwt, nc); err != nil {
 		panic(err)
+	}
+
+	{
+		data, err := yaml.Marshal(nc)
+		if err != nil {
+			panic(err)
+		}
+		err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "nats-credentials.yaml"), data, 0o644)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	xKp, xPub, xSeed, xJwt, err := CreateAccount("X", oKp)
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "ACE", "X", xPub, xSeed, xJwt); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "X", xPub, xSeed, xJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -109,7 +124,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "ACE", "X", "x", xuPub, xuSeed, xuJwt); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "X", "x", xuPub, xuSeed, xuJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -117,7 +132,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "ACE", "Y", yPub, ySeed, yJwt); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "Y", yPub, ySeed, yJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -155,7 +170,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "ACE", "Y", "y", yuPub, yuSeed, yuJwt); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "Y", "y", yuPub, yuSeed, yuJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -217,10 +232,10 @@ func main() {
 
 	// Store System Account information
 
-	if err := ioutil.WriteFile(filepath.Join(confs.ConfDir(), "SYS.pub"), []byte(sPub), 0666); err != nil {
+	if err := ioutil.WriteFile(filepath.Join(confs.ConfDir(), "SYS.pub"), []byte(sPub), 0o666); err != nil {
 		panic(err)
 	}
-	if err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "SYS.pub")+".enc", []byte(base64.StdEncoding.EncodeToString([]byte(sPub))), 0666); err != nil {
+	if err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "SYS.pub")+".enc", []byte(base64.StdEncoding.EncodeToString([]byte(sPub))), 0o666); err != nil {
 		panic(err)
 	}
 	if err = StoreAccountInformation(sJwt, sSeed, confs.SYSAccountCreds, confs.SYSAccountJwt); err != nil {
@@ -320,7 +335,7 @@ func CreateOperator(name string) (nkeys.KeyPair, string, []byte, string, error) 
 			SigningKeys: jwt.StringList{oPub},
 		},
 	}
-	//claim := jwt.NewOperatorClaims(oPub)
+	// claim := jwt.NewOperatorClaims(oPub)
 	claim.Name = name
 	oJwt, err := claim.Encode(oKp)
 	if err != nil {
@@ -387,64 +402,69 @@ func CreateUser(name string, aKp nkeys.KeyPair) (nkeys.KeyPair, string, []byte, 
 	return uKp, uPub, uSeed, uJwt, nil
 }
 
-func storeOperator(dir, op string, pub string, seed []byte, jwt string) error {
+func storeOperator(dir, op string, pub string, seed []byte, jwt string, nc map[string]string) error {
 	return storeInfo(
 		filepath.Join(dir, "keys", pub+".nk"),
 		filepath.Join(dir, "stores", op, op+".jwt"),
 		filepath.Join(dir, "creds", op, op+".creds"),
 		seed,
 		jwt,
+		nc,
 	)
 }
 
-func storeAccount(dir, op, ac string, pub string, seed []byte, jwt string) error {
+func storeAccount(dir, op, ac string, pub string, seed []byte, jwt string, nc map[string]string) error {
 	return storeInfo(
 		filepath.Join(dir, "keys", pub+".nk"),
 		filepath.Join(dir, "stores", op, "accounts", ac, ac+".jwt"),
 		filepath.Join(dir, "creds", op, "accounts", ac, ac+".creds"),
 		seed,
 		jwt,
+		nc,
 	)
 }
 
-func storeUser(dir, op, ac, user string, pub string, seed []byte, jwt string) error {
+func storeUser(dir, op, ac, user string, pub string, seed []byte, jwt string, nc map[string]string) error {
 	return storeInfo(
 		filepath.Join(dir, "keys", pub+".nk"),
 		filepath.Join(dir, "stores", op, "accounts", ac, "users", user+".jwt"),
 		filepath.Join(dir, "creds", op, "accounts", ac, "users", user+".creds"),
 		seed,
 		jwt,
+		nc,
 	)
 }
 
-func storeInfo(keyFile, jwtFile, credFile string, seed []byte, jwt string) error {
+func storeInfo(keyFile, jwtFile, credFile string, seed []byte, jwt string, nc map[string]string) error {
 	// /keys
-	if err := os.MkdirAll(filepath.Dir(keyFile), 0755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(keyFile), 0o755); err != nil {
 		return err
 	}
-	if err := ioutil.WriteFile(keyFile, seed, 0600); err != nil {
+	if err := ioutil.WriteFile(keyFile, seed, 0o600); err != nil {
 		return err
 	}
 
 	// /jwt
-	if err := os.MkdirAll(filepath.Dir(jwtFile), 0755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(jwtFile), 0o755); err != nil {
 		return err
 	}
-	if err := ioutil.WriteFile(jwtFile, []byte(jwt), 0600); err != nil {
+	if err := ioutil.WriteFile(jwtFile, []byte(jwt), 0o600); err != nil {
 		return err
 	}
+	nc[filepath.Base(jwtFile)] = jwt
 
 	// /creds
 	creds, err := FormatCredentialConfig(jwt, seed)
 	if err != nil {
 		return err
 	}
-	if err := os.MkdirAll(filepath.Dir(credFile), 0755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(credFile), 0o755); err != nil {
 		return err
 	}
-	if err = ioutil.WriteFile(credFile, creds, 0666); err != nil {
+	if err = ioutil.WriteFile(credFile, creds, 0o666); err != nil {
 		return err
 	}
+	nc[filepath.Base(credFile)] = string(creds)
 
 	return nil
 }
@@ -455,19 +475,19 @@ func StoreAccountInformation(jwts string, seed []byte, credFile, jwtFile string)
 		return err
 	}
 
-	if err = ioutil.WriteFile(credFile, creds, 0666); err != nil {
+	if err = ioutil.WriteFile(credFile, creds, 0o666); err != nil {
 		return err
 	}
 
-	if err = ioutil.WriteFile(credFile+".enc", []byte(base64.StdEncoding.EncodeToString(creds)), 0666); err != nil {
+	if err = ioutil.WriteFile(credFile+".enc", []byte(base64.StdEncoding.EncodeToString(creds)), 0o666); err != nil {
 		return err
 	}
 
 	if len(jwtFile) > 0 {
-		if err := ioutil.WriteFile(jwtFile, []byte(jwts), 0666); err != nil {
+		if err := ioutil.WriteFile(jwtFile, []byte(jwts), 0o666); err != nil {
 			return err
 		}
-		if err = ioutil.WriteFile(jwtFile+".enc", []byte(base64.StdEncoding.EncodeToString([]byte(jwts))), 0666); err != nil {
+		if err = ioutil.WriteFile(jwtFile+".enc", []byte(base64.StdEncoding.EncodeToString([]byte(jwts))), 0o666); err != nil {
 			return err
 		}
 	}
@@ -494,7 +514,7 @@ websocket: {
  	port: 9222
  	no_tls: true
 }
-`, confs.JSStoreDir(), confs.OpJwtPath, "http://localhost:9090/jwt/v1/accounts/", sPub)), 0666)
+`, confs.JSStoreDir(), confs.OpJwtPath, "http://localhost:9090/jwt/v1/accounts/", sPub)), 0o666)
 	if err != nil {
 		return err
 	}
@@ -513,7 +533,7 @@ nats: {
     servers: ["nats://localhost:4222"],
     usercredentials: %s
 }
-`, confs.OpJwtPath, confs.AccServerDir(), confs.SysCredFile)), 0666)
+`, confs.OpJwtPath, confs.AccServerDir(), confs.SysCredFile)), 0o666)
 	if err != nil {
 		return err
 	}
