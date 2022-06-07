@@ -19,7 +19,7 @@ import (
 	"github.com/nats-io/nkeys"
 )
 
-// go run main.go --confs=/tmp/hello
+// go run main.go --confs=/Users/tamal/go/src/github.com/tamalsaha/bb-installer-demo/nats-config/out
 func main() {
 	flag.StringVar(&confs.ConfsDir, "confs", "", "entire configuration directory")
 	flag.StringVar(&confs.AcServerDir, "ac", "", "account server directory")
@@ -282,10 +282,10 @@ func CreateOperator(name string) (nkeys.KeyPair, string, []byte, string, error) 
 	claim := jwt.OperatorClaims{
 		ClaimsData: jwt.ClaimsData{
 			Audience:  oPub,
-			Expires:   time.Now().AddDate(10, 0, 0).Unix(),
+			Expires:   time.Now().AddDate(100, 0, 0).Unix(), // never expire
 			ID:        oPub,
 			IssuedAt:  time.Now().Unix(),
-			Issuer:    "Masudur Rahman",
+			Issuer:    "AppsCode Inc.",
 			Name:      oPub,
 			NotBefore: time.Now().Unix(),
 			Subject:   oPub,
@@ -320,7 +320,12 @@ func CreateAccount(name string, oKp nkeys.KeyPair) (nkeys.KeyPair, string, []byt
 	claim := jwt.NewAccountClaims(aPub)
 	claim.Name = name
 	if name != "SYS" {
-		claim.Limits.JetStreamLimits = jwt.JetStreamLimits{MemoryStorage: -1, DiskStorage: -1, Streams: -1, Consumer: -1}
+		claim.Limits.JetStreamLimits = jwt.JetStreamLimits{
+			MemoryStorage: -1,
+			DiskStorage:   -1,
+			Streams:       -1,
+			Consumer:      -1,
+		}
 	}
 	aJwt, err := claim.Encode(oKp)
 	if err != nil {
