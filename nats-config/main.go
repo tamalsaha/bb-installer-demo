@@ -410,8 +410,8 @@ func storeAccount(dir, op, ac string, pub string, seed []byte, jwt string) error
 func storeUser(dir, op, ac, user string, pub string, seed []byte, jwt string) error {
 	return storeInfo(
 		filepath.Join(dir, "keys", pub+".nk"),
-		filepath.Join(dir, "stores", op, "accounts", ac, "users", user, user+".jwt"),
-		filepath.Join(dir, "creds", op, "accounts", ac, "users", user, user+".creds"),
+		filepath.Join(dir, "stores", op, "accounts", ac, "users", user+".jwt"),
+		filepath.Join(dir, "creds", op, "accounts", ac, "users", user+".creds"),
 		seed,
 		jwt,
 	)
