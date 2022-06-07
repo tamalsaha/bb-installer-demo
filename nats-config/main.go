@@ -34,8 +34,11 @@ func main() {
 		panic(err)
 	}
 
-	oKp, _, oSeed, oJwt, err := CreateOperator("KO")
+	oKp, oPub, oSeed, oJwt, err := CreateOperator("KO")
 	if err != nil {
+		panic(err)
+	}
+	if err := storeOperator(confs.ConfDir(), "KO", oPub, oSeed, oJwt); err != nil {
 		panic(err)
 	}
 
@@ -43,31 +46,46 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	_, _, suSeed, suJwt, err := CreateUser("sys", sKp)
+	if err := storeAccount(confs.ConfDir(), "KO", "SYS", sPub, sSeed, sJwt); err != nil {
+		panic(err)
+	}
+
+	_, suPub, suSeed, suJwt, err := CreateUser("sys", sKp)
 	if err != nil {
+		panic(err)
+	}
+	if err := storeUser(confs.ConfDir(), "KO", "SYS", "sys", suPub, suSeed, suJwt); err != nil {
 		panic(err)
 	}
 
 	aKp, aPub, aSeed, aJwt, err := CreateAccount("Admin", oKp)
 	if err != nil {
 		panic(err)
-		println(aPub)
 	}
-	_, _, auSeed, auJwt, err := CreateUser("admin", aKp)
+	if err := storeAccount(confs.ConfDir(), "KO", "Admin", aPub, aSeed, aJwt); err != nil {
+		panic(err)
+	}
+
+	_, auPub, auSeed, auJwt, err := CreateUser("admin", aKp)
 	if err != nil {
+		panic(err)
+	}
+	if err := storeUser(confs.ConfDir(), "KO", "Admin", "admin", auPub, auSeed, auJwt); err != nil {
 		panic(err)
 	}
 
 	xKp, xPub, xSeed, xJwt, err := CreateAccount("X", oKp)
 	if err != nil {
 		panic(err)
-		println(xPub)
 	}
-	_, _, xuSeed, xuJwt, err := CreateUser("x", xKp)
-	if err != nil {
+	if err := storeAccount(confs.ConfDir(), "KO", "X", xPub, xSeed, xJwt); err != nil {
 		panic(err)
 	}
 
+	_, xuPub, xuSeed, xuJwt, err := CreateUser("x", xKp)
+	if err != nil {
+		panic(err)
+	}
 	// Add Export subjects to X account
 	claim, err := jwt.DecodeAccountClaims(xJwt)
 	if err != nil {
@@ -91,17 +109,22 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	if err := storeUser(confs.ConfDir(), "KO", "X", "x", xuPub, xuSeed, xuJwt); err != nil {
+		panic(err)
+	}
 
 	yKp, yPub, ySeed, yJwt, err := CreateAccount("Y", oKp)
 	if err != nil {
 		panic(err)
-		println(yPub)
 	}
-	_, _, yuSeed, yuJwt, err := CreateUser("y", yKp)
-	if err != nil {
+	if err := storeAccount(confs.ConfDir(), "KO", "Y", yPub, ySeed, yJwt); err != nil {
 		panic(err)
 	}
 
+	_, yuPub, yuSeed, yuJwt, err := CreateUser("y", yKp)
+	if err != nil {
+		panic(err)
+	}
 	// Add Export subjects to X account
 	claim, err = jwt.DecodeAccountClaims(yJwt)
 	if err != nil {
@@ -130,6 +153,9 @@ func main() {
 	//})
 	yJwt, err = claim.Encode(oKp)
 	if err != nil {
+		panic(err)
+	}
+	if err := storeUser(confs.ConfDir(), "KO", "Y", "y", yuPub, yuSeed, yuJwt); err != nil {
 		panic(err)
 	}
 
@@ -359,6 +385,68 @@ func CreateUser(name string, aKp nkeys.KeyPair) (nkeys.KeyPair, string, []byte, 
 	}
 
 	return uKp, uPub, uSeed, uJwt, nil
+}
+
+func storeOperator(dir, op string, pub string, seed []byte, jwt string) error {
+	return storeInfo(
+		filepath.Join(dir, "keys", pub+".nk"),
+		filepath.Join(dir, "stores", op, op+".jwt"),
+		filepath.Join(dir, "creds", op, op+".creds"),
+		seed,
+		jwt,
+	)
+}
+
+func storeAccount(dir, op, ac string, pub string, seed []byte, jwt string) error {
+	return storeInfo(
+		filepath.Join(dir, "keys", pub+".nk"),
+		filepath.Join(dir, "stores", op, "accounts", ac, ac+".jwt"),
+		filepath.Join(dir, "creds", op, "accounts", ac, ac+".creds"),
+		seed,
+		jwt,
+	)
+}
+
+func storeUser(dir, op, ac, user string, pub string, seed []byte, jwt string) error {
+	return storeInfo(
+		filepath.Join(dir, "keys", pub+".nk"),
+		filepath.Join(dir, "stores", op, "accounts", ac, "users", user, user+".jwt"),
+		filepath.Join(dir, "creds", op, "accounts", ac, "users", user, user+".creds"),
+		seed,
+		jwt,
+	)
+}
+
+func storeInfo(keyFile, jwtFile, credFile string, seed []byte, jwt string) error {
+	// /keys
+	if err := os.MkdirAll(filepath.Dir(keyFile), 0755); err != nil {
+		return err
+	}
+	if err := ioutil.WriteFile(keyFile, seed, 0600); err != nil {
+		return err
+	}
+
+	// /jwt
+	if err := os.MkdirAll(filepath.Dir(jwtFile), 0755); err != nil {
+		return err
+	}
+	if err := ioutil.WriteFile(jwtFile, []byte(jwt), 0600); err != nil {
+		return err
+	}
+
+	// /creds
+	creds, err := FormatCredentialConfig(jwt, seed)
+	if err != nil {
+		return err
+	}
+	if err := os.MkdirAll(filepath.Dir(credFile), 0755); err != nil {
+		return err
+	}
+	if err = ioutil.WriteFile(credFile, creds, 0666); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func StoreAccountInformation(jwts string, seed []byte, credFile, jwtFile string) error {
