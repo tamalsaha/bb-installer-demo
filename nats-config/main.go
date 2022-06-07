@@ -87,6 +87,19 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
+
+		ncEnc := map[string]string{}
+		for k, v := range nc {
+			ncEnc[k] = base64.StdEncoding.EncodeToString([]byte(v))
+		}
+		data, err = yaml.Marshal(ncEnc)
+		if err != nil {
+			panic(err)
+		}
+		err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "nats-credentials.enc.yaml"), data, 0o644)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	xKp, xPub, xSeed, xJwt, err := CreateAccount("X", oKp)
