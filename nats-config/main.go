@@ -62,11 +62,11 @@ func main() {
 		panic(err)
 	}
 
-	aKp, aPub, aSeed, aJwt, err := CreateAccount("Admin", oKp)
+	aKp, aPub, aSeed, aJwt, err := CreateAccount("ADMIN", oKp)
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "ACE", "Admin", aPub, aSeed, aJwt, nc); err != nil {
+	if err := storeAccount(confs.ConfDir(), "ACE", "ADMIN", aPub, aSeed, aJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -74,7 +74,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "ACE", "Admin", "admin", auPub, auSeed, auJwt, nc); err != nil {
+	if err := storeUser(confs.ConfDir(), "ACE", "ADMIN", "admin", auPub, auSeed, auJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -187,7 +187,7 @@ func main() {
 		panic(err)
 	}
 
-	// Add Import subjects to Admin account from X account
+	// Add Import subjects to ADMIN account from X account
 	claim, err = jwt.DecodeAccountClaims(aJwt)
 	if err != nil {
 		panic(err)
@@ -274,7 +274,7 @@ func main() {
 		panic(err)
 	}
 
-	// Store Admin Account information
+	// Store ADMIN Account information
 	if err = StoreAccountInformation(aJwt, aSeed, confs.AdminAccountCreds, confs.AdminAccountJwt); err != nil {
 		panic(err)
 	}
@@ -599,7 +599,7 @@ func CreateNatsYAMLs(SysPub string) error {
 	if err != nil {
 		return err
 	}
-	AdminCreds, err := ioutil.ReadFile(filepath.Join(confs.AdminAccountCreds))
+	ADMINCreds, err := ioutil.ReadFile(filepath.Join(confs.AdminAccountCreds))
 	if err != nil {
 		return err
 	}
@@ -620,7 +620,7 @@ func CreateNatsYAMLs(SysPub string) error {
 		enc(SysCreds),
 		enc(SysJwt),
 		enc(sysCreds),
-		enc(AdminCreds),
+		enc(ADMINCreds),
 		enc(adminCreds),
 
 		// For ConfigMap

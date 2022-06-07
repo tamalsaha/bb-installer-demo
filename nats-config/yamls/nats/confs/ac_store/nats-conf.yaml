@@ -12,7 +12,7 @@ stringData:
         port: 4222
         operator: "/nats/creds/Operator.jwt"
         resolver: URL(http://account-server.default.svc:9090/jwt/v1/accounts/)
-        system_account: ACRIQC7D2USUDWBYQONLT7CQA5R7P36G5EOFLZPXOOTCGEZO375N7RTS
+        system_account: AAGEV3F6RGRVWRJFZY3QGYKUJQWNIDPYU6XD4EL55BEXIYSLPT2FM6Z3
         max_payload: 8Mb
         websocket: {
           host: 0.0.0.0
