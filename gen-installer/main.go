@@ -52,15 +52,15 @@ type NatsSettings struct {
 	Replics   int         `json:"replicas"`
 
 	// ShardCount int `json:"shardCount"`
-	//MountPath       string `json:"mountPath"`
-	//OperatorCreds   string `json:"operatorCreds"`
-	//OperatorJwt     string `json:"operatorJwt"`
-	//SystemCreds     string `json:"systemCreds"`
-	//SystemJwt       string `json:"systemJwt"`
-	//SystemPubKey    string `json:"systemPubKey"`
-	//SystemUserCreds string `json:"systemUserCreds"`
-	//AdminCreds      string `json:"adminCreds"`
-	//AdminUserCreds  string `json:"adminUserCreds"`
+	// MountPath       string `json:"mountPath"`
+	// OperatorCreds   string `json:"operatorCreds"`
+	// OperatorJwt     string `json:"operatorJwt"`
+	// SystemCreds     string `json:"systemCreds"`
+	// SystemJwt       string `json:"systemJwt"`
+	// SystemPubKey    string `json:"systemPubKey"`
+	// SystemUserCreds string `json:"systemUserCreds"`
+	// AdminCreds      string `json:"adminCreds"`
+	// AdminUserCreds  string `json:"adminUserCreds"`
 }
 
 type AceGlobalValues struct {
