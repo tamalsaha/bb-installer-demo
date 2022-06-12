@@ -5,9 +5,10 @@ github.com/go-logr/logr
 ## explicit; go 1.15
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/sortkeys
-# github.com/google/gofuzz v1.1.0
+# github.com/google/gofuzz v1.2.0
 ## explicit; go 1.12
 github.com/google/gofuzz
+github.com/google/gofuzz/bytesource
 # github.com/json-iterator/go v1.1.12
 ## explicit; go 1.12
 github.com/json-iterator/go
@@ -44,6 +45,14 @@ github.com/nats-io/nuid
 ## explicit; go 1.17
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1
+# go.bytebuilders.dev/installer v0.0.0-20220610060548-ab87e4c62daa
+## explicit; go 1.18
+go.bytebuilders.dev/installer/apis/installer
+go.bytebuilders.dev/installer/apis/installer/v1alpha1
+# go.openviz.dev/installer v0.0.0-20220604082341-49cce25117ff
+## explicit; go 1.18
+go.openviz.dev/installer/apis/installer
+go.openviz.dev/installer/apis/installer/v1alpha1
 # golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd
 ## explicit; go 1.17
 golang.org/x/crypto/bcrypt
@@ -88,6 +97,8 @@ gopkg.in/yaml.v2
 # k8s.io/api v0.24.1
 ## explicit; go 1.16
 k8s.io/api/core/v1
+k8s.io/api/networking/v1
+k8s.io/api/rbac/v1
 # k8s.io/apimachinery v0.24.1
 ## explicit; go 1.16
 k8s.io/apimachinery/pkg/api/resource
@@ -123,6 +134,10 @@ k8s.io/klog/v2/internal/severity
 k8s.io/utils/internal/third_party/forked/golang/net
 k8s.io/utils/net
 k8s.io/utils/strings/slices
+# kubeops.dev/installer v0.0.0-20220604094109-ce62286902ed
+## explicit; go 1.18
+kubeops.dev/installer/apis/installer
+kubeops.dev/installer/apis/installer/v1alpha1
 # sigs.k8s.io/json v0.0.0-20211208200746-9f7c6b3444d2
 ## explicit; go 1.17
 sigs.k8s.io/json
@@ -130,6 +145,6 @@ sigs.k8s.io/json/internal/golang/encoding/json
 # sigs.k8s.io/structured-merge-diff/v4 v4.2.1
 ## explicit; go 1.13
 sigs.k8s.io/structured-merge-diff/v4/value
-# sigs.k8s.io/yaml v1.2.0
+# sigs.k8s.io/yaml v1.3.0
 ## explicit; go 1.12
 sigs.k8s.io/yaml
