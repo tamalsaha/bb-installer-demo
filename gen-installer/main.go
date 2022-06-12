@@ -43,13 +43,19 @@ const (
 )
 
 type IngressNginx struct {
-	ExposeVia    ServiceType       `json:"exposeVia"`
-	NodeSelector map[string]string `json:"nodeSelector"`
+	ExposeVia ServiceType `json:"exposeVia"`
+	//+optional
+	Resources    core.ResourceRequirements `json:"resources"`
+	NodeSelector map[string]string         `json:"nodeSelector"`
 }
 
 type NatsSettings struct {
 	ExposeVia ServiceType `json:"exposeVia"`
 	Replics   int         `json:"replicas"`
+	//+optional
+	Resources core.ResourceRequirements `json:"resources"`
+	//+optional
+	NodeSelector map[string]string `json:"nodeSelector"`
 
 	// ShardCount int `json:"shardCount"`
 	// MountPath       string `json:"mountPath"`
