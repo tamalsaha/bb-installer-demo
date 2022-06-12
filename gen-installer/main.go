@@ -10,8 +10,66 @@ import (
 )
 
 type Options struct {
-	Infra    PlatformInfra `json:"infra"`
-	Settings Settings      `json:"settings"`
+	Billing       ComponentSpec   `json:"billing"`
+	PlatformUi    ComponentSpec   `json:"platform-ui"`
+	AccountsUi    ComponentSpec   `json:"accounts-ui"`
+	ClusterUi     ComponentSpec   `json:"cluster-ui"`
+	DeployUi      ComponentSpec   `json:"deploy-ui"`
+	Grafana       ComponentSpec   `json:"grafana"`
+	KubedbUi      ComponentSpec   `json:"kubedb-ui"`
+	MarketplaceUi ComponentSpec   `json:"marketplace-ui"`
+	PlatformApi   ComponentSpec   `json:"platform-api"`
+	PromProxy     ComponentSpec   `json:"prom-proxy"`
+	Ingress       IngressNginx    `json:"ingress"`
+	Nats          NatsSettings    `json:"nats"`
+	Global        AceGlobalValues `json:"global"`
+	Settings      Settings        `json:"settings"`
+}
+
+type ComponentSpec struct {
+	Enabled bool `json:"enabled"`
+	//+optional
+	Resources core.ResourceRequirements `json:"resources"`
+	//+optional
+	NodeSelector map[string]string `json:"nodeSelector"`
+}
+
+// +kubebuilder:validation:Enum=LoadBalancer;HostPort
+type ServiceType string
+
+const (
+	ServiceTypeLoadBalancer ServiceType = "LoadBalancer"
+	ServiceTypeHostPort     ServiceType = "HostPort"
+)
+
+type IngressNginx struct {
+	ExposeVia    ServiceType       `json:"exposeVia"`
+	NodeSelector map[string]string `json:"nodeSelector"`
+}
+
+type NatsSettings struct {
+	ExposeVia ServiceType `json:"exposeVia"`
+	Replics   int         `json:"replicas"`
+
+	// ShardCount int `json:"shardCount"`
+	//MountPath       string `json:"mountPath"`
+	//OperatorCreds   string `json:"operatorCreds"`
+	//OperatorJwt     string `json:"operatorJwt"`
+	//SystemCreds     string `json:"systemCreds"`
+	//SystemJwt       string `json:"systemJwt"`
+	//SystemPubKey    string `json:"systemPubKey"`
+	//SystemUserCreds string `json:"systemUserCreds"`
+	//AdminCreds      string `json:"adminCreds"`
+	//AdminUserCreds  string `json:"adminUserCreds"`
+}
+
+type AceGlobalValues struct {
+	License          string               `json:"license"`
+	Registry         string               `json:"registry"`
+	RegistryFQDN     string               `json:"registryFQDN"`
+	ImagePullSecrets []string             `json:"imagePullSecrets"`
+	Monitoring       api.GlobalMonitoring `json:"monitoring"`
+	Infra            PlatformInfra        `json:"infra"`
 }
 
 type PlatformInfra struct {
@@ -27,16 +85,16 @@ type PlatformInfra struct {
 }
 
 type InfraTLS struct {
-	AcmeServer string `json:"acmeServer"`
-	Email      string `json:"email"`
+	// AcmeServer string `json:"acmeServer"`
+	Email string `json:"email"`
 }
 
 type InfraDns struct {
-	Provider string           `json:"provider"`
-	Auth     DNSProdviderAuth `json:"auth"`
+	Provider string          `json:"provider"`
+	Auth     DNSProviderAuth `json:"auth"`
 }
 
-type DNSProdviderAuth struct {
+type DNSProviderAuth struct {
 	Email string `json:"email"`
 	Token string `json:"token"`
 }
