@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/url"
 	"os"
 	"path"
@@ -517,6 +519,10 @@ func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 }
 
 func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
+	if in.Nats.Replics != 1 && in.Nats.Replics != 3 {
+		return errors.Errorf("nats replicas can be 1 or 3, found %d", in.Nats.Replics)
+	}
+
 	if err := os.RemoveAll(confDir()); err != nil {
 		return err
 	}
@@ -526,115 +532,181 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 		return err
 	}
 
-	if in.Nats.ExposeVia == ServiceTypeLoadBalancer {
-	} else {
-		out.Settings.Nats = api.NatsSettings{
-			ShardCount:      128, // reduce to 32
-			Replics:         in.Nats.Replics,
-			MountPath:       "/nats/creds",
-			OperatorCreds:   nc["Operator.creds"],
-			OperatorJwt:     nc["Operator.jwt"],
-			SystemCreds:     nc["SYS.creds"],
-			SystemJwt:       nc["SYS.jwt"],
-			SystemPubKey:    nc["SYS.pub"],
-			SystemUserCreds: nc["sys.creds"],
-			AdminCreds:      nc["ADMIN.creds"],
-			AdminUserCreds:  nc["admin.creds"],
-		}
+	out.Settings.Nats = api.NatsSettings{
+		ShardCount:      128, // reduce to 32
+		Replics:         in.Nats.Replics,
+		MountPath:       "/nats/creds",
+		OperatorCreds:   nc["Operator.creds"],
+		OperatorJwt:     nc["Operator.jwt"],
+		SystemCreds:     nc["SYS.creds"],
+		SystemJwt:       nc["SYS.jwt"],
+		SystemPubKey:    nc["SYS.pub"],
+		SystemUserCreds: nc["sys.creds"],
+		AdminCreds:      nc["ADMIN.creds"],
+		AdminUserCreds:  nc["admin.creds"],
+	}
 
-		out.Nats = api.AceNats{
-			Enabled: true,
-			NatsSpec: &api.NatsSpec{
-				NodeSelector: in.Nats.NodeSelector,
-				StatefulSetPodLabels: map[string]string{
-					"secret.reloader.stakater.com/reload": tplPlatformTLSSecret(in),
+	out.Nats = api.AceNats{
+		Enabled: true,
+		NatsSpec: &api.NatsSpec{
+			NodeSelector: in.Nats.NodeSelector,
+			StatefulSetPodLabels: map[string]string{
+				"secret.reloader.stakater.com/reload": tplPlatformTLSSecret(in),
+			},
+			Nats: api.NatsServerSpec{
+				Advertise: false,
+				// ExternalAccess: true, // true means HostPost
+				Limits: api.NatsServerLimitsSpec{
+					MaxPayload: pointer.StringP("4Mb"),
 				},
-
-				Nats: api.NatsServerSpec{
-					Advertise:      false,
-					ExternalAccess: true,
-					Limits: api.NatsServerLimitsSpec{
-						MaxConnections:      nil,
-						MaxSubscriptions:    nil,
-						MaxControlLine:      nil,
-						MaxPayload:          pointer.StringP("4Mb"),
-						WriteDeadline:       nil,
-						MaxPending:          nil,
-						MaxPings:            nil,
-						PingInterval:        nil,
-						LameDuckGracePeriod: "",
-						LameDuckDuration:    "",
-					},
-					Logging: api.NatsLoggingSpec{
-						Debug: pointer.FalseP(),
-						Trace: pointer.FalseP(),
-					},
-					Jetstream: api.JetstreamSpec{
-						Enabled: true,
-						//Domain:      nil,
-						//UniqueTag:   nil,
-						// Encryption:  runtime.RawExtension{},
-						//MemStorage:  api.JetstreamMemStorage{},
-						FileStorage: api.JetstreamFileStorage{
-							Enabled:          true,
-							StorageDirectory: "/nats/jetstream",
-							Size:             resource.MustParse("10Gi"), // TODO: high?
-							StorageClassName: in.Global.Infra.StorageClass.Name,
-						},
-					},
-
-					Image:                    "",
-					PullPolicy:               "",
-					ServerNamePrefix:         "",
-					ServerTags:               nil,
-					Profiling:                api.NatsServerProfilingSpec{},
-					Healthcheck:              api.NatsServerHealthcheckSpec{},
-					ConfigChecksumAnnotation: false,
-					SecurityContext:          nil,
-					ServiceAccount:           nil,
-					ConnectRetries:           0,
-					SelectorLabels:           nil,
-					Resources:                core.ResourceRequirements{},
-					Client:                   api.NatsServerClientSpec{},
-
-					TerminationGracePeriodSeconds: nil,
-
-					TLS: nil,
+				Logging: api.NatsLoggingSpec{
+					Debug: pointer.FalseP(),
+					Trace: pointer.FalseP(),
 				},
-				Mqtt:                      api.NatsMqttSpec{},
-				NameOverride:              "",
-				NamespaceOverride:         "",
-				ImagePullSecrets:          nil,
-				SecurityContext:           nil,
-				Affinity:                  nil,
-				PriorityClassName:         nil,
-				TopologyKeys:              nil,
-				TopologySpreadConstraints: nil,
-				PodAnnotations:            nil,
-				PodDisruptionBudget:       api.NatsPodDisruptionBudgetSpec{},
-				Tolerations:               nil,
-				StatefulSetAnnotations:    nil,
-				ServiceAnnotations:        nil,
-				AdditionalContainers:      nil,
-				AdditionalVolumes:         nil,
-				AdditionalVolumeMounts:    nil,
-				Cluster:                   api.NatsClusterSpec{},
-				Leafnodes:                 api.NatsLeafnodesSpec{},
-				Gateway:                   api.NatsGatewaySpec{},
-				Bootconfig:                api.NatsBootconfigSpec{},
-				Natsbox:                   api.NatsboxSpec{},
-				Reloader:                  api.NatsReloaderSpec{},
-				Exporter:                  api.NatsExporterSpec{},
-				Auth:                      api.NatsAuthSpec{},
-				Websocket:                 api.NatsWebsocketSpec{},
-				AppProtocol:               api.NatsAppProtocolSpec{},
-				NetworkPolicy:             api.NatsNetworkPolicySpec{},
-				K8SClusterDomain:          "",
-				UseFQDN:                   false,
-				CommonLabels:              nil,
-				PodManagementPolicy:       "",
+				Jetstream: api.JetstreamSpec{
+					Enabled: true,
+					FileStorage: api.JetstreamFileStorage{
+						Enabled:          true,
+						StorageDirectory: "/nats/jetstream",
+						Size:             resource.MustParse("10Gi"), // TODO: high?
+						StorageClassName: in.Global.Infra.StorageClass.Name,
+					},
+				},
+				Resources: core.ResourceRequirements{
+					Limits: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("2Gi"),
+					},
+					Requests: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("2Gi"),
+					},
+				},
+				TLS: &api.NatsServerTLSSpec{
+					AllowNonTLS: false,
+					Secret: api.LocalObjectReference{
+						Name: tplPlatformTLSSecret(in),
+					},
+					// Ca:          "",
+					Cert: core.TLSCertKey,
+					Key:  core.TLSPrivateKeyKey,
+				},
+			},
+			Natsbox: api.NatsboxSpec{
+				Enabled: false,
+			},
+			Exporter: api.NatsExporterSpec{
+				Enabled: true,
+				ServiceMonitor: api.NatsExporterServiceMonitorSpec{
+					Enabled:   true,
+					Namespace: "", // use nats namespace
+					Labels:    in.Global.Monitoring.ServiceMonitor.Labels,
+					Path:      "/metrics",
+				},
+			},
+			// Affinity:  nil,
+			// Cluster:   api.NatsClusterSpec{},
+			Auth: api.NatsAuthSpec{
+				Enabled: true,
+				Operatorjwt: &api.NatsOperatorJWTSpec{
+					ConfigMap: api.ConfigMapKeySelector{
+						Name: tplPlatformTLSSecret(in),
+						Key:  "Operator.jwt",
+					},
+				},
+				SystemAccount: pointer.StringP(nc["SYS.pub"]), // account or user?
+				Resolver: api.NatsResolverSpec{
+					Type:          "full",
+					Operator:      pointer.StringP(nc["Operator.jwt"]),
+					SystemAccount: pointer.StringP(nc["SYS.pub"]), // account or user
+					Store: api.NatsResolverStoreSpec{
+						Dir:              "/etc/nats-config/accounts/jwt",
+						Size:             resource.MustParse("10Gi"),
+						StorageClassName: in.Global.Infra.StorageClass.Name,
+					},
+					ResolverPreload: map[string]string{
+						nc["SYS.pub"]:   nc["SYS.jwt"],
+						nc["ADMIN.pub"]: nc["ADMIN.jwt"], // TODO: skip?
+					},
+				},
+			},
+			Websocket: api.NatsWebsocketSpec{
+				Enabled: true,
+				Port:    443,
+				AllowedOrigins: []string{
+					fmt.Sprintf("https://%s", in.Settings.Platform.Domain),
+					fmt.Sprintf("https://console.%s", in.Settings.Platform.Domain),
+					fmt.Sprintf("https://kubedb.%s", in.Settings.Platform.Domain),
+					fmt.Sprintf("https://grafana.%s", in.Settings.Platform.Domain),
+				},
+				TLS: &api.TLSSpec{
+					Secret: api.LocalObjectReference{
+						Name: tplPlatformTLSSecret(in),
+					},
+					// Ca:          "",
+					Cert: core.TLSCertKey,
+					Key:  core.TLSPrivateKeyKey,
+				},
+			},
+			UseFQDN: false,
+		},
+	}
+	if in.Nats.Replics > 1 {
+		natsPodSelector := &metav1.LabelSelector{
+			MatchLabels: map[string]string{
+				"app.kubernetes.io/instance": "nats-server",
+				"app.kubernetes.io/name":     "nats",
 			},
 		}
+		out.Nats.Affinity = &core.Affinity{
+			PodAntiAffinity: &core.PodAntiAffinity{
+				PreferredDuringSchedulingIgnoredDuringExecution: []core.WeightedPodAffinityTerm{
+					// Prefer to not schedule multiple pods on the same node
+					{
+						Weight: 100,
+						PodAffinityTerm: core.PodAffinityTerm{
+							Namespaces:    []string{in.Release.Namespace},
+							LabelSelector: natsPodSelector,
+							TopologyKey:   core.LabelHostname,
+						},
+					},
+					// Prefer to not schedule multiple pods on the node with same zone
+					{
+						Weight: 50,
+						PodAffinityTerm: core.PodAffinityTerm{
+							Namespaces:    []string{in.Release.Namespace},
+							LabelSelector: natsPodSelector,
+							TopologyKey:   core.LabelTopologyZone,
+						},
+					},
+				},
+			},
+		}
+
+		out.Nats.Cluster = api.NatsClusterSpec{
+			Enabled:  true,
+			Replicas: in.Nats.Replics,
+			TLS: &api.TLSSpec{
+				Secret: api.LocalObjectReference{
+					Name: tplPlatformTLSSecret(in),
+				},
+				// Ca:          "",
+				Cert: core.TLSCertKey,
+				Key:  core.TLSPrivateKeyKey,
+			},
+		}
+	}
+
+	if in.Nats.ExposeVia == ServiceTypeLoadBalancer {
+		out.Nats.Nats.ExternalAccess = false
+		// out.Nats.Websocket.Port = 9222
+
+		// ingress TCP
+		// expose NATS client port via TCP
+		out.IngressNginx.IngressNginxSpec.TCP = map[string]string{
+			"4222": fmt.Sprintf("%s/nats-server:4222", in.Release.Namespace),
+		}
+	} else {
+		// out.Nats.Websocket.Port = 443
+		out.Nats.Nats.ExternalAccess = true
 
 		out.NatsDns = api.AceNatsDns{
 			Enabled: true,
@@ -673,6 +745,13 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 }
 
 func tplPlatformTLSSecret(in *AceOptionsSpec) string {
+	return fmt.Sprintf("%s-cert", in.Release.Name)
+}
+
+func tplNATSTLSSecret(in *AceOptionsSpec) string {
+	if in.Nats.ExposeVia == ServiceTypeLoadBalancer {
+		return fmt.Sprintf("%s-nats-cert", in.Release.Name)
+	}
 	return fmt.Sprintf("%s-cert", in.Release.Name)
 }
 

@@ -215,6 +215,7 @@ type NatsClusterSpec struct {
 	NoAdvertise   bool               `json:"noAdvertise"`
 	ExtraRoutes   []string           `json:"extraRoutes"`
 	Authorization *NatsAuthorization `json:"authorization,omitempty"`
+	TLS           *TLSSpec           `json:"tls,omitempty"`
 }
 
 type NatsLeafnodesSpec struct {
@@ -324,27 +325,30 @@ type ConfigMapKeySelector struct {
 }
 
 type NatsResolverSpec struct {
-	Type          string                `json:"type"`
-	AllowDelete   bool                  `json:"allowDelete"`
-	Interval      string                `json:"interval"`
-	Operator      *string               `json:"operator"`
-	SystemAccount *string               `json:"systemAccount"`
-	Store         NatsResolverStoreSpec `json:"store"`
+	Type            string                `json:"type"`
+	AllowDelete     bool                  `json:"allowDelete"`
+	Interval        string                `json:"interval"`
+	Operator        *string               `json:"operator"`
+	SystemAccount   *string               `json:"systemAccount"`
+	Store           NatsResolverStoreSpec `json:"store"`
+	ResolverPreload map[string]string     `json:"resolverPreload"`
 }
 
 type NatsResolverStoreSpec struct {
-	Dir  string `json:"dir"`
-	Size string `json:"size"`
+	Dir              string            `json:"dir"`
+	Size             resource.Quantity `json:"size"`
+	StorageClassName string            `json:"storageClassName"`
 }
 
 type NatsWebsocketSpec struct {
-	Enabled          bool     `json:"enabled"`
-	Port             int      `json:"port"`
-	NoTLS            bool     `json:"noTLS"`
-	SameOrigin       bool     `json:"sameOrigin"`
-	AllowedOrigins   []string `json:"allowedOrigins"`
-	Advertise        string   `json:"advertise,omitempty"`
-	HandshakeTimeout string   `json:"handshakeTimeout,omitempty"`
+	Enabled          bool            `json:"enabled"`
+	Port             int             `json:"port"`
+	NoTLS            bool            `json:"noTLS"`
+	SameOrigin       bool            `json:"sameOrigin"`
+	AllowedOrigins   []string        `json:"allowedOrigins"`
+	Advertise        string          `json:"advertise,omitempty"`
+	HandshakeTimeout metav1.Duration `json:"handshakeTimeout,omitempty"`
+	TLS              *TLSSpec        `json:"tls,omitempty"`
 }
 
 type NatsAppProtocolSpec struct {

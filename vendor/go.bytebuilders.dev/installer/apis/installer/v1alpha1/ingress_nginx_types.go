@@ -45,6 +45,8 @@ type IngressNginx struct {
 // IngressNginxSpec is the schema for IngressNginx Operator values file
 type IngressNginxSpec struct {
 	Controller IngressNginxController `json:"controller"`
+	// +optional
+	TCP map[string]string `json:"tcp,omitempty"`
 }
 
 type IngressNginxController struct {
