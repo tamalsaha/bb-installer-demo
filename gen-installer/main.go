@@ -898,15 +898,12 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 		},
 		// Searchlight: api.SearchlightSettings{},
 		Grafana: api.GrafanaSettings{
-			AppMode:        "production",
-			CacheAdapter:   "",
-			CacheInterval:  0,
-			CacheHost:      nil,
-			SkipMigrations: false,
+			AppMode: "production",
 		},
 	}
 	if in.Hosted {
 		// out.Settings.Stripe = api.StripeSettings{}
+		// out.Settings.Searchlight: api.SearchlightSettings{},
 	}
 
 	return nil
