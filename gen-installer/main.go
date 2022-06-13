@@ -25,25 +25,30 @@ import (
 // DNS record configure
 
 type AceOptionsSpec struct {
-	Release       types.NamespacedName `json:"release"`
-	Hosted        bool                 `json:"hosted"`
-	Billing       ComponentSpec        `json:"billing"`
-	PlatformUi    ComponentSpec        `json:"platform-ui"`
-	AccountsUi    ComponentSpec        `json:"accounts-ui"`
-	ClusterUi     ComponentSpec        `json:"cluster-ui"`
-	DeployUi      ComponentSpec        `json:"deploy-ui"`
-	Grafana       ComponentSpec        `json:"grafana"`
-	KubedbUi      ComponentSpec        `json:"kubedb-ui"`
-	MarketplaceUi ComponentSpec        `json:"marketplace-ui"`
-	PlatformApi   ComponentSpec        `json:"platform-api"`
-	PromProxy     ComponentSpec        `json:"prom-proxy"`
-	Ingress       IngressNginx         `json:"ingress"`
-	Nats          NatsSettings         `json:"nats"`
-	Global        AceGlobalValues      `json:"global"`
-	Settings      Settings             `json:"settings"`
+	Release          types.NamespacedName    `json:"release"`
+	Hosted           bool                    `json:"hosted"`
+	License          string                  `json:"license"`
+	Registry         string                  `json:"registry"`
+	RegistryFQDN     string                  `json:"registryFQDN"`
+	ImagePullSecrets []string                `json:"imagePullSecrets"`
+	Monitoring       api.GlobalMonitoring    `json:"monitoring"`
+	Infra            AceOptionsPlatformInfra `json:"infra"`
+	Settings         AceOptionsSettings      `json:"settings"`
+	Billing          AceOptionsComponentSpec `json:"billing"`
+	PlatformUi       AceOptionsComponentSpec `json:"platform-ui"`
+	AccountsUi       AceOptionsComponentSpec `json:"accounts-ui"`
+	ClusterUi        AceOptionsComponentSpec `json:"cluster-ui"`
+	DeployUi         AceOptionsComponentSpec `json:"deploy-ui"`
+	Grafana          AceOptionsComponentSpec `json:"grafana"`
+	KubedbUi         AceOptionsComponentSpec `json:"kubedb-ui"`
+	MarketplaceUi    AceOptionsComponentSpec `json:"marketplace-ui"`
+	PlatformApi      AceOptionsComponentSpec `json:"platform-api"`
+	PromProxy        AceOptionsComponentSpec `json:"prom-proxy"`
+	Ingress          AceOptionsIngressNginx  `json:"ingress"`
+	Nats             AceOptionsNatsSettings  `json:"nats"`
 }
 
-type ComponentSpec struct {
+type AceOptionsComponentSpec struct {
 	Enabled bool `json:"enabled"`
 	//+optional
 	Resources core.ResourceRequirements `json:"resources"`
@@ -63,77 +68,48 @@ const (
 	DefaultPasswordLength = 16
 )
 
-type IngressNginx struct {
+type AceOptionsIngressNginx struct {
 	ExposeVia ServiceType `json:"exposeVia"`
 	//+optional
 	Resources    core.ResourceRequirements `json:"resources"`
 	NodeSelector map[string]string         `json:"nodeSelector"`
 }
 
-type NatsSettings struct {
+type AceOptionsNatsSettings struct {
 	ExposeVia ServiceType `json:"exposeVia"`
 	Replics   int         `json:"replicas"`
 	//+optional
 	Resources core.ResourceRequirements `json:"resources"`
 	//+optional
 	NodeSelector map[string]string `json:"nodeSelector"`
-
-	// ShardCount int `json:"shardCount"`
-	// MountPath       string `json:"mountPath"`
-	// OperatorCreds   string `json:"operatorCreds"`
-	// OperatorJwt     string `json:"operatorJwt"`
-	// SystemCreds     string `json:"systemCreds"`
-	// SystemJwt       string `json:"systemJwt"`
-	// SystemPubKey    string `json:"systemPubKey"`
-	// SystemUserCreds string `json:"systemUserCreds"`
-	// AdminCreds      string `json:"adminCreds"`
-	// AdminUserCreds  string `json:"adminUserCreds"`
 }
 
-type AceGlobalValues struct {
-	License          string               `json:"license"`
-	Registry         string               `json:"registry"`
-	RegistryFQDN     string               `json:"registryFQDN"`
-	ImagePullSecrets []string             `json:"imagePullSecrets"`
-	Monitoring       api.GlobalMonitoring `json:"monitoring"`
-	Infra            PlatformInfra        `json:"infra"`
-}
+type AceGlobalValues struct{}
 
-type PlatformInfra struct {
+type AceOptionsPlatformInfra struct {
 	StorageClass api.LocalObjectReference `json:"storageClass"`
 	TLS          InfraTLS                 `json:"tls"`
 	DNS          api.InfraDns             `json:"dns"`
 	Objstore     InfraObjstore            `json:"objstore"`
 	Kms          InfraKms                 `json:"kms"`
-	// Kubepack     InfraKubepack            `json:"kubepack"`
-	// Badger       InfraBadger              `json:"badger"`
-	// Invoice      InfraInvoice             `json:"invoice"`
 }
 
 type InfraTLS struct {
-	// AcmeServer string `json:"acmeServer"`
 	Email string `json:"email"`
-}
-
-type DNSProviderAuth struct {
-	Email string `json:"email"`
-	Token string `json:"token"`
 }
 
 type InfraObjstore struct {
-	Bucket   string `json:"bucket"`
-	Provider string `json:"provider"`
-	// MountPath string       `json:"mountPath"`
-	Auth api.ObjstoreAuth `json:"auth"`
+	Bucket   string           `json:"bucket"`
+	Provider string           `json:"provider"`
+	Auth     api.ObjstoreAuth `json:"auth"`
 }
 
 type InfraKms struct {
-	Provider string `json:"provider"`
-	// MountPath    string `json:"mountPath"`
+	Provider     string `json:"provider"`
 	MasterKeyURL string `json:"masterKeyURL"`
 }
 
-type Settings struct {
+type AceOptionsSettings struct {
 	DB       DBSettings       `json:"db"`
 	Cache    CacheSettings    `json:"cache"`
 	Smtp     SmtpSettings     `json:"smtp"`
@@ -181,82 +157,36 @@ func NewOptions() *AceOptionsSpec {
 			Name:      "ace",
 			Namespace: "ace",
 		},
-		Hosted: hosted,
-		Billing: ComponentSpec{
-			Enabled: hosted,
-		},
-		PlatformUi: ComponentSpec{
-			Enabled: true,
-		},
-		AccountsUi: ComponentSpec{
-			Enabled: true,
-		},
-		ClusterUi: ComponentSpec{
-			Enabled: true,
-		},
-		DeployUi: ComponentSpec{
-			Enabled: hosted,
-		},
-		Grafana: ComponentSpec{
-			Enabled: true,
-		},
-		KubedbUi: ComponentSpec{
-			Enabled: true,
-		},
-		MarketplaceUi: ComponentSpec{
-			Enabled: hosted,
-		},
-		PlatformApi: ComponentSpec{
-			Enabled: true,
-		},
-		PromProxy: ComponentSpec{
-			Enabled: true,
-		},
-		Ingress: IngressNginx{
-			ExposeVia: ServiceTypeLoadBalancer,
-			// Resources:    core.ResourceRequirements{},
-			// NodeSelector: nil,
-		},
-		Nats: NatsSettings{
-			ExposeVia: ServiceTypeLoadBalancer,
-			Replics:   1,
-			//Resources:    core.ResourceRequirements{
-			//	Limits:   nil,
-			//	Requests: nil,
-			//},
-			//NodeSelector: nil,
-		},
-		Global: AceGlobalValues{
-			License:          "",
-			Registry:         "",
-			RegistryFQDN:     "",
-			ImagePullSecrets: nil,
-			Monitoring:       api.GlobalMonitoring{},
-			Infra: PlatformInfra{
-				StorageClass: api.LocalObjectReference{
-					Name: "standard",
-				},
-				//TLS: InfraTLS{
-				//	Email: "",
-				//},
-				//DNS: InfraDns{
-				//	Provider: "",
-				//	Auth:     DNSProviderAuth{},
-				//},
-				//Objstore: InfraObjstore{
-				//	Provider: "",
-				//	Auth:     ObjstoreAuth{},
-				//},
-				//Kms:     InfraKms{
-				//	Provider:     "",
-				//	MasterKeyURL: "",
-				//},
-				//Avatars: InfraAvatars{
-				//	Bucket:
-				//},
+		Hosted:           hosted,
+		License:          "",
+		Registry:         "",
+		RegistryFQDN:     "",
+		ImagePullSecrets: nil,
+		Monitoring:       api.GlobalMonitoring{},
+		Infra: AceOptionsPlatformInfra{
+			StorageClass: api.LocalObjectReference{
+				Name: "standard",
 			},
+			//TLS: InfraTLS{
+			//	Email: "",
+			//},
+			//DNS: InfraDns{
+			//	Provider: "",
+			//	Auth:     DNSProviderAuth{},
+			//},
+			//Objstore: InfraObjstore{
+			//	Provider: "",
+			//	Auth:     ObjstoreAuth{},
+			//},
+			//Kms:     InfraKms{
+			//	Provider:     "",
+			//	MasterKeyURL: "",
+			//},
+			//Avatars: InfraAvatars{
+			//	Bucket:
+			//},
 		},
-		Settings: Settings{
+		Settings: AceOptionsSettings{
 			DB: DBSettings{
 				Persistence: api.PersistenceSpec{
 					Size: resource.MustParse("20Gi"),
@@ -289,6 +219,50 @@ func NewOptions() *AceOptionsSpec {
 			//	Oauth2JWTSecret: "",
 			//	CsrfSecretKey:   "",
 			//},
+		},
+		Billing: AceOptionsComponentSpec{
+			Enabled: hosted,
+		},
+		PlatformUi: AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		AccountsUi: AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		ClusterUi: AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		DeployUi: AceOptionsComponentSpec{
+			Enabled: hosted,
+		},
+		Grafana: AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		KubedbUi: AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		MarketplaceUi: AceOptionsComponentSpec{
+			Enabled: hosted,
+		},
+		PlatformApi: AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		PromProxy: AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		Ingress: AceOptionsIngressNginx{
+			ExposeVia: ServiceTypeLoadBalancer,
+			// Resources:    core.ResourceRequirements{},
+			// NodeSelector: nil,
+		},
+		Nats: AceOptionsNatsSettings{
+			ExposeVia: ServiceTypeLoadBalancer,
+			Replics:   1,
+			//Resources:    core.ResourceRequirements{
+			//	Limits:   nil,
+			//	Requests: nil,
+			//},
+			//NodeSelector: nil,
 		},
 	}
 }
@@ -494,12 +468,12 @@ func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 	}
 
 	// TODO: Add additional DNS providers
-	if in.Global.Infra.DNS.Provider == "cloudflare" {
+	if in.Infra.DNS.Provider == "cloudflare" {
 		out.IngressDns.Provider = "cloudflare"
 		out.IngressDns.Env = []core.EnvVar{
 			{
 				Name:  "CF_API_TOKEN",
-				Value: in.Global.Infra.DNS.Auth.Token,
+				Value: in.Infra.DNS.Auth.Token,
 			},
 		}
 	}
@@ -558,7 +532,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 						Enabled:          true,
 						StorageDirectory: "/nats/jetstream",
 						Size:             resource.MustParse("10Gi"), // TODO: high?
-						StorageClassName: in.Global.Infra.StorageClass.Name,
+						StorageClassName: in.Infra.StorageClass.Name,
 					},
 				},
 				Resources: core.ResourceRequirements{
@@ -587,7 +561,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 				ServiceMonitor: api.NatsExporterServiceMonitorSpec{
 					Enabled:   true,
 					Namespace: "", // use nats namespace
-					Labels:    in.Global.Monitoring.ServiceMonitor.Labels,
+					Labels:    in.Monitoring.ServiceMonitor.Labels,
 					Path:      "/metrics",
 				},
 			},
@@ -609,7 +583,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 					Store: api.NatsResolverStoreSpec{
 						Dir:              "/etc/nats-config/accounts/jwt",
 						Size:             resource.MustParse("10Gi"),
-						StorageClassName: in.Global.Infra.StorageClass.Name,
+						StorageClassName: in.Infra.StorageClass.Name,
 					},
 					ResolverPreload: map[string]string{
 						nc["SYS.pub"]:   nc["SYS.jwt"],
@@ -719,12 +693,12 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 		}
 
 		// TODO: Add additional DNS providers
-		if in.Global.Infra.DNS.Provider == "cloudflare" {
+		if in.Infra.DNS.Provider == "cloudflare" {
 			out.NatsDns.Provider = "cloudflare"
 			out.NatsDns.Env = []core.EnvVar{
 				{
 					Name:  "CF_API_TOKEN",
-					Value: in.Global.Infra.DNS.Auth.Token,
+					Value: in.Infra.DNS.Auth.Token,
 				},
 			}
 		}
@@ -742,26 +716,26 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 		// RegistryFQDN:     "",
 		// ImagePullSecrets: nil,
 		// ServiceAccount:   api.NatsServiceAccountSpec{},
-		Monitoring: in.Global.Monitoring,
+		Monitoring: in.Monitoring,
 		Infra: api.PlatformInfra{
-			StorageClass: in.Global.Infra.StorageClass,
+			StorageClass: in.Infra.StorageClass,
 			TLS: api.InfraTLS{
 				// TODO: prod URL: https://acme-v02.api.letsencrypt.org/directory
 				AcmeServer: "https://acme-staging-v02.api.letsencrypt.org/directory",
-				Email:      in.Global.Infra.TLS.Email,
+				Email:      in.Infra.TLS.Email,
 			},
-			DNS: in.Global.Infra.DNS,
+			DNS: in.Infra.DNS,
 			Objstore: api.InfraObjstore{
-				Provider:  in.Global.Infra.Objstore.Provider,
+				Provider:  in.Infra.Objstore.Provider,
 				MountPath: "/data/credentials",
-				Auth:      in.Global.Infra.Objstore.Auth,
+				Auth:      in.Infra.Objstore.Auth,
 			},
 			Kms: api.InfraKms{
-				Provider:     in.Global.Infra.Objstore.Provider,
+				Provider:     in.Infra.Objstore.Provider,
 				MasterKeyURL: fmt.Sprintf("base64key://%s", passgen.GenerateForCharset(64, passgen.AlphaNum)),
 			},
 			Avatars: api.InfraAvatars{
-				Bucket: mustBucketName(in.Global.Infra.Objstore.Bucket, "avatars"),
+				Bucket: mustBucketName(in.Infra.Objstore.Bucket, "avatars"),
 			},
 			// TODO: bucket proxy
 			//Kubepack: api.InfraKubepack{
@@ -775,7 +749,7 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 			//},
 			//Invoice: api.InfraInvoice{
 			//	MountPath:    "/billing",
-			//	Bucket:       mustBucketName(in.Global.Infra.Objstore.Bucket, "invoices"),
+			//	Bucket:       mustBucketName(in.Infra.Objstore.Bucket, "invoices"),
 			//	TrackerEmail: "",
 			//},
 		},
@@ -792,7 +766,7 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 		}
 		out.Global.Infra.Invoice = api.InfraInvoice{
 			MountPath:    "/billing",
-			Bucket:       mustBucketName(in.Global.Infra.Objstore.Bucket, "invoices"),
+			Bucket:       mustBucketName(in.Infra.Objstore.Bucket, "invoices"),
 			TrackerEmail: "",
 		}
 	}
@@ -823,7 +797,7 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 		Smtp: api.SmtpSettings{
 			Host:       in.Settings.Smtp.Host,
 			TlsEnabled: in.Settings.Smtp.TlsEnabled,
-			From:       in.Settings.Smtp.From, // fmt.Sprintf("no-reply@%s", in.Settings.Platform.Domain), // TODO: configure?
+			From:       in.Settings.Smtp.From, // fmt.Sprintf("no-reply@%s", in.AceOptionsSettings.Platform.Domain), // TODO: configure?
 			Username:   in.Settings.Smtp.Username,
 			Password:   in.Settings.Smtp.Password,
 			SubjectPrefix: func() string {
@@ -834,7 +808,7 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 			}(),
 			SendAsPlainText: in.Settings.Smtp.SendAsPlainText,
 		},
-		// Nats:        api.NatsSettings{},
+		// Nats:        api.AceOptionsNatsSettings{},
 		Platform: api.PlatformSettings{
 			Domain: in.Settings.Platform.Domain,
 			AppName: func() string {
@@ -877,8 +851,8 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 		},
 	}
 	if in.Hosted {
-		// out.Settings.Stripe = api.StripeSettings{}
-		// out.Settings.Searchlight: api.SearchlightSettings{},
+		// out.AceOptionsSettings.Stripe = api.StripeSettings{}
+		// out.AceOptionsSettings.Searchlight: api.SearchlightSettings{},
 	}
 
 	return nil
