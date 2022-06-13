@@ -45,7 +45,7 @@ github.com/nats-io/nuid
 ## explicit; go 1.17
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1
-# go.bytebuilders.dev/installer v0.0.0-20220610060548-ab87e4c62daa
+# go.bytebuilders.dev/installer v0.0.0-20220613180333-b8a88a9b3261
 ## explicit; go 1.18
 go.bytebuilders.dev/installer/apis/installer
 go.bytebuilders.dev/installer/apis/installer/v1alpha1

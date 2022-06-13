@@ -191,11 +191,11 @@ type InfraTLS struct {
 }
 
 type InfraDns struct {
-	Provider string           `json:"provider"`
-	Auth     DNSProdviderAuth `json:"auth"`
+	Provider string          `json:"provider"`
+	Auth     DNSProviderAuth `json:"auth"`
 }
 
-type DNSProdviderAuth struct {
+type DNSProviderAuth struct {
 	Email string `json:"email"`
 	Token string `json:"token"`
 }

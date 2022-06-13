@@ -52,8 +52,8 @@ type AcePlatformOptions struct {
 }
 
 type AceDNSOptions struct {
-	Provider string           `json:"provider"`
-	Auth     DNSProdviderAuth `json:"auth"`
+	Provider string          `json:"provider"`
+	Auth     DNSProviderAuth `json:"auth"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
