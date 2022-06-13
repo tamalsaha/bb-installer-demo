@@ -6,6 +6,7 @@ require (
 	github.com/nats-io/jwt/v2 v2.2.1-0.20220330180145-442af02fd36a
 	github.com/nats-io/nats-server/v2 v2.8.4
 	github.com/nats-io/nkeys v0.3.0
+	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
 	go.bytebuilders.dev/installer v0.0.0-20220613180333-b8a88a9b3261
 	k8s.io/api v0.24.1

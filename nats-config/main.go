@@ -21,6 +21,14 @@ import (
 	"github.com/nats-io/nkeys"
 )
 
+func ConfDir() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	return filepath.Join(dir, "nats")
+}
+
 // go run main.go --confs=/Users/tamal/go/src/github.com/tamalsaha/bb-installer-demo/nats-config/out
 func main() {
 	flag.StringVar(&confs.ConfsDir, "confs", "", "entire configuration directory")
@@ -30,51 +38,51 @@ func main() {
 
 	confs.UpdateCredentialPaths()
 
-	println("Configuration directory: ", confs.ConfDir(), "\n")
+	println("Configuration directory: ", ConfDir(), "\n")
 
-	if err := os.MkdirAll(confs.ConfDir(), os.ModePerm); err != nil {
+	if err := os.MkdirAll(ConfDir(), os.ModePerm); err != nil {
 		panic(err)
 	}
 
 	nc := map[string]string{}
 
-	oKp, oPub, oSeed, oJwt, err := CreateOperator("Operator")
+	oKp, oPub, oSeed, oJwt, err := createOperator("Operator")
 	if err != nil {
 		panic(err)
 	}
-	if err := storeOperator(confs.ConfDir(), "Operator", oPub, oSeed, oJwt, nc); err != nil {
+	if err := storeOperator(ConfDir(), "Operator", oPub, oSeed, oJwt, nc); err != nil {
 		panic(err)
 	}
 
-	sKp, sPub, sSeed, sJwt, err := CreateAccount("SYS", oKp)
+	sKp, sPub, sSeed, sJwt, err := createAccount("SYS", oKp)
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "Operator", "SYS", sPub, sSeed, sJwt, nc); err != nil {
+	if err := storeAccount(ConfDir(), "Operator", "SYS", sPub, sSeed, sJwt, nc); err != nil {
 		panic(err)
 	}
 
-	_, suPub, suSeed, suJwt, err := CreateUser("sys", sKp)
+	_, suPub, suSeed, suJwt, err := createUser("sys", sKp)
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "Operator", "SYS", "sys", suPub, suSeed, suJwt, nc); err != nil {
+	if err := storeUser(ConfDir(), "Operator", "SYS", "sys", suPub, suSeed, suJwt, nc); err != nil {
 		panic(err)
 	}
 
-	aKp, aPub, aSeed, aJwt, err := CreateAccount("ADMIN", oKp)
+	aKp, aPub, aSeed, aJwt, err := createAccount("ADMIN", oKp)
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "Operator", "ADMIN", aPub, aSeed, aJwt, nc); err != nil {
+	if err := storeAccount(ConfDir(), "Operator", "ADMIN", aPub, aSeed, aJwt, nc); err != nil {
 		panic(err)
 	}
 
-	_, auPub, auSeed, auJwt, err := CreateUser("admin", aKp)
+	_, auPub, auSeed, auJwt, err := createUser("admin", aKp)
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "Operator", "ADMIN", "admin", auPub, auSeed, auJwt, nc); err != nil {
+	if err := storeUser(ConfDir(), "Operator", "ADMIN", "admin", auPub, auSeed, auJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -83,7 +91,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "nats-credentials.yaml"), data, 0o644)
+		err = ioutil.WriteFile(filepath.Join(ConfDir(), "nats-credentials.yaml"), data, 0o644)
 		if err != nil {
 			panic(err)
 		}
@@ -96,21 +104,21 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "nats-credentials.enc.yaml"), data, 0o644)
+		err = ioutil.WriteFile(filepath.Join(ConfDir(), "nats-credentials.enc.yaml"), data, 0o644)
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	xKp, xPub, xSeed, xJwt, err := CreateAccount("X", oKp)
+	xKp, xPub, xSeed, xJwt, err := createAccount("X", oKp)
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "Operator", "X", xPub, xSeed, xJwt, nc); err != nil {
+	if err := storeAccount(ConfDir(), "Operator", "X", xPub, xSeed, xJwt, nc); err != nil {
 		panic(err)
 	}
 
-	_, xuPub, xuSeed, xuJwt, err := CreateUser("x", xKp)
+	_, xuPub, xuSeed, xuJwt, err := createUser("x", xKp)
 	if err != nil {
 		panic(err)
 	}
@@ -137,19 +145,19 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "Operator", "X", "x", xuPub, xuSeed, xuJwt, nc); err != nil {
+	if err := storeUser(ConfDir(), "Operator", "X", "x", xuPub, xuSeed, xuJwt, nc); err != nil {
 		panic(err)
 	}
 
-	yKp, yPub, ySeed, yJwt, err := CreateAccount("Y", oKp)
+	yKp, yPub, ySeed, yJwt, err := createAccount("Y", oKp)
 	if err != nil {
 		panic(err)
 	}
-	if err := storeAccount(confs.ConfDir(), "Operator", "Y", yPub, ySeed, yJwt, nc); err != nil {
+	if err := storeAccount(ConfDir(), "Operator", "Y", yPub, ySeed, yJwt, nc); err != nil {
 		panic(err)
 	}
 
-	_, yuPub, yuSeed, yuJwt, err := CreateUser("y", yKp)
+	_, yuPub, yuSeed, yuJwt, err := createUser("y", yKp)
 	if err != nil {
 		panic(err)
 	}
@@ -183,7 +191,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := storeUser(confs.ConfDir(), "Operator", "Y", "y", yuPub, yuSeed, yuJwt, nc); err != nil {
+	if err := storeUser(ConfDir(), "Operator", "Y", "y", yuPub, yuSeed, yuJwt, nc); err != nil {
 		panic(err)
 	}
 
@@ -245,10 +253,10 @@ func main() {
 
 	// Store System Account information
 
-	if err := ioutil.WriteFile(filepath.Join(confs.ConfDir(), "SYS.pub"), []byte(sPub), 0o666); err != nil {
+	if err := ioutil.WriteFile(filepath.Join(ConfDir(), "SYS.pub"), []byte(sPub), 0o666); err != nil {
 		panic(err)
 	}
-	if err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "SYS.pub")+".enc", []byte(base64.StdEncoding.EncodeToString([]byte(sPub))), 0o666); err != nil {
+	if err = ioutil.WriteFile(filepath.Join(ConfDir(), "SYS.pub")+".enc", []byte(base64.StdEncoding.EncodeToString([]byte(sPub))), 0o666); err != nil {
 		panic(err)
 	}
 	if err = StoreAccountInformation(sJwt, sSeed, confs.SYSAccountCreds, confs.SYSAccountJwt); err != nil {
@@ -319,7 +327,7 @@ func StartJSServer() (*natsd.Server, error) {
 	return s, nil
 }
 
-func CreateOperator(name string) (nkeys.KeyPair, string, []byte, string, error) {
+func createOperator(name string) (nkeys.KeyPair, string, []byte, string, error) {
 	oKp, err := nkeys.CreateOperator()
 	if err != nil {
 		return nil, "", nil, "", err
@@ -358,7 +366,7 @@ func CreateOperator(name string) (nkeys.KeyPair, string, []byte, string, error) 
 	return oKp, oPub, oSeed, oJwt, nil
 }
 
-func CreateAccount(name string, oKp nkeys.KeyPair) (nkeys.KeyPair, string, []byte, string, error) {
+func createAccount(name string, oKp nkeys.KeyPair) (nkeys.KeyPair, string, []byte, string, error) {
 	aKp, err := nkeys.CreateAccount()
 	if err != nil {
 		return nil, "", nil, "", err
@@ -389,7 +397,7 @@ func CreateAccount(name string, oKp nkeys.KeyPair) (nkeys.KeyPair, string, []byt
 	return aKp, aPub, aSeed, aJwt, nil
 }
 
-func CreateUser(name string, aKp nkeys.KeyPair) (nkeys.KeyPair, string, []byte, string, error) {
+func createUser(name string, aKp nkeys.KeyPair) (nkeys.KeyPair, string, []byte, string, error) {
 	uKp, err := nkeys.CreateUser()
 	if err != nil {
 		return nil, "", nil, "", err
@@ -627,7 +635,7 @@ func CreateNatsYAMLs(SysPub string) error {
 		opJwt,
 		SysJwt,
 	)
-	if err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "creds.yaml"), []byte(creds), os.ModePerm); err != nil {
+	if err = ioutil.WriteFile(filepath.Join(ConfDir(), "creds.yaml"), []byte(creds), os.ModePerm); err != nil {
 		return err
 	}
 
@@ -637,7 +645,7 @@ func CreateNatsYAMLs(SysPub string) error {
 	}
 
 	conf := fmt.Sprintf(string(data), SysPub)
-	if err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "nats-conf.yaml"), []byte(conf), os.ModePerm); err != nil {
+	if err = ioutil.WriteFile(filepath.Join(ConfDir(), "nats-conf.yaml"), []byte(conf), os.ModePerm); err != nil {
 		return err
 	}
 
@@ -650,7 +658,7 @@ func CreateNatsYAMLs(SysPub string) error {
 	if img := os.Getenv("NAS_IMAGE"); len(img) > 0 {
 		image = img
 	}
-	if err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "account-server.yaml"), []byte(fmt.Sprintf(string(data), image)), os.ModePerm); err != nil {
+	if err = ioutil.WriteFile(filepath.Join(ConfDir(), "account-server.yaml"), []byte(fmt.Sprintf(string(data), image)), os.ModePerm); err != nil {
 		return err
 	}
 
@@ -662,7 +670,7 @@ func CreateNatsYAMLs(SysPub string) error {
 	if img := os.Getenv("NATS_IMAGE"); len(img) > 0 {
 		image = img
 	}
-	if err = ioutil.WriteFile(filepath.Join(confs.ConfDir(), "server.yaml"), []byte(fmt.Sprintf(string(data), image)), os.ModePerm); err != nil {
+	if err = ioutil.WriteFile(filepath.Join(ConfDir(), "server.yaml"), []byte(fmt.Sprintf(string(data), image)), os.ModePerm); err != nil {
 		return err
 	}
 

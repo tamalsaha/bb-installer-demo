@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"k8s.io/apimachinery/pkg/labels"
 	"net/url"
 	"path"
+
+	"k8s.io/apimachinery/pkg/labels"
 
 	api "go.bytebuilders.dev/installer/apis/installer/v1alpha1"
 	core "k8s.io/api/core/v1"
@@ -528,7 +529,6 @@ func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 
 func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 	if in.Nats.ExposeVia == ServiceTypeLoadBalancer {
-
 	} else {
 
 		out.NatsDns = api.AceNatsDns{
