@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"k8s.io/apimachinery/pkg/api/resource"
-	"k8s.io/apimachinery/pkg/types"
 	"net/url"
 	"path"
 
-	core "k8s.io/api/core/v1"
-
 	api "go.bytebuilders.dev/installer/apis/installer/v1alpha1"
+	core "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
+	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/yaml"
 )
 
@@ -234,8 +233,8 @@ func NewOptions() *AceOptionsSpec {
 		},
 		Ingress: IngressNginx{
 			ExposeVia: ServiceTypeLoadBalancer,
-			//Resources:    core.ResourceRequirements{},
-			//NodeSelector: nil,
+			// Resources:    core.ResourceRequirements{},
+			// NodeSelector: nil,
 		},
 		Nats: NatsSettings{
 			ExposeVia: ServiceTypeLoadBalancer,
