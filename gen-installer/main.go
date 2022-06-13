@@ -3,11 +3,13 @@ package main
 import (
 	"fmt"
 	"net/url"
+	"os"
 	"path"
 
 	"k8s.io/apimachinery/pkg/labels"
 
 	api "go.bytebuilders.dev/installer/apis/installer/v1alpha1"
+	"gomodules.xyz/pointer"
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/types"
@@ -428,19 +430,6 @@ func InitComponents(in *AceOptionsSpec, out *api.AceSpec) error {
 	return nil
 }
 
-func tplPlatformConfig(in *AceOptionsSpec) string {
-	return fmt.Sprintf("%s-config", in.Release.Name)
-}
-
-func getBucket(bucket string, elem ...string) (string, error) {
-	u, err := url.Parse(bucket)
-	if err != nil {
-		return "", err
-	}
-	u.Path = path.Join(append([]string{u.Path}, elem...)...)
-	return u.String(), nil
-}
-
 func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 	if in.Ingress.ExposeVia == ServiceTypeLoadBalancer {
 		out.IngressNginx = api.AceIngressNginx{
@@ -528,8 +517,112 @@ func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 }
 
 func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
+	if err := os.RemoveAll(confDir()); err != nil {
+		return err
+	}
+
+	nc, err := genNatsCredentials()
+	if err != nil {
+		return err
+	}
+
 	if in.Nats.ExposeVia == ServiceTypeLoadBalancer {
 	} else {
+		out.Settings.Nats = api.NatsSettings{
+			ShardCount:      128, // reduce to 32
+			Replics:         in.Nats.Replics,
+			MountPath:       "/nats/creds",
+			OperatorCreds:   nc["Operator.creds"],
+			OperatorJwt:     nc["Operator.jwt"],
+			SystemCreds:     nc["SYS.creds"],
+			SystemJwt:       nc["SYS.jwt"],
+			SystemPubKey:    nc["SYS.pub"],
+			SystemUserCreds: nc["sys.creds"],
+			AdminCreds:      nc["ADMIN.creds"],
+			AdminUserCreds:  nc["admin.creds"],
+		}
+
+		out.Nats = api.AceNats{
+			Enabled: true,
+			NatsSpec: &api.NatsSpec{
+				NodeSelector: in.Nats.NodeSelector,
+				StatefulSetPodLabels: map[string]string{
+					"secret.reloader.stakater.com/reload": tplPlatformTLSSecret(in),
+				},
+
+				Nats: api.NatsServerSpec{
+					Advertise:      false,
+					ExternalAccess: true,
+					Limits: api.NatsServerLimitsSpec{
+						MaxConnections:      nil,
+						MaxSubscriptions:    nil,
+						MaxControlLine:      nil,
+						MaxPayload:          pointer.StringP("4Mb"),
+						WriteDeadline:       nil,
+						MaxPending:          nil,
+						MaxPings:            nil,
+						PingInterval:        nil,
+						LameDuckGracePeriod: "",
+						LameDuckDuration:    "",
+					},
+					Logging: api.NatsLoggingSpec{
+						Debug: pointer.FalseP(),
+						Trace: nil,
+					},
+
+					Image:                    "",
+					PullPolicy:               "",
+					ServerNamePrefix:         "",
+					ServerTags:               nil,
+					Profiling:                api.NatsServerProfilingSpec{},
+					Healthcheck:              api.NatsServerHealthcheckSpec{},
+					ConfigChecksumAnnotation: false,
+					SecurityContext:          nil,
+					ServiceAccount:           nil,
+					ConnectRetries:           0,
+					SelectorLabels:           nil,
+					Resources:                core.ResourceRequirements{},
+					Client:                   api.NatsServerClientSpec{},
+
+					TerminationGracePeriodSeconds: nil,
+
+					Jetstream: api.JetstreamSpec{},
+					TLS:       nil,
+				},
+				Mqtt:                      api.NatsMqttSpec{},
+				NameOverride:              "",
+				NamespaceOverride:         "",
+				ImagePullSecrets:          nil,
+				SecurityContext:           nil,
+				Affinity:                  nil,
+				PriorityClassName:         nil,
+				TopologyKeys:              nil,
+				TopologySpreadConstraints: nil,
+				PodAnnotations:            nil,
+				PodDisruptionBudget:       api.NatsPodDisruptionBudgetSpec{},
+				Tolerations:               nil,
+				StatefulSetAnnotations:    nil,
+				ServiceAnnotations:        nil,
+				AdditionalContainers:      nil,
+				AdditionalVolumes:         nil,
+				AdditionalVolumeMounts:    nil,
+				Cluster:                   api.NatsClusterSpec{},
+				Leafnodes:                 api.NatsLeafnodesSpec{},
+				Gateway:                   api.NatsGatewaySpec{},
+				Bootconfig:                api.NatsBootconfigSpec{},
+				Natsbox:                   api.NatsboxSpec{},
+				Reloader:                  api.NatsReloaderSpec{},
+				Exporter:                  api.NatsExporterSpec{},
+				Auth:                      api.NatsAuthSpec{},
+				Websocket:                 api.NatsWebsocketSpec{},
+				AppProtocol:               api.NatsAppProtocolSpec{},
+				NetworkPolicy:             api.NatsNetworkPolicySpec{},
+				K8SClusterDomain:          "",
+				UseFQDN:                   false,
+				CommonLabels:              nil,
+				PodManagementPolicy:       "",
+			},
+		}
 
 		out.NatsDns = api.AceNatsDns{
 			Enabled: true,
@@ -565,4 +658,21 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 	}
 
 	return nil
+}
+
+func tplPlatformTLSSecret(in *AceOptionsSpec) string {
+	return fmt.Sprintf("%s-cert", in.Release.Name)
+}
+
+func tplPlatformConfig(in *AceOptionsSpec) string {
+	return fmt.Sprintf("%s-config", in.Release.Name)
+}
+
+func getBucket(bucket string, elem ...string) (string, error) {
+	u, err := url.Parse(bucket)
+	if err != nil {
+		return "", err
+	}
+	u.Path = path.Join(append([]string{u.Path}, elem...)...)
+	return u.String(), nil
 }

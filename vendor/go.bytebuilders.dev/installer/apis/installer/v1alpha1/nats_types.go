@@ -158,8 +158,8 @@ type NatsServerLimitsSpec struct {
 }
 
 type NatsLoggingSpec struct {
-	Debug                 *string `json:"debug"`
-	Trace                 *string `json:"trace"`
+	Debug                 *bool   `json:"debug"`
+	Trace                 *bool   `json:"trace"`
 	Logtime               *string `json:"logtime"`
 	ConnectErrorReports   *string `json:"connectErrorReports"`
 	ReconnectErrorReports *string `json:"reconnectErrorReports"`

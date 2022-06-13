@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/nats-io/jwt/v2"
@@ -196,6 +197,7 @@ func storeOperator(dir, op string, pub string, seed []byte, jwt string, nc map[s
 		filepath.Join(dir, "keys", pub+".nk"),
 		filepath.Join(dir, "stores", op, op+".jwt"),
 		filepath.Join(dir, "creds", op, op+".creds"),
+		pub,
 		seed,
 		jwt,
 		nc,
@@ -207,6 +209,7 @@ func storeAccount(dir, op, ac string, pub string, seed []byte, jwt string, nc ma
 		filepath.Join(dir, "keys", pub+".nk"),
 		filepath.Join(dir, "stores", op, "accounts", ac, ac+".jwt"),
 		filepath.Join(dir, "creds", op, "accounts", ac, ac+".creds"),
+		pub,
 		seed,
 		jwt,
 		nc,
@@ -218,13 +221,14 @@ func storeUser(dir, op, ac, user string, pub string, seed []byte, jwt string, nc
 		filepath.Join(dir, "keys", pub+".nk"),
 		filepath.Join(dir, "stores", op, "accounts", ac, "users", user+".jwt"),
 		filepath.Join(dir, "creds", op, "accounts", ac, "users", user+".creds"),
+		pub,
 		seed,
 		jwt,
 		nc,
 	)
 }
 
-func storeInfo(keyFile, jwtFile, credFile string, seed []byte, jwt string, nc map[string]string) error {
+func storeInfo(keyFile, jwtFile, credFile string, pub string, seed []byte, jwt string, nc map[string]string) error {
 	// /keys
 	if err := os.MkdirAll(filepath.Dir(keyFile), 0o755); err != nil {
 		return err
@@ -254,6 +258,12 @@ func storeInfo(keyFile, jwtFile, credFile string, seed []byte, jwt string, nc ma
 		return err
 	}
 	nc[filepath.Base(credFile)] = string(creds)
+
+	{
+		filename := strings.TrimSuffix(filepath.Base(jwtFile), ".jwt")
+		nc[filename+".pub"] = pub
+		nc[filename+".nk"] = string(seed)
+	}
 
 	return nil
 }

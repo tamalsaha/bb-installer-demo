@@ -2901,12 +2901,12 @@ func (in *NatsLoggingSpec) DeepCopyInto(out *NatsLoggingSpec) {
 	*out = *in
 	if in.Debug != nil {
 		in, out := &in.Debug, &out.Debug
-		*out = new(string)
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Trace != nil {
 		in, out := &in.Trace, &out.Trace
-		*out = new(string)
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Logtime != nil {

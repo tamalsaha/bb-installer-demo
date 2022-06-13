@@ -48,7 +48,7 @@ github.com/pkg/errors
 ## explicit; go 1.17
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1
-# go.bytebuilders.dev/installer v0.0.0-20220613180333-b8a88a9b3261
+# go.bytebuilders.dev/installer v0.0.0-20220613193929-a43823d546e0
 ## explicit; go 1.18
 go.bytebuilders.dev/installer/apis/installer
 go.bytebuilders.dev/installer/apis/installer/v1alpha1
@@ -91,6 +91,9 @@ golang.org/x/text/unicode/norm
 # golang.org/x/time v0.0.0-20211116232009-f0f3c7e86c11
 ## explicit
 golang.org/x/time/rate
+# gomodules.xyz/pointer v0.1.0
+## explicit; go 1.15
+gomodules.xyz/pointer
 # gopkg.in/inf.v0 v0.9.1
 ## explicit
 gopkg.in/inf.v0

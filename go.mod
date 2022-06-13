@@ -8,7 +8,8 @@ require (
 	github.com/nats-io/nkeys v0.3.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
-	go.bytebuilders.dev/installer v0.0.0-20220613180333-b8a88a9b3261
+	go.bytebuilders.dev/installer v0.0.0-20220613193929-a43823d546e0
+	gomodules.xyz/pointer v0.1.0
 	k8s.io/api v0.24.1
 	k8s.io/apimachinery v0.24.1
 	sigs.k8s.io/yaml v1.3.0
