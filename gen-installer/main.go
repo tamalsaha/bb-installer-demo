@@ -578,9 +578,8 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 						FileStorage: api.JetstreamFileStorage{
 							Enabled:          true,
 							StorageDirectory: "/nats/jetstream",
-							Size:             "10Gi", // TODO: high?
-							AccessModes:      nil,
-							Annotations:      nil,
+							Size:             resource.MustParse("10Gi"), // TODO: high?
+							StorageClassName: in.Global.Infra.StorageClass.Name,
 						},
 					},
 

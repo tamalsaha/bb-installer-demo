@@ -8,12 +8,14 @@ require (
 	github.com/nats-io/nkeys v0.3.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
-	go.bytebuilders.dev/installer v0.0.0-20220613194856-57e98596df24
+	go.bytebuilders.dev/installer v0.0.0-20220613195146-011e295a85ea
 	gomodules.xyz/pointer v0.1.0
 	k8s.io/api v0.24.1
 	k8s.io/apimachinery v0.24.1
 	sigs.k8s.io/yaml v1.3.0
 )
+
+replace go.bytebuilders.dev/installer => ../../../go.bytebuilders.dev/installer
 
 require (
 	github.com/go-logr/logr v1.2.0 // indirect

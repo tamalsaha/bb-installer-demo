@@ -48,7 +48,7 @@ github.com/pkg/errors
 ## explicit; go 1.17
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1
-# go.bytebuilders.dev/installer v0.0.0-20220613194856-57e98596df24
+# go.bytebuilders.dev/installer v0.0.0-20220613195146-011e295a85ea => ../../../go.bytebuilders.dev/installer
 ## explicit; go 1.18
 go.bytebuilders.dev/installer/apis/installer
 go.bytebuilders.dev/installer/apis/installer/v1alpha1
@@ -154,3 +154,4 @@ sigs.k8s.io/structured-merge-diff/v4/value
 # sigs.k8s.io/yaml v1.3.0
 ## explicit; go 1.12
 sigs.k8s.io/yaml
+# go.bytebuilders.dev/installer => ../../../go.bytebuilders.dev/installer

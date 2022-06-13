@@ -19,6 +19,7 @@ package v1alpha1
 import (
 	core "k8s.io/api/core/v1"
 	networking "k8s.io/api/networking/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
@@ -175,15 +176,15 @@ type JetstreamSpec struct {
 }
 
 type JetstreamMemStorage struct {
-	Enabled bool   `json:"enabled"`
-	Size    string `json:"size"`
+	Enabled bool              `json:"enabled"`
+	Size    resource.Quantity `json:"size"`
 }
 
 type JetstreamFileStorage struct {
 	Enabled          bool              `json:"enabled"`
 	StorageDirectory string            `json:"storageDirectory"`
 	StorageClassName string            `json:"storageClassName"`
-	Size             string            `json:"size"`
+	Size             resource.Quantity `json:"size"`
 	AccessModes      []string          `json:"accessModes"`
 	Annotations      map[string]string `json:"annotations"`
 }
