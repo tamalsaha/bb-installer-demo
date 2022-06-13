@@ -551,7 +551,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 		NatsSpec: &api.NatsSpec{
 			NodeSelector: in.Nats.NodeSelector,
 			StatefulSetPodLabels: map[string]string{
-				"secret.reloader.stakater.com/reload": tplPlatformTLSSecret(in),
+				"secret.reloader.stakater.com/reload": tplNATSTLSSecret(in),
 			},
 			Nats: api.NatsServerSpec{
 				Advertise: false,
@@ -583,7 +583,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 				TLS: &api.NatsServerTLSSpec{
 					AllowNonTLS: false,
 					Secret: api.LocalObjectReference{
-						Name: tplPlatformTLSSecret(in),
+						Name: tplNATSTLSSecret(in),
 					},
 					// Ca:          "",
 					Cert: core.TLSCertKey,
@@ -608,7 +608,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 				Enabled: true,
 				Operatorjwt: &api.NatsOperatorJWTSpec{
 					ConfigMap: api.ConfigMapKeySelector{
-						Name: tplPlatformTLSSecret(in),
+						Name: tplNATSCredSecret(in),
 						Key:  "Operator.jwt",
 					},
 				},
@@ -639,7 +639,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 				},
 				TLS: &api.TLSSpec{
 					Secret: api.LocalObjectReference{
-						Name: tplPlatformTLSSecret(in),
+						Name: tplNATSTLSSecret(in),
 					},
 					// Ca:          "",
 					Cert: core.TLSCertKey,
@@ -686,7 +686,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 			Replicas: in.Nats.Replics,
 			TLS: &api.TLSSpec{
 				Secret: api.LocalObjectReference{
-					Name: tplPlatformTLSSecret(in),
+					Name: tplNATSTLSSecret(in),
 				},
 				// Ca:          "",
 				Cert: core.TLSCertKey,
@@ -746,6 +746,10 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 
 func tplPlatformTLSSecret(in *AceOptionsSpec) string {
 	return fmt.Sprintf("%s-cert", in.Release.Name)
+}
+
+func tplNATSCredSecret(in *AceOptionsSpec) string {
+	return fmt.Sprintf("%s-nats-cred", in.Release.Name)
 }
 
 func tplNATSTLSSecret(in *AceOptionsSpec) string {
