@@ -154,40 +154,15 @@ type CacheSettings struct {
 type SmtpSettings struct {
 	Host       string `json:"host"`
 	TlsEnabled bool   `json:"tlsEnabled"`
-	// From            string `json:"from"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	From       string `json:"from"`
+	Username   string `json:"username"`
+	Password   string `json:"password"`
 	// SubjectPrefix   string `json:"subjectPrefix"`
 	SendAsPlainText bool `json:"sendAsPlainText"`
 }
 
 type PlatformSettings struct {
 	Domain string `json:"domain"`
-	// AppName                         string  `json:"appName"`
-	// RunMode                         string  `json:"runMode"`
-	// ExperimentalFeatures            bool    `json:"experimentalFeatures"`
-	// ForcePrivate                    bool    `json:"forcePrivate"`
-	// DisableHttpGit                  bool    `json:"disableHttpGit"`
-	// InstallLock                     bool    `json:"installLock"`
-	// RepositoryUploadEnabled         bool    `json:"repositoryUploadEnabled"`
-	// RepositoryUploadAllowedTypes    *string `json:"repositoryUploadAllowedTypes"`
-	// RepositoryUploadMaxFileSize     int     `json:"repositoryUploadMaxFileSize"`
-	// RepositoryUploadMaxFiles        int     `json:"repositoryUploadMaxFiles"`
-	// ServiceEnableCaptcha            bool    `json:"serviceEnableCaptcha"`
-	// ServiceRegisterEmailConfirm     bool    `json:"serviceRegisterEmailConfirm"`
-	// ServiceDisableRegistration      bool    `json:"serviceDisableRegistration"`
-	// ServiceRequireSignInView        bool    `json:"serviceRequireSignInView"`
-	// ServiceEnableNotifyMail         bool    `json:"serviceEnableNotifyMail"`
-	// SessionProvider                 string  `json:"sessionProvider"`
-	// SessionProviderConfig           *string `json:"sessionProviderConfig"`
-	// CookieName                      string  `json:"cookieName"`
-	// ServerLandingPage               string  `json:"serverLandingPage"`
-	// LogMode                         string  `json:"logMode"`
-	// LogLevel                        string  `json:"logLevel"`
-	// OtherShowFooterBranding         bool    `json:"otherShowFooterBranding"`
-	// OtherShowFooterVersion          bool    `json:"otherShowFooterVersion"`
-	// OtherShowFooterTemplateLoadTime bool    `json:"otherShowFooterTemplateLoadTime"`
-	// EnableCSRFCookieHttpOnly        bool    `json:"enableCSRFCookieHttpOnly"`
 }
 
 func main() {
@@ -848,7 +823,7 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 		Smtp: api.SmtpSettings{
 			Host:       in.Settings.Smtp.Host,
 			TlsEnabled: in.Settings.Smtp.TlsEnabled,
-			From:       fmt.Sprintf("no-reply@%s", in.Settings.Platform.Domain), // TODO: configure?
+			From:       in.Settings.Smtp.From, // fmt.Sprintf("no-reply@%s", in.Settings.Platform.Domain), // TODO: configure?
 			Username:   in.Settings.Smtp.Username,
 			Password:   in.Settings.Smtp.Password,
 			SubjectPrefix: func() string {
