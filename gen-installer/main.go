@@ -491,5 +491,37 @@ func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 		}
 	}
 
+	out.IngressDns = api.AceIngressDns{
+		Enabled: true,
+		ExternalDnsSpec: &api.ExternalDnsSpec{
+			DomainFilters: []string{
+				in.Settings.Platform.Domain,
+			},
+			// ref: https://github.com/kubernetes-sigs/external-dns/pull/2718
+			Image: api.ExternalDnsImageReference{
+				Repository: "appscode/external-dns",
+				Tag:        "external-dns-helm-chart-1.9.0-1-gbd1bb40c",
+				PullPolicy: "IfNotPresent",
+			},
+			LogLevel:   "debug",
+			Sources:    []string{"ingress"},
+			ExtraArgs:  []string{"--ignore-ingress-tls-spec"},
+			Policy:     "sync",
+			Registry:   "txt",
+			TxtOwnerID: "ingress-dns",
+		},
+	}
+
+	// TODO: Add additional DNS providers
+	if in.Global.Infra.DNS.Provider == "cloudflare" {
+		out.IngressDns.Provider = "cloudflare"
+		out.IngressDns.Env = []core.EnvVar{
+			{
+				Name:  "CF_API_TOKEN",
+				Value: in.Global.Infra.DNS.Auth.Token,
+			},
+		}
+	}
+
 	return nil
 }
