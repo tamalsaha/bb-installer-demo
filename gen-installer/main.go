@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"k8s.io/apimachinery/pkg/labels"
 	"net/url"
 	"path"
 
@@ -299,6 +300,10 @@ func NewOptions() *AceOptionsSpec {
 }
 
 func InitComponents(in *AceOptionsSpec, out *api.AceSpec) error {
+	out.Reloader = api.AceReloader{
+		Enabled: true,
+	}
+
 	if in.Billing.Enabled {
 		out.Billing = api.AceBilling{
 			Enabled: true,
@@ -435,10 +440,6 @@ func getBucket(bucket string, elem ...string) (string, error) {
 	return u.String(), nil
 }
 
-func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
-	return nil
-}
-
 func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 	if in.Ingress.ExposeVia == ServiceTypeLoadBalancer {
 		out.IngressNginx = api.AceIngressNginx{
@@ -519,6 +520,47 @@ func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 				Name:  "CF_API_TOKEN",
 				Value: in.Global.Infra.DNS.Auth.Token,
 			},
+		}
+	}
+
+	return nil
+}
+
+func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
+	if in.Nats.ExposeVia == ServiceTypeLoadBalancer {
+
+	} else {
+
+		out.NatsDns = api.AceNatsDns{
+			Enabled: true,
+			ExternalDnsSpec: &api.ExternalDnsSpec{
+				Sources: []string{"node"},
+				Image: api.ExternalDnsImageReference{
+					Repository: "appscode/external-dns",
+					Tag:        "external-dns-helm-chart-1.9.0-1-gbd1bb40c",
+					PullPolicy: "IfNotPresent",
+				},
+				DomainFilters: []string{in.Settings.Platform.Domain},
+				LogLevel:      "debug",
+				ExtraArgs: []string{
+					fmt.Sprintf("--fqdn-template=nats.%s", in.Settings.Platform.Domain),
+					fmt.Sprintf("--label-filter=%s", labels.Set(in.Nats.NodeSelector).String()),
+				},
+				Policy:     "sync",
+				Registry:   "txt",
+				TxtOwnerID: "nats-dns",
+			},
+		}
+
+		// TODO: Add additional DNS providers
+		if in.Global.Infra.DNS.Provider == "cloudflare" {
+			out.NatsDns.Provider = "cloudflare"
+			out.NatsDns.Env = []core.EnvVar{
+				{
+					Name:  "CF_API_TOKEN",
+					Value: in.Global.Infra.DNS.Auth.Token,
+				},
+			}
 		}
 	}
 
