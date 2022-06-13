@@ -182,6 +182,7 @@ type JetstreamMemStorage struct {
 type JetstreamFileStorage struct {
 	Enabled          bool              `json:"enabled"`
 	StorageDirectory string            `json:"storageDirectory"`
+	StorageClassName string            `json:"storageClassName"`
 	Size             string            `json:"size"`
 	AccessModes      []string          `json:"accessModes"`
 	Annotations      map[string]string `json:"annotations"`

@@ -567,7 +567,21 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 					},
 					Logging: api.NatsLoggingSpec{
 						Debug: pointer.FalseP(),
-						Trace: nil,
+						Trace: pointer.FalseP(),
+					},
+					Jetstream: api.JetstreamSpec{
+						Enabled: true,
+						//Domain:      nil,
+						//UniqueTag:   nil,
+						// Encryption:  runtime.RawExtension{},
+						//MemStorage:  api.JetstreamMemStorage{},
+						FileStorage: api.JetstreamFileStorage{
+							Enabled:          true,
+							StorageDirectory: "/nats/jetstream",
+							Size:             "10Gi", // TODO: high?
+							AccessModes:      nil,
+							Annotations:      nil,
+						},
 					},
 
 					Image:                    "",
@@ -586,8 +600,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 
 					TerminationGracePeriodSeconds: nil,
 
-					Jetstream: api.JetstreamSpec{},
-					TLS:       nil,
+					TLS: nil,
 				},
 				Mqtt:                      api.NatsMqttSpec{},
 				NameOverride:              "",

@@ -48,7 +48,7 @@ github.com/pkg/errors
 ## explicit; go 1.17
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1
-# go.bytebuilders.dev/installer v0.0.0-20220613193929-a43823d546e0
+# go.bytebuilders.dev/installer v0.0.0-20220613194856-57e98596df24
 ## explicit; go 1.18
 go.bytebuilders.dev/installer/apis/installer
 go.bytebuilders.dev/installer/apis/installer/v1alpha1
