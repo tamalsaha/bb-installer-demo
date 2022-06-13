@@ -12,6 +12,7 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 
 	api "go.bytebuilders.dev/installer/apis/installer/v1alpha1"
+	passgen "gomodules.xyz/password-generator"
 	"gomodules.xyz/pointer"
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -25,6 +26,7 @@ import (
 
 type AceOptionsSpec struct {
 	Release       types.NamespacedName `json:"release"`
+	Hosted        bool                 `json:"hosted"`
 	Billing       ComponentSpec        `json:"billing"`
 	PlatformUi    ComponentSpec        `json:"platform-ui"`
 	AccountsUi    ComponentSpec        `json:"accounts-ui"`
@@ -55,6 +57,10 @@ type ServiceType string
 const (
 	ServiceTypeLoadBalancer ServiceType = "LoadBalancer"
 	ServiceTypeHostPort     ServiceType = "HostPort"
+)
+
+const (
+	DefaultPasswordLength = 16
 )
 
 type IngressNginx struct {
@@ -96,7 +102,7 @@ type AceGlobalValues struct {
 type PlatformInfra struct {
 	StorageClass api.LocalObjectReference `json:"storageClass"`
 	TLS          InfraTLS                 `json:"tls"`
-	DNS          InfraDns                 `json:"dns"`
+	DNS          api.InfraDns             `json:"dns"`
 	Objstore     InfraObjstore            `json:"objstore"`
 	Kms          InfraKms                 `json:"kms"`
 	// Kubepack     InfraKubepack            `json:"kubepack"`
@@ -109,11 +115,6 @@ type InfraTLS struct {
 	Email string `json:"email"`
 }
 
-type InfraDns struct {
-	Provider string          `json:"provider"`
-	Auth     DNSProviderAuth `json:"auth"`
-}
-
 type DNSProviderAuth struct {
 	Email string `json:"email"`
 	Token string `json:"token"`
@@ -123,11 +124,7 @@ type InfraObjstore struct {
 	Bucket   string `json:"bucket"`
 	Provider string `json:"provider"`
 	// MountPath string       `json:"mountPath"`
-	Auth ObjstoreAuth `json:"auth"`
-}
-
-type ObjstoreAuth struct {
-	ServiceAccountJson string `json:"serviceAccountJson"`
+	Auth api.ObjstoreAuth `json:"auth"`
 }
 
 type InfraKms struct {
@@ -203,13 +200,15 @@ func main() {
 }
 
 func NewOptions() *AceOptionsSpec {
+	hosted := false
 	return &AceOptionsSpec{
 		Release: types.NamespacedName{
 			Name:      "ace",
 			Namespace: "ace",
 		},
+		Hosted: hosted,
 		Billing: ComponentSpec{
-			Enabled: false,
+			Enabled: hosted,
 		},
 		PlatformUi: ComponentSpec{
 			Enabled: true,
@@ -221,7 +220,7 @@ func NewOptions() *AceOptionsSpec {
 			Enabled: true,
 		},
 		DeployUi: ComponentSpec{
-			Enabled: false,
+			Enabled: hosted,
 		},
 		Grafana: ComponentSpec{
 			Enabled: true,
@@ -230,7 +229,7 @@ func NewOptions() *AceOptionsSpec {
 			Enabled: true,
 		},
 		MarketplaceUi: ComponentSpec{
-			Enabled: false,
+			Enabled: hosted,
 		},
 		PlatformApi: ComponentSpec{
 			Enabled: true,
@@ -285,15 +284,29 @@ func NewOptions() *AceOptionsSpec {
 		Settings: Settings{
 			DB: DBSettings{
 				Persistence: api.PersistenceSpec{
-					Size: resource.MustParse("50Gi"),
+					Size: resource.MustParse("20Gi"),
 				},
-				// Resources: core.ResourceRequirements{},
+				Resources: core.ResourceRequirements{
+					Limits: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("512Mi"),
+					},
+					Requests: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("512Mi"),
+					},
+				},
 			},
 			Cache: CacheSettings{
 				Persistence: api.PersistenceSpec{
 					Size: resource.MustParse("10Gi"),
 				},
-				// Resources: core.ResourceRequirements{},
+				Resources: core.ResourceRequirements{
+					Limits: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("512Mi"),
+					},
+					Requests: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("512Mi"),
+					},
+				},
 			},
 			Smtp:     SmtpSettings{},
 			Platform: PlatformSettings{},
@@ -745,6 +758,160 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 	return nil
 }
 
+func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
+	out.Global = api.AceGlobalValues{
+		NameOverride: in.Release.Name,
+		// FullnameOverride: "",
+		// License:          "",
+		// Registry:         "",
+		// RegistryFQDN:     "",
+		// ImagePullSecrets: nil,
+		// ServiceAccount:   api.NatsServiceAccountSpec{},
+		Monitoring: in.Global.Monitoring,
+		Infra: api.PlatformInfra{
+			StorageClass: in.Global.Infra.StorageClass,
+			TLS: api.InfraTLS{
+				// TODO: prod URL: https://acme-v02.api.letsencrypt.org/directory
+				AcmeServer: "https://acme-staging-v02.api.letsencrypt.org/directory",
+				Email:      in.Global.Infra.TLS.Email,
+			},
+			DNS: in.Global.Infra.DNS,
+			Objstore: api.InfraObjstore{
+				Provider:  in.Global.Infra.Objstore.Provider,
+				MountPath: "/data/credentials",
+				Auth:      in.Global.Infra.Objstore.Auth,
+			},
+			Kms: api.InfraKms{
+				Provider:     in.Global.Infra.Objstore.Provider,
+				MasterKeyURL: fmt.Sprintf("base64key://%s", passgen.GenerateForCharset(64, passgen.AlphaNum)),
+			},
+			Avatars: api.InfraAvatars{
+				Bucket: mustBucketName(in.Global.Infra.Objstore.Bucket, "avatars"),
+			},
+			// TODO: bucket proxy
+			//Kubepack: api.InfraKubepack{
+			//	Host:   "",
+			//	Bucket: "",
+			//},
+			// TODO: skip Customer install vs appscode install
+			//Badger: api.InfraBadger{
+			//	MountPath: "/badger",
+			//	Levels:    7,
+			//},
+			//Invoice: api.InfraInvoice{
+			//	MountPath:    "/billing",
+			//	Bucket:       mustBucketName(in.Global.Infra.Objstore.Bucket, "invoices"),
+			//	TrackerEmail: "",
+			//},
+		},
+	}
+	if in.Hosted {
+		// TODO: bucket proxy
+		//out.Global.Infra.Kubepack = api.InfraKubepack{
+		//	Host:   "",
+		//	Bucket: "gs://",
+		//}
+		out.Global.Infra.Badger = api.InfraBadger{
+			MountPath: "/badger",
+			Levels:    7,
+		}
+		out.Global.Infra.Invoice = api.InfraInvoice{
+			MountPath:    "/billing",
+			Bucket:       mustBucketName(in.Global.Infra.Objstore.Bucket, "invoices"),
+			TrackerEmail: "",
+		}
+	}
+
+	out.Settings = api.Settings{
+		DB: api.DBSettings{
+			Version:           "13.2",
+			DatabaseName:      in.Release.Name,
+			TerminationPolicy: "Delete", // TODO: change for prod mode
+			Persistence:       in.Settings.DB.Persistence,
+			Resources:         in.Settings.DB.Resources,
+			Auth: api.BasicAuth{
+				Username: "postgres",
+				Password: passgen.Generate(DefaultPasswordLength),
+			},
+		},
+		Cache: api.CacheSettings{
+			Version:           "6.0.6",
+			TerminationPolicy: "Delete",
+			Persistence:       in.Settings.Cache.Persistence,
+			Resources:         in.Settings.Cache.Resources,
+			Auth: api.BasicAuth{
+				Username: "root",
+				Password: passgen.Generate(DefaultPasswordLength),
+			},
+			CacheInterval: 60,
+		},
+		Smtp: api.SmtpSettings{
+			Host:       in.Settings.Smtp.Host,
+			TlsEnabled: in.Settings.Smtp.TlsEnabled,
+			From:       fmt.Sprintf("no-reply@%s", in.Settings.Platform.Domain), // TODO: configure?
+			Username:   in.Settings.Smtp.Username,
+			Password:   in.Settings.Smtp.Password,
+			SubjectPrefix: func() string {
+				if in.Hosted {
+					return "ByteBuilders |"
+				}
+				return "ACE |"
+			}(),
+			SendAsPlainText: in.Settings.Smtp.SendAsPlainText,
+		},
+		// Nats:        api.NatsSettings{},
+		Platform: api.PlatformSettings{
+			Domain: in.Settings.Platform.Domain,
+			AppName: func() string {
+				if in.Hosted {
+					return "ByteBuilders: Kubernetes Native Data Platform"
+				}
+				return "ACE: Kubernetes Native Data Platform"
+			}(),
+			RunMode:                         "prod",
+			ExperimentalFeatures:            false,
+			ForcePrivate:                    false,
+			DisableHttpGit:                  false,
+			InstallLock:                     true, // TODO: why?
+			RepositoryUploadEnabled:         true,
+			RepositoryUploadAllowedTypes:    nil,
+			RepositoryUploadMaxFileSize:     3,
+			RepositoryUploadMaxFiles:        5,
+			ServiceEnableCaptcha:            true,
+			ServiceRegisterEmailConfirm:     false,
+			ServiceDisableRegistration:      false,
+			ServiceRequireSignInView:        false,
+			ServiceEnableNotifyMail:         true,
+			CookieName:                      "i_like_bytebuilders",
+			ServerLandingPage:               "home",
+			LogMode:                         "console",
+			LogLevel:                        "Info", // Trace
+			OtherShowFooterBranding:         false,
+			OtherShowFooterVersion:          true,
+			OtherShowFooterTemplateLoadTime: true,
+			EnableCSRFCookieHttpOnly:        false,
+		},
+		// Stripe:   api.StripeSettings{},
+		Security: api.SecuritySettings{
+			Oauth2JWTSecret: passgen.GenerateForCharset(43, passgen.AlphaNum),
+			CsrfSecretKey:   passgen.GenerateForCharset(64, passgen.AlphaNum),
+		},
+		// Searchlight: api.SearchlightSettings{},
+		Grafana: api.GrafanaSettings{
+			AppMode:        "production",
+			CacheAdapter:   "",
+			CacheInterval:  0,
+			CacheHost:      nil,
+			SkipMigrations: false,
+		},
+	}
+	if in.Hosted {
+		// out.Settings.Stripe = api.StripeSettings{}
+	}
+
+	return nil
+}
+
 func tplPlatformTLSSecret(in *AceOptionsSpec) string {
 	return fmt.Sprintf("%s-cert", in.Release.Name)
 }
@@ -771,4 +938,12 @@ func getBucket(bucket string, elem ...string) (string, error) {
 	}
 	u.Path = path.Join(append([]string{u.Path}, elem...)...)
 	return u.String(), nil
+}
+
+func mustBucketName(bucket string, elem ...string) string {
+	if name, err := getBucket(bucket, elem...); err != nil {
+		panic(errors.Wrap(err, "failed to generate bucket name"))
+	} else {
+		return name
+	}
 }

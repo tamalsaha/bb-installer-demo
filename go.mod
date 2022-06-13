@@ -9,6 +9,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
 	go.bytebuilders.dev/installer v0.0.0-20220613195146-011e295a85ea
+	gomodules.xyz/password-generator v0.2.8
 	gomodules.xyz/pointer v0.1.0
 	k8s.io/api v0.24.1
 	k8s.io/apimachinery v0.24.1
