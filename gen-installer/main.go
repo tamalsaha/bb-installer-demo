@@ -16,130 +16,12 @@ import (
 	"gomodules.xyz/pointer"
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
-	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/yaml"
 )
 
 // Steps to do manually
 // buckets to create
 // DNS record configure
-
-type AceOptionsSpec struct {
-	Release          types.NamespacedName    `json:"release"`
-	Hosted           bool                    `json:"hosted"`
-	License          string                  `json:"license"`
-	Registry         string                  `json:"registry"`
-	RegistryFQDN     string                  `json:"registryFQDN"`
-	ImagePullSecrets []string                `json:"imagePullSecrets"`
-	Monitoring       api.GlobalMonitoring    `json:"monitoring"`
-	Infra            AceOptionsPlatformInfra `json:"infra"`
-	Settings         AceOptionsSettings      `json:"settings"`
-	Billing          AceOptionsComponentSpec `json:"billing"`
-	PlatformUi       AceOptionsComponentSpec `json:"platform-ui"`
-	AccountsUi       AceOptionsComponentSpec `json:"accounts-ui"`
-	ClusterUi        AceOptionsComponentSpec `json:"cluster-ui"`
-	DeployUi         AceOptionsComponentSpec `json:"deploy-ui"`
-	Grafana          AceOptionsComponentSpec `json:"grafana"`
-	KubedbUi         AceOptionsComponentSpec `json:"kubedb-ui"`
-	MarketplaceUi    AceOptionsComponentSpec `json:"marketplace-ui"`
-	PlatformApi      AceOptionsComponentSpec `json:"platform-api"`
-	PromProxy        AceOptionsComponentSpec `json:"prom-proxy"`
-	Ingress          AceOptionsIngressNginx  `json:"ingress"`
-	Nats             AceOptionsNatsSettings  `json:"nats"`
-}
-
-type AceOptionsComponentSpec struct {
-	Enabled bool `json:"enabled"`
-	//+optional
-	Resources core.ResourceRequirements `json:"resources"`
-	//+optional
-	NodeSelector map[string]string `json:"nodeSelector"`
-}
-
-// +kubebuilder:validation:Enum=LoadBalancer;HostPort
-type ServiceType string
-
-const (
-	ServiceTypeLoadBalancer ServiceType = "LoadBalancer"
-	ServiceTypeHostPort     ServiceType = "HostPort"
-)
-
-const (
-	DefaultPasswordLength = 16
-)
-
-type AceOptionsIngressNginx struct {
-	ExposeVia ServiceType `json:"exposeVia"`
-	//+optional
-	Resources    core.ResourceRequirements `json:"resources"`
-	NodeSelector map[string]string         `json:"nodeSelector"`
-}
-
-type AceOptionsNatsSettings struct {
-	ExposeVia ServiceType `json:"exposeVia"`
-	Replics   int         `json:"replicas"`
-	//+optional
-	Resources core.ResourceRequirements `json:"resources"`
-	//+optional
-	NodeSelector map[string]string `json:"nodeSelector"`
-}
-
-type AceGlobalValues struct{}
-
-type AceOptionsPlatformInfra struct {
-	StorageClass api.LocalObjectReference `json:"storageClass"`
-	TLS          InfraTLS                 `json:"tls"`
-	DNS          api.InfraDns             `json:"dns"`
-	Objstore     InfraObjstore            `json:"objstore"`
-	Kms          InfraKms                 `json:"kms"`
-}
-
-type InfraTLS struct {
-	Email string `json:"email"`
-}
-
-type InfraObjstore struct {
-	Bucket   string           `json:"bucket"`
-	Provider string           `json:"provider"`
-	Auth     api.ObjstoreAuth `json:"auth"`
-}
-
-type InfraKms struct {
-	Provider     string `json:"provider"`
-	MasterKeyURL string `json:"masterKeyURL"`
-}
-
-type AceOptionsSettings struct {
-	DB       DBSettings       `json:"db"`
-	Cache    CacheSettings    `json:"cache"`
-	Smtp     SmtpSettings     `json:"smtp"`
-	Platform PlatformSettings `json:"platform"`
-	// Security api.SecuritySettings `json:"security"`
-}
-
-type DBSettings struct {
-	Persistence api.PersistenceSpec       `json:"persistence"`
-	Resources   core.ResourceRequirements `json:"resources"`
-}
-
-type CacheSettings struct {
-	Persistence api.PersistenceSpec       `json:"persistence"`
-	Resources   core.ResourceRequirements `json:"resources"`
-}
-
-type SmtpSettings struct {
-	Host       string `json:"host"`
-	TlsEnabled bool   `json:"tlsEnabled"`
-	From       string `json:"from"`
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	// SubjectPrefix   string `json:"subjectPrefix"`
-	SendAsPlainText bool `json:"sendAsPlainText"`
-}
-
-type PlatformSettings struct {
-	Domain string `json:"domain"`
-}
 
 func main() {
 	var v api.AceSpec
@@ -150,10 +32,10 @@ func main() {
 	fmt.Println(string(data))
 }
 
-func NewOptions() *AceOptionsSpec {
+func NewOptions() *api.AceOptionsSpec {
 	hosted := false
-	return &AceOptionsSpec{
-		Release: types.NamespacedName{
+	return &api.AceOptionsSpec{
+		Release: api.ObjectReference{
 			Name:      "ace",
 			Namespace: "ace",
 		},
@@ -163,22 +45,22 @@ func NewOptions() *AceOptionsSpec {
 		RegistryFQDN:     "",
 		ImagePullSecrets: nil,
 		Monitoring:       api.GlobalMonitoring{},
-		Infra: AceOptionsPlatformInfra{
+		Infra: api.AceOptionsPlatformInfra{
 			StorageClass: api.LocalObjectReference{
 				Name: "standard",
 			},
-			//TLS: InfraTLS{
+			//TLS: AceOptionsInfraTLS{
 			//	Email: "",
 			//},
 			//DNS: InfraDns{
 			//	Provider: "",
 			//	Auth:     DNSProviderAuth{},
 			//},
-			//Objstore: InfraObjstore{
+			//Objstore: AceOptionsInfraObjstore{
 			//	Provider: "",
 			//	Auth:     ObjstoreAuth{},
 			//},
-			//Kms:     InfraKms{
+			//Kms:     AceOptionsInfraKms{
 			//	Provider:     "",
 			//	MasterKeyURL: "",
 			//},
@@ -186,8 +68,8 @@ func NewOptions() *AceOptionsSpec {
 			//	Bucket:
 			//},
 		},
-		Settings: AceOptionsSettings{
-			DB: DBSettings{
+		Settings: api.AceOptionsSettings{
+			DB: api.AceOptionsDBSettings{
 				Persistence: api.PersistenceSpec{
 					Size: resource.MustParse("20Gi"),
 				},
@@ -200,7 +82,7 @@ func NewOptions() *AceOptionsSpec {
 					},
 				},
 			},
-			Cache: CacheSettings{
+			Cache: api.AceOptionsCacheSettings{
 				Persistence: api.PersistenceSpec{
 					Size: resource.MustParse("10Gi"),
 				},
@@ -213,50 +95,50 @@ func NewOptions() *AceOptionsSpec {
 					},
 				},
 			},
-			Smtp:     SmtpSettings{},
-			Platform: PlatformSettings{},
+			SMTP:     api.AceOptionsSMTPSettings{},
+			Platform: api.AceOptionsPlatformSettings{},
 			//Security: api.SecuritySettings{
 			//	Oauth2JWTSecret: "",
 			//	CsrfSecretKey:   "",
 			//},
 		},
-		Billing: AceOptionsComponentSpec{
+		Billing: api.AceOptionsComponentSpec{
 			Enabled: hosted,
 		},
-		PlatformUi: AceOptionsComponentSpec{
+		PlatformUi: api.AceOptionsComponentSpec{
 			Enabled: true,
 		},
-		AccountsUi: AceOptionsComponentSpec{
+		AccountsUi: api.AceOptionsComponentSpec{
 			Enabled: true,
 		},
-		ClusterUi: AceOptionsComponentSpec{
+		ClusterUi: api.AceOptionsComponentSpec{
 			Enabled: true,
 		},
-		DeployUi: AceOptionsComponentSpec{
+		DeployUi: api.AceOptionsComponentSpec{
 			Enabled: hosted,
 		},
-		Grafana: AceOptionsComponentSpec{
+		Grafana: api.AceOptionsComponentSpec{
 			Enabled: true,
 		},
-		KubedbUi: AceOptionsComponentSpec{
+		KubedbUi: api.AceOptionsComponentSpec{
 			Enabled: true,
 		},
-		MarketplaceUi: AceOptionsComponentSpec{
+		MarketplaceUi: api.AceOptionsComponentSpec{
 			Enabled: hosted,
 		},
-		PlatformApi: AceOptionsComponentSpec{
+		PlatformApi: api.AceOptionsComponentSpec{
 			Enabled: true,
 		},
-		PromProxy: AceOptionsComponentSpec{
+		PromProxy: api.AceOptionsComponentSpec{
 			Enabled: true,
 		},
-		Ingress: AceOptionsIngressNginx{
-			ExposeVia: ServiceTypeLoadBalancer,
+		Ingress: api.AceOptionsIngressNginx{
+			ExposeVia: api.ServiceTypeLoadBalancer,
 			// Resources:    core.ResourceRequirements{},
 			// NodeSelector: nil,
 		},
-		Nats: AceOptionsNatsSettings{
-			ExposeVia: ServiceTypeLoadBalancer,
+		Nats: api.AceOptionsNatsSettings{
+			ExposeVia: api.ServiceTypeLoadBalancer,
 			Replics:   1,
 			//Resources:    core.ResourceRequirements{
 			//	Limits:   nil,
@@ -267,7 +149,7 @@ func NewOptions() *AceOptionsSpec {
 	}
 }
 
-func InitComponents(in *AceOptionsSpec, out *api.AceSpec) error {
+func InitComponents(in *api.AceOptionsSpec, out *api.AceSpec) error {
 	out.Reloader = api.AceReloader{
 		Enabled: true,
 	}
@@ -395,8 +277,8 @@ func InitComponents(in *AceOptionsSpec, out *api.AceSpec) error {
 	return nil
 }
 
-func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
-	if in.Ingress.ExposeVia == ServiceTypeLoadBalancer {
+func GenerateIngress(in *api.AceOptionsSpec, out *api.AceSpec) error {
+	if in.Ingress.ExposeVia == api.ServiceTypeLoadBalancer {
 		out.IngressNginx = api.AceIngressNginx{
 			Enabled: true,
 			IngressNginxSpec: &api.IngressNginxSpec{
@@ -481,7 +363,7 @@ func GenerateIngress(in *AceOptionsSpec, out *api.AceSpec) error {
 	return nil
 }
 
-func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
+func GenerateNats(in *api.AceOptionsSpec, out *api.AceSpec) error {
 	if in.Nats.Replics != 1 && in.Nats.Replics != 3 {
 		return errors.Errorf("nats replicas can be 1 or 3, found %d", in.Nats.Replics)
 	}
@@ -658,7 +540,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 		}
 	}
 
-	if in.Nats.ExposeVia == ServiceTypeLoadBalancer {
+	if in.Nats.ExposeVia == api.ServiceTypeLoadBalancer {
 		out.Nats.Nats.ExternalAccess = false
 		// out.Nats.Websocket.Port = 9222
 
@@ -707,7 +589,7 @@ func GenerateNats(in *AceOptionsSpec, out *api.AceSpec) error {
 	return nil
 }
 
-func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
+func GeneratePlatformValues(in *api.AceOptionsSpec, out *api.AceSpec) error {
 	out.Global = api.AceGlobalValues{
 		NameOverride: in.Release.Name,
 		// FullnameOverride: "",
@@ -780,7 +662,7 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 			Resources:         in.Settings.DB.Resources,
 			Auth: api.BasicAuth{
 				Username: "postgres",
-				Password: passgen.Generate(DefaultPasswordLength),
+				Password: passgen.Generate(api.DefaultPasswordLength),
 			},
 		},
 		Cache: api.CacheSettings{
@@ -790,23 +672,23 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 			Resources:         in.Settings.Cache.Resources,
 			Auth: api.BasicAuth{
 				Username: "root",
-				Password: passgen.Generate(DefaultPasswordLength),
+				Password: passgen.Generate(api.DefaultPasswordLength),
 			},
 			CacheInterval: 60,
 		},
 		Smtp: api.SmtpSettings{
-			Host:       in.Settings.Smtp.Host,
-			TlsEnabled: in.Settings.Smtp.TlsEnabled,
-			From:       in.Settings.Smtp.From, // fmt.Sprintf("no-reply@%s", in.AceOptionsSettings.Platform.Domain), // TODO: configure?
-			Username:   in.Settings.Smtp.Username,
-			Password:   in.Settings.Smtp.Password,
+			Host:       in.Settings.SMTP.Host,
+			TlsEnabled: in.Settings.SMTP.TlsEnabled,
+			From:       in.Settings.SMTP.From, // fmt.Sprintf("no-reply@%s", in.AceOptionsSettings.Platform.Domain), // TODO: configure?
+			Username:   in.Settings.SMTP.Username,
+			Password:   in.Settings.SMTP.Password,
 			SubjectPrefix: func() string {
 				if in.Hosted {
 					return "ByteBuilders |"
 				}
 				return "ACE |"
 			}(),
-			SendAsPlainText: in.Settings.Smtp.SendAsPlainText,
+			SendAsPlainText: in.Settings.SMTP.SendAsPlainText,
 		},
 		// Nats:        api.AceOptionsNatsSettings{},
 		Platform: api.PlatformSettings{
@@ -858,22 +740,22 @@ func GeneratePlatformValues(in *AceOptionsSpec, out *api.AceSpec) error {
 	return nil
 }
 
-func tplPlatformTLSSecret(in *AceOptionsSpec) string {
+func tplPlatformTLSSecret(in *api.AceOptionsSpec) string {
 	return fmt.Sprintf("%s-cert", in.Release.Name)
 }
 
-func tplNATSCredSecret(in *AceOptionsSpec) string {
+func tplNATSCredSecret(in *api.AceOptionsSpec) string {
 	return fmt.Sprintf("%s-nats-cred", in.Release.Name)
 }
 
-func tplNATSTLSSecret(in *AceOptionsSpec) string {
-	if in.Nats.ExposeVia == ServiceTypeLoadBalancer {
+func tplNATSTLSSecret(in *api.AceOptionsSpec) string {
+	if in.Nats.ExposeVia == api.ServiceTypeLoadBalancer {
 		return fmt.Sprintf("%s-nats-cert", in.Release.Name)
 	}
 	return fmt.Sprintf("%s-cert", in.Release.Name)
 }
 
-func tplPlatformConfig(in *AceOptionsSpec) string {
+func tplPlatformConfig(in *api.AceOptionsSpec) string {
 	return fmt.Sprintf("%s-config", in.Release.Name)
 }
 
