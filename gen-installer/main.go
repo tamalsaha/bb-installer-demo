@@ -2,23 +2,22 @@ package main
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
-	shell "gomodules.xyz/go-sh"
 	"io/ioutil"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
 
-	"k8s.io/apimachinery/pkg/labels"
-
+	"github.com/pkg/errors"
 	api "go.bytebuilders.dev/installer/apis/installer/v1alpha1"
+	shell "gomodules.xyz/go-sh"
 	"gomodules.xyz/homedir"
 	passgen "gomodules.xyz/password-generator"
 	"gomodules.xyz/pointer"
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/labels"
 	"sigs.k8s.io/yaml"
 )
 
@@ -28,14 +27,17 @@ import (
 
 func main() {
 	if err := os.RemoveAll(confDir()); err != nil {
-		panic(errors.Wrapf(err, "failed to delete %s dir", confDir()))
+		panic(errors.Wrapf(err, "failed to delete dir: %s", confDir()))
+	}
+	if err := os.MkdirAll(confDir(), 0o755); err != nil {
+		panic(errors.Wrapf(err, "failed to create dir: %s", confDir()))
 	}
 
 	in := NewSampleOptions()
 	if data, err := yaml.Marshal(*in); err != nil {
 		panic(err)
 	} else {
-		_ = ioutil.WriteFile(filepath.Join(confDir(), "options.yaml"), data, 0644)
+		_ = ioutil.WriteFile(filepath.Join(confDir(), "options.yaml"), data, 0o644)
 	}
 
 	out, err := Convert(in)
@@ -46,7 +48,7 @@ func main() {
 	if data, err := yaml.Marshal(out); err != nil {
 		panic(err)
 	} else {
-		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0644)
+		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0o644)
 	}
 
 	chartDir := filepath.Join(homedir.HomeDir(), "go/src/go.bytebuilders.dev/installer")
@@ -57,7 +59,7 @@ func main() {
 	if data, err := sh.Command("helm", "template", "charts/ace", "--values", filepath.Join(confDir(), "values.yaml")).Output(); err != nil {
 		panic(err)
 	} else {
-		_ = ioutil.WriteFile(filepath.Join(confDir(), "ace.yaml"), data, 0644)
+		_ = ioutil.WriteFile(filepath.Join(confDir(), "ace.yaml"), data, 0o644)
 	}
 }
 
@@ -98,12 +100,12 @@ func NewOptions() *api.AceOptionsSpec {
 			// TLS:      api.AceOptionsInfraTLS{},
 			// DNS:      api.InfraDns{},
 			CloudServices: api.AceOptionsInfraCloudServices{
-				//Provider: "",
-				//Auth:     api.ObjstoreAuth{},
+				// Provider: "",
+				// Auth:     api.ObjstoreAuth{},
 				Objstore: api.AceOptionsInfraObjstore{
 					Bucket: "gs://appscode",
 				},
-				//Kms:      nil,
+				// Kms:      nil,
 			},
 		},
 		Settings: api.AceOptionsSettings{
