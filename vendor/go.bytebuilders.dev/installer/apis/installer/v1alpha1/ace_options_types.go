@@ -70,9 +70,9 @@ type AceOptionsSpec struct {
 type AceOptionsComponentSpec struct {
 	Enabled bool `json:"enabled"`
 	//+optional
-	Resources core.ResourceRequirements `json:"resources"`
+	Resources core.ResourceRequirements `json:"resources,omitempty"`
 	//+optional
-	NodeSelector map[string]string `json:"nodeSelector"`
+	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=LoadBalancer;HostPort
