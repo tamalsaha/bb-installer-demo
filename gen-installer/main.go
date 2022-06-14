@@ -24,12 +24,31 @@ import (
 // DNS record configure
 
 func main() {
-	var v api.AceSpec
-	data, err := yaml.Marshal(v)
+	in := NewSampleOptions()
+	out, err := Convert(in)
+
+	data, err := yaml.Marshal(out)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(string(data))
+}
+
+func Convert(in *api.AceOptionsSpec) (*api.AceSpec, error) {
+	out := new(api.AceSpec)
+	if err := InitComponents(in, out); err != nil {
+		return nil, err
+	}
+	if err := GeneratePlatformValues(in, out); err != nil {
+		return nil, err
+	}
+	if err := GenerateIngress(in, out); err != nil {
+		return nil, err
+	}
+	if err := GenerateNats(in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func NewOptions() *api.AceOptionsSpec {
@@ -49,24 +68,158 @@ func NewOptions() *api.AceOptionsSpec {
 			StorageClass: api.LocalObjectReference{
 				Name: "standard",
 			},
-			//TLS: AceOptionsInfraTLS{
-			//	Email: "",
+			// TLS:      api.AceOptionsInfraTLS{},
+			// DNS:      api.InfraDns{},
+			CloudServices: api.AceOptionsInfraCloudServices{
+				//Provider: "",
+				//Auth:     api.ObjstoreAuth{},
+				Objstore: api.AceOptionsInfraObjstore{
+					Bucket: "gs://appscode",
+				},
+				//Kms:      nil,
+			},
+		},
+		Settings: api.AceOptionsSettings{
+			DB: api.AceOptionsDBSettings{
+				Persistence: api.PersistenceSpec{
+					Size: resource.MustParse("20Gi"),
+				},
+				Resources: core.ResourceRequirements{
+					Limits: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("512Mi"),
+					},
+					Requests: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("512Mi"),
+					},
+				},
+			},
+			Cache: api.AceOptionsCacheSettings{
+				Persistence: api.PersistenceSpec{
+					Size: resource.MustParse("10Gi"),
+				},
+				Resources: core.ResourceRequirements{
+					Limits: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("512Mi"),
+					},
+					Requests: core.ResourceList{
+						core.ResourceMemory: resource.MustParse("512Mi"),
+					},
+				},
+			},
+			SMTP:     api.AceOptionsSMTPSettings{},
+			Platform: api.AceOptionsPlatformSettings{},
+			//Security: api.SecuritySettings{
+			//	Oauth2JWTSecret: "",
+			//	CsrfSecretKey:   "",
 			//},
-			//DNS: InfraDns{
-			//	Provider: "",
-			//	Auth:     DNSProviderAuth{},
+		},
+		Billing: api.AceOptionsComponentSpec{
+			Enabled: hosted,
+		},
+		PlatformUi: api.AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		AccountsUi: api.AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		ClusterUi: api.AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		DeployUi: api.AceOptionsComponentSpec{
+			Enabled: hosted,
+		},
+		Grafana: api.AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		KubedbUi: api.AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		MarketplaceUi: api.AceOptionsComponentSpec{
+			Enabled: hosted,
+		},
+		PlatformApi: api.AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		PromProxy: api.AceOptionsComponentSpec{
+			Enabled: true,
+		},
+		Ingress: api.AceOptionsIngressNginx{
+			ExposeVia: api.ServiceTypeLoadBalancer,
+			// Resources:    core.ResourceRequirements{},
+			// NodeSelector: nil,
+		},
+		Nats: api.AceOptionsNatsSettings{
+			ExposeVia: api.ServiceTypeLoadBalancer,
+			Replics:   1,
+			//Resources:    core.ResourceRequirements{
+			//	Limits:   nil,
+			//	Requests: nil,
 			//},
-			//Objstore: AceOptionsInfraObjstore{
-			//	Provider: "",
-			//	Auth:     ObjstoreAuth{},
-			//},
-			//Kms:     AceOptionsInfraKms{
-			//	Provider:     "",
-			//	MasterKeyURL: "",
-			//},
-			//Avatars: InfraAvatars{
-			//	Bucket:
-			//},
+			//NodeSelector: nil,
+		},
+	}
+}
+
+func SampleResource() core.ResourceRequirements {
+	return core.ResourceRequirements{
+		Limits: core.ResourceList{
+			core.ResourceMemory: resource.MustParse("128Mi"),
+		},
+		Requests: core.ResourceList{
+			core.ResourceMemory: resource.MustParse("128Mi"),
+		},
+	}
+}
+
+func NewSampleOptions() *api.AceOptionsSpec {
+	hosted := false
+	return &api.AceOptionsSpec{
+		Release: api.ObjectReference{
+			Name:      "ace",
+			Namespace: "ace",
+		},
+		Hosted:           hosted,
+		License:          "",
+		Registry:         "",
+		RegistryFQDN:     "",
+		ImagePullSecrets: nil,
+		Monitoring: api.GlobalMonitoring{
+			Agent: "prometheus.io/operator",
+			ServiceMonitor: api.GlobalServiceMonitor{
+				Labels: map[string]string{
+					"release": "kube-prometheus-stack",
+				},
+			},
+			Exporter: api.GlobalPrometheusExporter{
+				Resources: SampleResource(),
+			},
+		},
+		Infra: api.AceOptionsPlatformInfra{
+			StorageClass: api.LocalObjectReference{
+				Name: "standard",
+			},
+			TLS: api.AceOptionsInfraTLS{
+				Email: "ops@appscode.cloud",
+			},
+			DNS: api.InfraDns{
+				Provider: "cloudflare",
+				Auth: api.DNSProviderAuth{
+					Email: "---",
+					Token: "XYZ",
+				},
+			},
+			CloudServices: api.AceOptionsInfraCloudServices{
+				Provider: "Google",
+				Auth: api.ObjstoreAuth{
+					ServiceAccountJson: `{"secret": "json"}`,
+				},
+				Objstore: api.AceOptionsInfraObjstore{
+					Bucket: "gs://ace",
+				},
+				//Kms: &api.AceOptionsInfraKms{
+				//	MasterKeyURL: "",
+				//},
+			},
 		},
 		Settings: api.AceOptionsSettings{
 			DB: api.AceOptionsDBSettings{
@@ -608,16 +761,16 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, out *api.AceSpec) error {
 			},
 			DNS: in.Infra.DNS,
 			Objstore: api.InfraObjstore{
-				Provider:  in.Infra.Objstore.Provider,
+				Provider:  in.Infra.CloudServices.Provider,
 				MountPath: "/data/credentials",
-				Auth:      in.Infra.Objstore.Auth,
+				Auth:      in.Infra.CloudServices.Auth,
 			},
-			Kms: api.InfraKms{
-				Provider:     in.Infra.Objstore.Provider,
-				MasterKeyURL: fmt.Sprintf("base64key://%s", passgen.GenerateForCharset(64, passgen.AlphaNum)),
-			},
+			//Kms: api.InfraKms{
+			//	Provider:     in.Infra.Objstore.Provider,
+			//	MasterKeyURL: fmt.Sprintf("base64key://%s", passgen.GenerateForCharset(64, passgen.AlphaNum)),
+			//},
 			Avatars: api.InfraAvatars{
-				Bucket: mustBucketName(in.Infra.Objstore.Bucket, "avatars"),
+				Bucket: mustBucketName(in.Infra.CloudServices.Objstore.Bucket, "avatars"),
 			},
 			// TODO: bucket proxy
 			//Kubepack: api.InfraKubepack{
@@ -636,6 +789,16 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, out *api.AceSpec) error {
 			//},
 		},
 	}
+	if in.Infra.CloudServices.Kms == nil || in.Infra.CloudServices.Kms.MasterKeyURL == "" {
+		out.Global.Infra.Kms = api.InfraKms{
+			MasterKeyURL: fmt.Sprintf("base64key://%s", passgen.GenerateForCharset(64, passgen.AlphaNum)),
+		}
+	} else {
+		out.Global.Infra.Kms = api.InfraKms{
+			MasterKeyURL: in.Infra.CloudServices.Kms.MasterKeyURL,
+		}
+	}
+
 	if in.Hosted {
 		// TODO: bucket proxy
 		//out.Global.Infra.Kubepack = api.InfraKubepack{
@@ -648,7 +811,7 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, out *api.AceSpec) error {
 		}
 		out.Global.Infra.Invoice = api.InfraInvoice{
 			MountPath:    "/billing",
-			Bucket:       mustBucketName(in.Infra.Objstore.Bucket, "invoices"),
+			Bucket:       mustBucketName(in.Infra.CloudServices.Objstore.Bucket, "invoices"),
 			TrackerEmail: "",
 		}
 	}
