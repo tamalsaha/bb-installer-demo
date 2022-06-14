@@ -1,0 +1,110 @@
+accounts-ui:
+  enabled: true
+  nodeSelector: null
+  resources: {}
+billing:
+  enabled: false
+  nodeSelector: null
+  resources: {}
+cluster-ui:
+  enabled: true
+  nodeSelector: null
+  resources: {}
+deploy-ui:
+  enabled: false
+  nodeSelector: null
+  resources: {}
+grafana:
+  enabled: true
+  nodeSelector: null
+  resources: {}
+hosted: false
+imagePullSecrets: null
+infra:
+  cloudServices:
+    auth:
+      serviceAccountJson: '{"secret": "json"}'
+    objstore:
+      bucket: gs://ace
+    provider: Google
+  dns:
+    auth:
+      email: '---'
+      token: XYZ
+    provider: cloudflare
+  storageClass:
+    name: standard
+  tls:
+    email: ops@appscode.cloud
+ingress:
+  exposeVia: HostPort
+  nodeSelector: null
+  resources: {}
+kubedb-ui:
+  enabled: true
+  nodeSelector: null
+  resources: {}
+license: ""
+marketplace-ui:
+  enabled: false
+  nodeSelector: null
+  resources: {}
+monitoring:
+  agent: prometheus.io/operator
+  exporter:
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        memory: 128Mi
+  serviceMonitor:
+    labels:
+      release: kube-prometheus-stack
+nats:
+  exposeVia: HostPort
+  nodeSelector: null
+  replicas: 1
+  resources: {}
+platform-api:
+  enabled: true
+  nodeSelector: null
+  resources: {}
+platform-ui:
+  enabled: true
+  nodeSelector: null
+  resources: {}
+prom-proxy:
+  enabled: true
+  nodeSelector: null
+  resources: {}
+registry: ""
+registryFQDN: ""
+release:
+  name: ace
+  namespace: ace
+settings:
+  cache:
+    persistence:
+      size: 10Gi
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        memory: 512Mi
+  db:
+    persistence:
+      size: 20Gi
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        memory: 512Mi
+  platform:
+    domain: ""
+  smtp:
+    from: ""
+    host: ""
+    password: ""
+    sendAsPlainText: false
+    tlsEnabled: false
+    username: ""
