@@ -770,6 +770,7 @@ func GenerateNats(in *api.AceOptionsSpec, out *api.AceSpec) error {
 func GeneratePlatformValues(in *api.AceOptionsSpec, out *api.AceSpec) error {
 	out.Global = api.AceGlobalValues{
 		NameOverride: in.Release.Name,
+		Hosted:       in.Hosted,
 		// FullnameOverride: "",
 		// License:          "",
 		// Registry:         "",
