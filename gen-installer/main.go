@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
+	shell "gomodules.xyz/go-sh"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/url"
 	"os"
 	"path"
-
-	"github.com/pkg/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"k8s.io/apimachinery/pkg/labels"
 
@@ -32,6 +32,15 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(string(data))
+
+	sh := shell.NewSession()
+	sh.SetDir(dir)
+	sh.ShowCMD = true
+
+	out, err := sh.Command("helm", "template", "charts/kubedb-catalog", "--set", "skipDeprecated=false").Output()
+	if err != nil {
+		panic(err)
+	}
 }
 
 func Convert(in *api.AceOptionsSpec) (*api.AceSpec, error) {
@@ -286,12 +295,12 @@ func NewSampleOptions() *api.AceOptionsSpec {
 			Enabled: true,
 		},
 		Ingress: api.AceOptionsIngressNginx{
-			ExposeVia: api.ServiceTypeLoadBalancer,
+			ExposeVia: api.ServiceTypeHostPort,
 			// Resources:    core.ResourceRequirements{},
 			// NodeSelector: nil,
 		},
 		Nats: api.AceOptionsNatsSettings{
-			ExposeVia: api.ServiceTypeLoadBalancer,
+			ExposeVia: api.ServiceTypeHostPort,
 			Replics:   1,
 			//Resources:    core.ResourceRequirements{
 			//	Limits:   nil,

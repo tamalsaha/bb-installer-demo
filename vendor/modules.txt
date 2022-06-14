@@ -1,3 +1,6 @@
+# github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0
+## explicit
+github.com/codegangsta/inject
 # github.com/go-logr/logr v1.2.0
 ## explicit; go 1.16
 github.com/go-logr/logr
@@ -91,6 +94,9 @@ golang.org/x/text/unicode/norm
 # golang.org/x/time v0.0.0-20211116232009-f0f3c7e86c11
 ## explicit
 golang.org/x/time/rate
+# gomodules.xyz/go-sh v0.1.0
+## explicit; go 1.15
+gomodules.xyz/go-sh
 # gomodules.xyz/password-generator v0.2.8
 ## explicit; go 1.15
 gomodules.xyz/password-generator

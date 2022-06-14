@@ -9,6 +9,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
 	go.bytebuilders.dev/installer v0.0.0-20220613195146-011e295a85ea
+	gomodules.xyz/go-sh v0.1.0
 	gomodules.xyz/password-generator v0.2.8
 	gomodules.xyz/pointer v0.1.0
 	k8s.io/api v0.24.1
@@ -19,6 +20,7 @@ require (
 replace go.bytebuilders.dev/installer => ../../../go.bytebuilders.dev/installer
 
 require (
+	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/go-logr/logr v1.2.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
