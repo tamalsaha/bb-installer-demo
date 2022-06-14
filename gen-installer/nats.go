@@ -53,11 +53,11 @@ func genNatsCredentials() (map[string]string, error) {
 		return nil, err
 	}
 
-	aKp, aPub, aSeed, aJwt, err := createAccount("ADMIN", oKp)
+	aKp, aPub, aSeed, aJwt, err := createAccount("Admin", oKp)
 	if err != nil {
 		return nil, err
 	}
-	if err := storeAccount(confDir(), "Operator", "ADMIN", aPub, aSeed, aJwt, nc); err != nil {
+	if err := storeAccount(confDir(), "Operator", "Admin", aPub, aSeed, aJwt, nc); err != nil {
 		return nil, err
 	}
 
@@ -65,7 +65,7 @@ func genNatsCredentials() (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := storeUser(confDir(), "Operator", "ADMIN", "admin", auPub, auSeed, auJwt, nc); err != nil {
+	if err := storeUser(confDir(), "Operator", "Admin", "admin", auPub, auSeed, auJwt, nc); err != nil {
 		return nil, err
 	}
 

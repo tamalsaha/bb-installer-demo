@@ -50,7 +50,7 @@ metadata:
   name: release-name-ace-cache-auth
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: release-name-ace-cache
@@ -59,7 +59,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: 'root'
-  password: 'y95U_uqDU_anUZlI'
+  password: 'cRIcq6~s~J7HUq83'
 ---
 # Source: ace/templates/db/db-auth.yaml
 apiVersion: v1
@@ -68,7 +68,7 @@ metadata:
   name: release-name-ace-db-auth
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: release-name-ace-db
@@ -77,7 +77,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: 'postgres'
-  password: 'eRfL$q.$UBK!Jp&A'
+  password: 'kNqncq(OKQe2n*fX'
 ---
 # Source: ace/templates/db/db-config.yaml
 apiVersion: v1
@@ -86,7 +86,7 @@ metadata:
   name: release-name-ace-db-config
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: release-name-ace-db
@@ -105,7 +105,7 @@ metadata:
   name: release-name-ace-db-init-script
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: release-name-ace-db
@@ -123,7 +123,7 @@ metadata:
   name: release-name-ace-grafana-config
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -206,7 +206,7 @@ stringData:
     name = ace
     user = postgres
     # If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""
-    password = eRfL$q.$UBK!Jp&A
+    password = kNqncq(OKQe2n*fX
     # Use either URL or the previous fields to configure the database
     # Example: mysql://user:secret@host:port/database
     url =
@@ -255,7 +255,7 @@ stringData:
     # database: will use Grafana primary database.
     # redis: config like redis server e.g. `addr=127.0.0.1:6379,pool_size=100,db=grafana`
     # memcache: 127.0.0.1:11211
-    connstr = addr=release-name-ace-cache.default:6379,password='y95U_uqDU_anUZlI',db=1,pool_size=100
+    connstr = addr=release-name-ace-cache.default:6379,password='cRIcq6~s~J7HUq83',db=1,pool_size=100
 
     #################################### Session #############################
     [session]
@@ -273,7 +273,7 @@ stringData:
     # memcache: 127.0.0.1:11211
 
 
-    provider_config = addr=release-name-ace-cache.default:6379,password='y95U_uqDU_anUZlI',db=0,pool_size=100
+    provider_config = addr=release-name-ace-cache.default:6379,password='cRIcq6~s~J7HUq83',db=0,pool_size=100
 
     # Session cookie name
     cookie_name = i_like_bytebuilders
@@ -866,7 +866,7 @@ metadata:
   name: release-name-ace-dns-cred
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -882,7 +882,7 @@ metadata:
   name: release-name-ace-nats-cred
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -890,7 +890,7 @@ metadata:
 stringData:
   Operator.creds: |
     -----BEGIN NATS OPERATOR JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsImV4cCI6NDgxMDg4NDMyNCwianRpIjoiUjI2UkpCT0pRRVNLTFozRkdTNUNaWkFQN0JHSDRIQ1pMRExEWlFXT0VIWTZPVTRJWkE2USIsImlhdCI6MTY1NTIxMDcyNCwiaXNzIjoiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMTA3MjQsInN1YiI6Ik9BS0dFWjRQVUFHQURCMjRGQ0lJRjZHNDMzWVBCTzNFRVJCUkJOTkFXTENXUDVWSkhCTERTRU1YIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.RBNKC87hagSqm24AVv3DcJzfhHcY6m_AdWe_U51CWTHsCqI4_5rw0Wg_7GarJ3Udy01qiO7BsLQFnZP2xeyLBQ
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsImV4cCI6NDgxMDkxMzUxMSwianRpIjoiQVlESERGVTZWV01KVDZTWkkyUjZZU01YVEhEWkVFRjQzNkREN1RYUElGT0oyQzI1WUtSUSIsImlhdCI6MTY1NTIzOTkxMSwiaXNzIjoiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMzk5MTEsInN1YiI6Ik9CUkI2WlhUUzNSSzQ3TlpGQ01STVZTVE1CNzJUQldSQjJWQ0pMV0FWREQ1R0ZDQUFFTUxINUtMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.1usrOBQIqY5h5o7GZmxKw2DTOqTTLqMuEmbp8sMy6d6FrOQv31QO5hnzqIX0Frfv1tdSzorr_nEKjrC36HBDBw
     ------END NATS OPERATOR JWT------
     
     ************************* IMPORTANT *************************
@@ -898,15 +898,15 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN OPERATOR NKEY SEED-----
-    SOAK5IJQIV73MNVK4IUCTRVSA4AZXVIMVUILJTL75SX7ZXEBSFRDNDIMOM
+    SOAIEJWWURPWLA3RX52SHFLNOXSOOJQR2ZD3BXQ3BA7EEGGUOKSKOP6F4U
     ------END OPERATOR NKEY SEED------
     
     *************************************************************
     
-  Operator.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsImV4cCI6NDgxMDg4NDMyNCwianRpIjoiUjI2UkpCT0pRRVNLTFozRkdTNUNaWkFQN0JHSDRIQ1pMRExEWlFXT0VIWTZPVTRJWkE2USIsImlhdCI6MTY1NTIxMDcyNCwiaXNzIjoiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMTA3MjQsInN1YiI6Ik9BS0dFWjRQVUFHQURCMjRGQ0lJRjZHNDMzWVBCTzNFRVJCUkJOTkFXTENXUDVWSkhCTERTRU1YIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.RBNKC87hagSqm24AVv3DcJzfhHcY6m_AdWe_U51CWTHsCqI4_5rw0Wg_7GarJ3Udy01qiO7BsLQFnZP2xeyLBQ
+  Operator.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsImV4cCI6NDgxMDkxMzUxMSwianRpIjoiQVlESERGVTZWV01KVDZTWkkyUjZZU01YVEhEWkVFRjQzNkREN1RYUElGT0oyQzI1WUtSUSIsImlhdCI6MTY1NTIzOTkxMSwiaXNzIjoiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMzk5MTEsInN1YiI6Ik9CUkI2WlhUUzNSSzQ3TlpGQ01STVZTVE1CNzJUQldSQjJWQ0pMV0FWREQ1R0ZDQUFFTUxINUtMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.1usrOBQIqY5h5o7GZmxKw2DTOqTTLqMuEmbp8sMy6d6FrOQv31QO5hnzqIX0Frfv1tdSzorr_nEKjrC36HBDBw
   SYS.creds: |
     -----BEGIN NATS ACCOUNT JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTV1ZKWEFCRlBaU00zSkI2UzJQSjZUM1JGNEhTQjRMTUFDNVVUNFpWN1FSQk03SEw3TURBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.XVSfx6TcFW2Twg0pe8ubq85S-M16psfdVDmi5Wa1Di6UgsmPq3sPf3VeX9su3WxvTH7gHYheVp3Q36Obw8XzBA
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIWkwyUFdGU0cyVTZFUkM2S09GM0JQNERXTTY3RU5HR09JUFdORUdSS0NGQlEzN1RKWlpRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.4ly9W6VvSQQYo1bRRnzK5NjVl0fQU2UE2HSXv10mNLQq522RMgQ3tPjLP5pWGUaOjxn18r29QN8J0mmnizQ5CQ
     ------END NATS ACCOUNT JWT------
     
     ************************* IMPORTANT *************************
@@ -914,15 +914,15 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN ACCOUNT NKEY SEED-----
-    SAAOEQF76G2PLHZZL55YULZUQDUBOLU4MH23ECDSSADUTBJ5LDCCL335RI
+    SAAPVOVJ6IEJ6QD6BE3ELYDQR4DX2NJFNFQAQ4VZ4BPVVVYPZFMZH63KHI
     ------END ACCOUNT NKEY SEED------
     
     *************************************************************
     
-  SYS.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTV1ZKWEFCRlBaU00zSkI2UzJQSjZUM1JGNEhTQjRMTUFDNVVUNFpWN1FSQk03SEw3TURBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.XVSfx6TcFW2Twg0pe8ubq85S-M16psfdVDmi5Wa1Di6UgsmPq3sPf3VeX9su3WxvTH7gHYheVp3Q36Obw8XzBA
+  SYS.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIWkwyUFdGU0cyVTZFUkM2S09GM0JQNERXTTY3RU5HR09JUFdORUdSS0NGQlEzN1RKWlpRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.4ly9W6VvSQQYo1bRRnzK5NjVl0fQU2UE2HSXv10mNLQq522RMgQ3tPjLP5pWGUaOjxn18r29QN8J0mmnizQ5CQ
   sys.creds: |
     -----BEGIN NATS USER JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI1RlBJNzRXRlM0TUs3TUlQVVJYTlVQTEtPT0NGTlZERFJBQVMyVk9TS0Y0SEFWVUJZNU9RIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVRENTNDVZNDJDQ0lWMkIyV0M1UlRHTFBOWUZRNVRPVElXSTRDSldNWElaUzdUWDNaTExWSk9VSCIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.FYV7QfprzTAPOrbsf8fYgWJXTCo2TVzVD3KbHIhmkATr2cjD3brRsXnvN5IfcszdA3bfy-lu_3tcev3lKjOiDA
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJGNVJETjdEWFFRN1pWNVdSWllRNkEyMjJEM0hUSUo0UUJaVUgyUlhRNE9JVEU1MllNWk5RIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVQTNRVUdKWUVYMlJJU1NURkU2TzNMSVFOWDVLNVAyUko2R05TUjVRUUtZNkI0UlhUVjJDTENZViIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.VF9TeuyKziLuXgig1Qjk7VKexFv9y_IEL9o1Z-qwZC_7_US2QAWerd2YNrKbjvFionbEWa_VRCc1DA42G-RfAw
     ------END NATS USER JWT------
     
     ************************* IMPORTANT *************************
@@ -930,14 +930,14 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN USER NKEY SEED-----
-    SUAMFE4J735EJCXKCCJNS37HDYOFL62BGEWQVH7IIK7ES6CWNZ7L2BYFVQ
+    SUANAJXJT3LFCQUXE4PJZXNYUEGZXLZFYARLT2SK3OEVSN46U32OYOF6VI
     ------END USER NKEY SEED------
     
     *************************************************************
     
   ADMIN.creds: |
     -----BEGIN NATS ACCOUNT JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJRRk4yWVZRVkU0TFFRTkczTVlRQUdXNFBRRkJPV0Q3UjZZVlpGNkVRU043UFhCUEhVQVlBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJBRE1JTiIsInN1YiI6IkFCUFdOSU9PSFVPQkVGTVY0RkRKRjVZUTM1WTRKRjRKV1dOQVhXSDNLVU1TSkU2TVVLRVNPSU4yIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0._4nb_cI7dBDARc3YZlYmCIstGNYRmQSkjzte4uDWK3C--74Cef3Xu-4NHBKHyfO6LtARE82h_uVCUvaSzX8zDg
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJZSjM2Q04zUllNVVRFVkUyVkZQQkRNTkI2SE5HRExJTE5XN0Y3UDRQWE9VRVpCN1QzUVVRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFEUEI2WUE3M1VESllMR1Y1TDJOSk1SU0VUSldWSVdVQk9ZU0RJNjczUjM2S0hLNFVaTUdTWUNCIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.zxkYulRNkSnofjF1R_w7vQp4u5vSzqRCmxku71EukhGPjYg7yl9axOqG7bs73XKq8sXm-N2UrBLEtB8WIRWcDA
     ------END NATS ACCOUNT JWT------
     
     ************************* IMPORTANT *************************
@@ -945,14 +945,14 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN ACCOUNT NKEY SEED-----
-    SAAJB7TZXPNTYNWARAD7BQJS2QQVZSWN3BOZ6HOFGFDBKLEYXGNXIGFEVY
+    SAAG3WHHKEWTJRZCIUQGDKLJHY5VU4UMNFY6EGCJ4IWUNIJHJFFR42YGMI
     ------END ACCOUNT NKEY SEED------
     
     *************************************************************
     
   admin.creds: |
     -----BEGIN NATS USER JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQNURSTVRQQVVQVjRITU03RkpDSklMUjVDRVdXTVBUU083NFZJSVVBNlZRWjRHWEtUSEdRIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJBQlBXTklPT0hVT0JFRk1WNEZESkY1WVEzNVk0SkY0SldXTkFYV0gzS1VNU0pFNk1VS0VTT0lOMiIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVCSjY0SlRUWlczTlhQVFVOUU1OSVZHQTI3RkdDSjU0NFZFWVZOVjNMUFRHQklaS1lRNTQ1TlQ2IiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.96C7QkrVSPvlUqY3VSMDQf8llje9EG3GLnoBiZDH7JDHVrlo5g_qvoewOxfh1L2-JVCqc8UrhBzZc5Yj3pLyCQ
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTTTQ0SldTVVFZSFdDM1dGQ09HQ0hYR1lXUlRLWUxYQTc0SzVTTzJCS0pKTzRBNjdJNUhRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJBRFBCNllBNzNVREpZTEdWNUwyTkpNUlNFVEpXVklXVUJPWVNESTY3M1IzNktISzRVWk1HU1lDQiIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVDUldCUkE2UkRYVFRVVjdTTkdZVlBGTlhRSTdTUE1TM0tUS0tSNlVGR0FRWEY3SjZVSTRCSkRaIiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.YNoc70ZVdVyN4NPuXE_KwcoU7RPIZuiD6efvC5PnFsbjJXZjvwJ3M8NP_x4_9NJoYkg9AlDtHJBQlzQGpX_nDA
     ------END NATS USER JWT------
     
     ************************* IMPORTANT *************************
@@ -960,7 +960,7 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN USER NKEY SEED-----
-    SUAOT6MSNORACDVH3IZ5TZLNXZROCOSY5R3HRMUEFFDXTQOPTHXCLTNRYM
+    SUAKERPJ7KC7IQ3OZBLO5SDUS4NKM2CVUJHZ45PI25OVLDINMSGYFOMKU4
     ------END USER NKEY SEED------
     
     *************************************************************
@@ -972,7 +972,7 @@ metadata:
   name: release-name-ace-config
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1023,18 +1023,18 @@ stringData:
     HOST = release-name-ace-db.default:5432
     NAME = ace
     USER = postgres
-    PASSWD = eRfL$q.$UBK!Jp&A
+    PASSWD = kNqncq(OKQe2n*fX
 
     [session]
     DOMAIN = 
     PROVIDER = redis
-    PROVIDER_CONFIG = network=tcp,addr=release-name-ace-cache.default:6379,password='y95U_uqDU_anUZlI',db=0,pool_size=100,idle_timeout=180,prefix=session-
+    PROVIDER_CONFIG = network=tcp,addr=release-name-ace-cache.default:6379,password='cRIcq6~s~J7HUq83',db=0,pool_size=100,idle_timeout=180,prefix=session-
     COOKIE_NAME = i_like_bytebuilders
 
     [cache]
     ADAPTER = redis
     INTERVAL = 60
-    HOST = network=tcp,addr=release-name-ace-cache.default:6379,password='y95U_uqDU_anUZlI',db=1,pool_size=100,idle_timeout=180,prefix=cache-
+    HOST = network=tcp,addr=release-name-ace-cache.default:6379,password='cRIcq6~s~J7HUq83',db=1,pool_size=100,idle_timeout=180,prefix=cache-
     [mailer]
     ENABLED = true
     MAILER_TYPE = smtp
@@ -1051,10 +1051,10 @@ stringData:
     LEVEL = Info
 
     [oauth2]
-    JWT_SECRET = 3bTUw12V0FIn8RiRUT6bykfi42hzfnEnRcVklBNIPHW
+    JWT_SECRET = GjekYEwLtjg59PW5cVOuokv1rMIi6wVIB57A73H9K38
 
     [security]
-    SECRET_KEY     = iFHrQwVG3HL6MOUZ1EzQAViYvOYV4DUo90LpWqT0iHFgZs1KDI7ByJbD3lzF78xH
+    SECRET_KEY     = V0nRXLoEvGHGtXyVoFh251V91Z0coJ2j82rpaWEpGdRzq7OJul0WBTLM6zNljpC2
     INSTALL_LOCK = true
     CSRF_COOKIE_HTTP_ONLY = false
 
@@ -1084,7 +1084,7 @@ stringData:
     ALLOW_SUBDOMAIN = true
 
     [kms]
-    MASTER_KEY_URL = 'base64key://4vgi3Se4Kga0V5jPyFBU0L1p5my8jBL3AmaTLAdfSC4plmYqRWRztXPQSQDETbRU'
+    MASTER_KEY_URL = 'base64key://EIQF61TSDloKobhgqGHbHH2y265wqPk7mS0tYCoA0td2RMIRjAcTDjNyEfBJ9ryL'
 
     [searchlight]
     ENABLE = false
@@ -1118,7 +1118,7 @@ metadata:
   name: release-name-ace-objstore-cred
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1134,7 +1134,7 @@ metadata:
   name: release-name-ace-backup-repo-cred
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1152,7 +1152,7 @@ metadata:
   name: release-name-ace-init-repo-cred
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1247,8 +1247,8 @@ data:
     # Authorization  #
     #                #
     ##################
-            operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsImV4cCI6NDgxMDg4NDMyNCwianRpIjoiUjI2UkpCT0pRRVNLTFozRkdTNUNaWkFQN0JHSDRIQ1pMRExEWlFXT0VIWTZPVTRJWkE2USIsImlhdCI6MTY1NTIxMDcyNCwiaXNzIjoiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMTA3MjQsInN1YiI6Ik9BS0dFWjRQVUFHQURCMjRGQ0lJRjZHNDMzWVBCTzNFRVJCUkJOTkFXTENXUDVWSkhCTERTRU1YIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.RBNKC87hagSqm24AVv3DcJzfhHcY6m_AdWe_U51CWTHsCqI4_5rw0Wg_7GarJ3Udy01qiO7BsLQFnZP2xeyLBQ
-            system_account: ABLUGBAQSD42JUSNBOIGEAFK3TWVLWMY3YODJ2F47ELOI35LJM4PLGSO
+            operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsImV4cCI6NDgxMDkxMzUxMSwianRpIjoiQVlESERGVTZWV01KVDZTWkkyUjZZU01YVEhEWkVFRjQzNkREN1RYUElGT0oyQzI1WUtSUSIsImlhdCI6MTY1NTIzOTkxMSwiaXNzIjoiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMzk5MTEsInN1YiI6Ik9CUkI2WlhUUzNSSzQ3TlpGQ01STVZTVE1CNzJUQldSQjJWQ0pMV0FWREQ1R0ZDQUFFTUxINUtMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.1usrOBQIqY5h5o7GZmxKw2DTOqTTLqMuEmbp8sMy6d6FrOQv31QO5hnzqIX0Frfv1tdSzorr_nEKjrC36HBDBw
+            system_account: ACODTHQ5QO3F47VEDDJ5F3KMMFED6IKELNX5QFC2VSUZWFJWKR5CRJUY
 
           resolver: {
             type: full
@@ -1258,8 +1258,8 @@ data:
 
             interval: ""
           }
-      resolver_preload: {"ABLUGBAQSD42JUSNBOIGEAFK3TWVLWMY3YODJ2F47ELOI35LJM4PLGSO":"eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTV1ZKWEFCRlBaU00zSkI2UzJQSjZUM1JGNEhTQjRMTUFDNVVUNFpWN1FSQk03SEw3TURBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.XVSfx6TcFW2Twg0pe8ubq85S-M16psfdVDmi5Wa1Di6UgsmPq3sPf3VeX9su3WxvTH7gHYheVp3Q36Obw8XzBA","ABPWNIOOHUOBEFMV4FDJF5YQ35Y4JF4JWWNAXWH3KUMSJE6MUKESOIN2":"eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJRRk4yWVZRVkU0TFFRTkczTVlRQUdXNFBRRkJPV0Q3UjZZVlpGNkVRU043UFhCUEhVQVlBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJBRE1JTiIsInN1YiI6IkFCUFdOSU9PSFVPQkVGTVY0RkRKRjVZUTM1WTRKRjRKV1dOQVhXSDNLVU1TSkU2TVVLRVNPSU4yIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0._4nb_cI7dBDARc3YZlYmCIstGNYRmQSkjzte4uDWK3C--74Cef3Xu-4NHBKHyfO6LtARE82h_uVCUvaSzX8zDg"}
-    system_account: ABLUGBAQSD42JUSNBOIGEAFK3TWVLWMY3YODJ2F47ELOI35LJM4PLGSO
+      resolver_preload: {"ACODTHQ5QO3F47VEDDJ5F3KMMFED6IKELNX5QFC2VSUZWFJWKR5CRJUY":"eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIWkwyUFdGU0cyVTZFUkM2S09GM0JQNERXTTY3RU5HR09JUFdORUdSS0NGQlEzN1RKWlpRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.4ly9W6VvSQQYo1bRRnzK5NjVl0fQU2UE2HSXv10mNLQq522RMgQ3tPjLP5pWGUaOjxn18r29QN8J0mmnizQ5CQ","ADPB6YA73UDJYLGV5L2NJMRSETJWVIWUBOYSDI673R36KHK4UZMGSYCB":"eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJZSjM2Q04zUllNVVRFVkUyVkZQQkRNTkI2SE5HRExJTE5XN0Y3UDRQWE9VRVpCN1QzUVVRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFEUEI2WUE3M1VESllMR1Y1TDJOSk1SU0VUSldWSVdVQk9ZU0RJNjczUjM2S0hLNFVaTUdTWUNCIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.zxkYulRNkSnofjF1R_w7vQp4u5vSzqRCmxku71EukhGPjYg7yl9axOqG7bs73XKq8sXm-N2UrBLEtB8WIRWcDA"}
+    system_account: ACODTHQ5QO3F47VEDDJ5F3KMMFED6IKELNX5QFC2VSUZWFJWKR5CRJUY
 ---
 # Source: ace/templates/nats/nats-cred.yaml
 # mounted into nats-server
@@ -1269,14 +1269,14 @@ metadata:
   name: release-name-ace-nats-cred
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 data:
-  Operator.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsImV4cCI6NDgxMDg4NDMyNCwianRpIjoiUjI2UkpCT0pRRVNLTFozRkdTNUNaWkFQN0JHSDRIQ1pMRExEWlFXT0VIWTZPVTRJWkE2USIsImlhdCI6MTY1NTIxMDcyNCwiaXNzIjoiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMTA3MjQsInN1YiI6Ik9BS0dFWjRQVUFHQURCMjRGQ0lJRjZHNDMzWVBCTzNFRVJCUkJOTkFXTENXUDVWSkhCTERTRU1YIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.RBNKC87hagSqm24AVv3DcJzfhHcY6m_AdWe_U51CWTHsCqI4_5rw0Wg_7GarJ3Udy01qiO7BsLQFnZP2xeyLBQ
-  SYS.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTV1ZKWEFCRlBaU00zSkI2UzJQSjZUM1JGNEhTQjRMTUFDNVVUNFpWN1FSQk03SEw3TURBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.XVSfx6TcFW2Twg0pe8ubq85S-M16psfdVDmi5Wa1Di6UgsmPq3sPf3VeX9su3WxvTH7gHYheVp3Q36Obw8XzBA
+  Operator.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsImV4cCI6NDgxMDkxMzUxMSwianRpIjoiQVlESERGVTZWV01KVDZTWkkyUjZZU01YVEhEWkVFRjQzNkREN1RYUElGT0oyQzI1WUtSUSIsImlhdCI6MTY1NTIzOTkxMSwiaXNzIjoiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMzk5MTEsInN1YiI6Ik9CUkI2WlhUUzNSSzQ3TlpGQ01STVZTVE1CNzJUQldSQjJWQ0pMV0FWREQ1R0ZDQUFFTUxINUtMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.1usrOBQIqY5h5o7GZmxKw2DTOqTTLqMuEmbp8sMy6d6FrOQv31QO5hnzqIX0Frfv1tdSzorr_nEKjrC36HBDBw
+  SYS.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIWkwyUFdGU0cyVTZFUkM2S09GM0JQNERXTTY3RU5HR09JUFdORUdSS0NGQlEzN1RKWlpRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.4ly9W6VvSQQYo1bRRnzK5NjVl0fQU2UE2HSXv10mNLQq522RMgQ3tPjLP5pWGUaOjxn18r29QN8J0mmnizQ5CQ
 ---
 # Source: ace/charts/ingress-nginx/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1405,7 +1405,7 @@ metadata:
   name: release-name-ace
   # namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1472,7 +1472,7 @@ metadata:
   name: release-name-ace
   # namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1601,7 +1601,7 @@ metadata:
   name: release-name-accounts-ui
   namespace: default
   labels:
-    helm.sh/chart: accounts-ui-0.1.0
+    helm.sh/chart: accounts-ui-v2022.06.14
     app.kubernetes.io/name: accounts-ui
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1624,7 +1624,7 @@ metadata:
   name: release-name-cluster-ui
   namespace: default
   labels:
-    helm.sh/chart: cluster-ui-0.1.0
+    helm.sh/chart: cluster-ui-v2022.06.14
     app.kubernetes.io/name: cluster-ui
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.3.16"
@@ -1647,7 +1647,7 @@ metadata:
   name: release-name-grafana
   namespace: default
   labels:
-    helm.sh/chart: grafana-0.1.0
+    helm.sh/chart: grafana-v2022.06.14
     app.kubernetes.io/name: grafana
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.05.27"
@@ -1718,7 +1718,7 @@ metadata:
   name: release-name-kubedb-ui
   namespace: default
   labels:
-    helm.sh/chart: kubedb-ui-0.1.0
+    helm.sh/chart: kubedb-ui-v2022.06.14
     app.kubernetes.io/name: kubedb-ui
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.3.9"
@@ -1797,7 +1797,7 @@ metadata:
   name: release-name-platform-api
   namespace: default
   labels:
-    helm.sh/chart: platform-api-0.1.0
+    helm.sh/chart: platform-api-v2022.06.14
     app.kubernetes.io/name: platform-api
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1820,7 +1820,7 @@ metadata:
   name: release-name-platform-ui
   namespace: default
   labels:
-    helm.sh/chart: platform-ui-0.1.0
+    helm.sh/chart: platform-ui-v2022.06.14
     app.kubernetes.io/name: platform-ui
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1843,7 +1843,7 @@ metadata:
   name: release-name-prom-proxy
   namespace: default
   labels:
-    helm.sh/chart: prom-proxy-0.1.0
+    helm.sh/chart: prom-proxy-v2022.06.14
     app.kubernetes.io/name: prom-proxy
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -1983,7 +1983,7 @@ metadata:
   name: release-name-accounts-ui
   namespace: default
   labels:
-    helm.sh/chart: accounts-ui-0.1.0
+    helm.sh/chart: accounts-ui-v2022.06.14
     app.kubernetes.io/name: accounts-ui
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -2059,7 +2059,7 @@ metadata:
   name: release-name-cluster-ui
   namespace: default
   labels:
-    helm.sh/chart: cluster-ui-0.1.0
+    helm.sh/chart: cluster-ui-v2022.06.14
     app.kubernetes.io/name: cluster-ui
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.3.16"
@@ -2108,7 +2108,7 @@ metadata:
   name: release-name-grafana
   namespace: default
   labels:
-    helm.sh/chart: grafana-0.1.0
+    helm.sh/chart: grafana-v2022.06.14
     app.kubernetes.io/name: grafana
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.05.27"
@@ -2250,7 +2250,7 @@ metadata:
   name: release-name-kubedb-ui
   namespace: default
   labels:
-    helm.sh/chart: kubedb-ui-0.1.0
+    helm.sh/chart: kubedb-ui-v2022.06.14
     app.kubernetes.io/name: kubedb-ui
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.3.9"
@@ -2374,7 +2374,7 @@ metadata:
   name: release-name-platform-api
   namespace: default
   labels:
-    helm.sh/chart: platform-api-0.1.0
+    helm.sh/chart: platform-api-v2022.06.14
     app.kubernetes.io/name: platform-api
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -2451,7 +2451,7 @@ metadata:
   name: release-name-platform-ui
   namespace: default
   labels:
-    helm.sh/chart: platform-ui-0.1.0
+    helm.sh/chart: platform-ui-v2022.06.14
     app.kubernetes.io/name: platform-ui
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -2527,7 +2527,7 @@ metadata:
   name: release-name-prom-proxy
   namespace: default
   labels:
-    helm.sh/chart: prom-proxy-0.1.0
+    helm.sh/chart: prom-proxy-v2022.06.14
     app.kubernetes.io/name: prom-proxy
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -2900,7 +2900,7 @@ metadata:
   name: release-name-ace-setup
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -3004,7 +3004,7 @@ metadata:
   name: release-name-ace
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -3107,7 +3107,7 @@ metadata:
   name: release-name-ace-db
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -3133,7 +3133,7 @@ metadata:
   name: release-name-ace
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -3158,7 +3158,7 @@ metadata:
   name: release-name-ace-db
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -3214,7 +3214,7 @@ metadata:
   name: release-name-ace-cache
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
@@ -3262,7 +3262,7 @@ metadata:
   name: release-name-ace-db-repo
   namespace: default
   labels:
-    helm.sh/chart: ace-0.1.0
+    helm.sh/chart: ace-v2022.06.14
     app.kubernetes.io/name: ace
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"

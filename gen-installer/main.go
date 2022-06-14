@@ -565,7 +565,7 @@ func GenerateNats(in *api.AceOptionsSpec, out *api.AceSpec) error {
 		SystemJwt:       nc["SYS.jwt"],
 		SystemPubKey:    nc["SYS.pub"],
 		SystemUserCreds: nc["sys.creds"],
-		AdminCreds:      nc["ADMIN.creds"],
+		AdminCreds:      nc["Admin.creds"],
 		AdminUserCreds:  nc["admin.creds"],
 	}
 
@@ -647,7 +647,7 @@ func GenerateNats(in *api.AceOptionsSpec, out *api.AceSpec) error {
 					},
 					ResolverPreload: map[string]string{
 						nc["SYS.pub"]:   nc["SYS.jwt"],
-						nc["ADMIN.pub"]: nc["ADMIN.jwt"], // TODO: skip?
+						nc["Admin.pub"]: nc["Admin.jwt"], // TODO: skip?
 					},
 				},
 			},
