@@ -181,9 +181,10 @@ type JetstreamMemStorage struct {
 }
 
 type JetstreamFileStorage struct {
-	Enabled          bool              `json:"enabled"`
-	StorageDirectory string            `json:"storageDirectory"`
-	StorageClassName string            `json:"storageClassName"`
+	Enabled          bool   `json:"enabled"`
+	StorageDirectory string `json:"storageDirectory"`
+	// +optional
+	StorageClassName string            `json:"storageClassName,omitempty"`
 	Size             resource.Quantity `json:"size"`
 	AccessModes      []string          `json:"accessModes"`
 	Annotations      map[string]string `json:"annotations"`
@@ -325,30 +326,33 @@ type ConfigMapKeySelector struct {
 }
 
 type NatsResolverSpec struct {
-	Type            string                `json:"type"`
-	AllowDelete     bool                  `json:"allowDelete"`
-	Interval        string                `json:"interval"`
-	Operator        *string               `json:"operator"`
-	SystemAccount   *string               `json:"systemAccount"`
-	Store           NatsResolverStoreSpec `json:"store"`
-	ResolverPreload map[string]string     `json:"resolverPreload"`
+	Type          string                `json:"type"`
+	AllowDelete   bool                  `json:"allowDelete"`
+	Interval      string                `json:"interval"`
+	Operator      *string               `json:"operator"`
+	SystemAccount *string               `json:"systemAccount"`
+	Store         NatsResolverStoreSpec `json:"store"`
+	// +optional
+	ResolverPreload map[string]string `json:"resolverPreload,omitempty"`
 }
 
 type NatsResolverStoreSpec struct {
-	Dir              string            `json:"dir"`
-	Size             resource.Quantity `json:"size"`
-	StorageClassName string            `json:"storageClassName"`
+	Dir  string            `json:"dir"`
+	Size resource.Quantity `json:"size"`
+	// +optional
+	StorageClassName string `json:"storageClassName,omitempty"`
 }
 
 type NatsWebsocketSpec struct {
-	Enabled          bool            `json:"enabled"`
-	Port             int             `json:"port"`
-	NoTLS            bool            `json:"noTLS"`
-	SameOrigin       bool            `json:"sameOrigin"`
-	AllowedOrigins   []string        `json:"allowedOrigins"`
-	Advertise        string          `json:"advertise,omitempty"`
-	HandshakeTimeout metav1.Duration `json:"handshakeTimeout,omitempty"`
-	TLS              *TLSSpec        `json:"tls,omitempty"`
+	Enabled        bool     `json:"enabled"`
+	Port           int      `json:"port"`
+	NoTLS          bool     `json:"noTLS"`
+	SameOrigin     bool     `json:"sameOrigin"`
+	AllowedOrigins []string `json:"allowedOrigins"`
+	Advertise      string   `json:"advertise,omitempty"`
+	// +optional
+	HandshakeTimeout string   `json:"handshakeTimeout,omitempty"`
+	TLS              *TLSSpec `json:"tls,omitempty"`
 }
 
 type NatsAppProtocolSpec struct {
