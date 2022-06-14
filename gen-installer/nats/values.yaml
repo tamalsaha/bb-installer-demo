@@ -1,0 +1,839 @@
+accounts-ui:
+  affinity: null
+  autoscaling:
+    enabled: false
+    maxReplicas: 0
+    minReplicas: 0
+  enabled: true
+  fullnameOverride: ""
+  image:
+    pullPolicy: ""
+    registry: ""
+    repository: ""
+    tag: ""
+  imagePullSecrets: null
+  infra:
+    badger:
+      mountPath: ""
+    invoice:
+      mountPath: ""
+    objstore:
+      mountPath: ""
+      provider: ""
+    storageClass:
+      name: ""
+  monitoring:
+    agent: ""
+    serviceMonitor: null
+  nameOverride: ""
+  nodeSelector: null
+  persistence:
+    size: "0"
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+  podSecurityContext: null
+  registryFQDN: ""
+  replicaCount: 0
+  resources: {}
+  securityContext: null
+  service:
+    port: 0
+    type: ""
+  serviceAccount:
+    name: ""
+  settings:
+    secretName:
+      grafanaConfig: ""
+      nats: ""
+      objstore: ""
+      platformConfig: ""
+  tolerations: null
+affinity: null
+billing:
+  enabled: false
+cluster-ui:
+  affinity: null
+  autoscaling:
+    enabled: false
+    maxReplicas: 0
+    minReplicas: 0
+  enabled: true
+  fullnameOverride: ""
+  image:
+    pullPolicy: ""
+    registry: ""
+    repository: ""
+    tag: ""
+  imagePullSecrets: null
+  nameOverride: ""
+  nodeSelector: null
+  podAnnotations: null
+  podSecurityContext: null
+  registryFQDN: ""
+  replicaCount: 0
+  resources: {}
+  securityContext: null
+  service:
+    port: 0
+    type: ""
+  serviceAccount:
+    name: ""
+  tolerations: null
+clusterConnector:
+  registry: ""
+  repository: ""
+  tag: ""
+deploy-ui:
+  enabled: false
+global:
+  fullnameOverride: ""
+  imagePullSecrets: null
+  infra:
+    avatars:
+      bucket: gs://ace/avatars
+    badger:
+      levels: 0
+      mountPath: ""
+    dns:
+      auth:
+        email: '---'
+        token: XYZ
+      provider: cloudflare
+    invoice:
+      bucket: ""
+      mountPath: ""
+      trackerEmail: ""
+    kms:
+      masterKeyURL: base64key://uLWwixDoqkQbltQFmF4IlhUW3iqeys0D7lPUQcaXweryeiGoOlntR9LGX19qOOKt
+    kubepack:
+      bucket: ""
+      host: ""
+    objstore:
+      auth:
+        serviceAccountJson: '{"secret": "json"}'
+      mountPath: /data/credentials
+      provider: Google
+    storageClass:
+      name: standard
+    tls:
+      acmeServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      email: ops@appscode.cloud
+  license: ""
+  monitoring:
+    agent: prometheus.io/operator
+    exporter:
+      resources:
+        limits:
+          memory: 128Mi
+        requests:
+          memory: 128Mi
+    serviceMonitor:
+      labels:
+        release: kube-prometheus-stack
+  nameOverride: ace
+  registry: ""
+  registryFQDN: ""
+  serviceAccount:
+    annotations: null
+    create: false
+    name: ""
+grafana:
+  affinity: null
+  autoscaling:
+    enabled: false
+    maxReplicas: 0
+    minReplicas: 0
+  enabled: true
+  fullnameOverride: ""
+  image:
+    pullPolicy: ""
+    registry: ""
+    repository: ""
+    tag: ""
+  imagePullSecrets: null
+  infra:
+    badger:
+      mountPath: ""
+    invoice:
+      mountPath: ""
+    objstore:
+      mountPath: ""
+      provider: ""
+    storageClass:
+      name: ""
+  monitoring:
+    agent: ""
+    serviceMonitor: null
+  nameOverride: ""
+  nodeSelector: null
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+  podSecurityContext: null
+  registryFQDN: ""
+  replicaCount: 0
+  resources: {}
+  securityContext: null
+  service:
+    port: 0
+    type: ""
+  serviceAccount:
+    name: ""
+  settings:
+    secretName:
+      grafanaConfig: ""
+      nats: ""
+      objstore: ""
+      platformConfig: ""
+  tolerations: null
+image:
+  pullPolicy: ""
+  registry: ""
+  repository: ""
+  tag: ""
+ingress-dns:
+  affinity: null
+  deploymentAnnotations: null
+  domainFilters:
+  - ""
+  enabled: true
+  env:
+  - name: CF_API_TOKEN
+    value: XYZ
+  extraArgs:
+  - --ignore-ingress-tls-spec
+  extraVolumeMounts: null
+  extraVolumes: null
+  fullnameOverride: ""
+  image:
+    pullPolicy: IfNotPresent
+    repository: appscode/external-dns
+    tag: external-dns-helm-chart-1.9.0-1-gbd1bb40c
+  imagePullSecrets: null
+  interval: ""
+  livenessProbe: null
+  logFormat: ""
+  logLevel: debug
+  nameOverride: ""
+  nodeSelector: null
+  podAnnotations: null
+  podLabels: null
+  podSecurityContext: null
+  policy: sync
+  priorityClassName: ""
+  provider: cloudflare
+  rbac:
+    additionalPermissions: null
+    create: false
+  readinessProbe: null
+  registry: txt
+  resources: {}
+  securityContext: null
+  service:
+    annotations: null
+    port: 0
+  serviceAccount:
+    annotations: null
+    create: false
+    name: ""
+  serviceMonitor:
+    additionalLabels: null
+    enabled: false
+    interval: ""
+    scrapeTimeout: ""
+  shareProcessNamespace: false
+  sources:
+  - ingress
+  terminationGracePeriodSeconds: null
+  tolerations: null
+  topologySpreadConstraints: null
+  triggerLoopOnEvent: false
+  txtOwnerId: ingress-dns
+  txtPrefix: ""
+  txtSuffix: ""
+ingress-nginx:
+  controller:
+    hostPort:
+      enabled: true
+    ingressClassByName: true
+    ingressClassResource:
+      controllerValue: k8s.io/ingress-nginx-ace
+      enabled: true
+      name: nginx-ace
+    kind: DaemonSet
+    resources: {}
+    service:
+      external:
+        enabled: false
+  enabled: true
+kubedb-ui:
+  affinity: null
+  autoscaling:
+    enabled: false
+    maxReplicas: 0
+    minReplicas: 0
+  enabled: true
+  fullnameOverride: ""
+  image:
+    pullPolicy: ""
+    registry: ""
+    repository: ""
+    tag: ""
+  imagePullSecrets: null
+  nameOverride: ""
+  nodeSelector: null
+  podAnnotations: null
+  podSecurityContext: null
+  registryFQDN: ""
+  replicaCount: 0
+  resources: {}
+  securityContext: null
+  service:
+    port: 0
+    type: ""
+  serviceAccount:
+    name: ""
+  tolerations: null
+marketplace-ui:
+  enabled: false
+nats:
+  additionalContainers: null
+  additionalVolumeMounts: null
+  additionalVolumes: null
+  affinity: null
+  appProtocol:
+    enabled: false
+  auth:
+    enabled: true
+    operatorjwt:
+      configMap:
+        key: Operator.jwt
+        name: ace-nats-cred
+    resolver:
+      allowDelete: false
+      interval: ""
+      operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQ01GQTVSSjRSR0NUN0hRV1NZVjZLMzZOMjNDQ05XRDVUN01OWDZFTVNTR0VOUUVYTldVNUU1VCIsImV4cCI6NDgxMDg0MjQ1MCwianRpIjoiNUU2SExTQ1RLQjZFTDVHUU1GRlVBR1ZQVkxZRFRBM0EzMkRaS0JPS1ZON0ZBVlBPQUZHQSIsImlhdCI6MTY1NTE2ODg1MCwiaXNzIjoiT0NNRkE1Uko0UkdDVDdIUVdTWVY2SzM2TjIzQ0NOV0Q1VDdNTlg2RU1TU0dFTlFFWE5XVTVFNVQiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUxNjg4NTAsInN1YiI6Ik9DTUZBNVJKNFJHQ1Q3SFFXU1lWNkszNk4yM0NDTldENVQ3TU5YNkVNU1NHRU5RRVhOV1U1RTVUIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0NNRkE1Uko0UkdDVDdIUVdTWVY2SzM2TjIzQ0NOV0Q1VDdNTlg2RU1TU0dFTlFFWE5XVTVFNVQiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.pONaFhROyW0D2zlmb8q5cf9z0xfFYli8ZJnqBsZhGpN0IrETwdcW3tKrLhsucqBG8rbut7pU1zNgtjQpgxV7AQ
+      resolverPreload:
+        ABNARIRFRRUEIGXVNLF22VNXVMX6RD5PJPPW6FEPB6CXB3J5A4GJTBA4: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJKQlYyNkNPVlZWUlRSWE1HRFVUR0ZIUExaWE1IUUZZQ1VVUTZKUlNON0NaTTJOUTVWSzZBIiwiaWF0IjoxNjU1MTY4ODUwLCJpc3MiOiJPQ01GQTVSSjRSR0NUN0hRV1NZVjZLMzZOMjNDQ05XRDVUN01OWDZFTVNTR0VOUUVYTldVNUU1VCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQk5BUklSRlJSVUVJR1hWTkxGMjJWTlhWTVg2UkQ1UEpQUFc2RkVQQjZDWEIzSjVBNEdKVEJBNCIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.KwKvICG1Bdmmz3VkVfOTVif2v7TARD2o8MXktXNQ0awfGyKK-FjYPPc_3abUyCNDl5Ztv0S77ywKPxqFfPJrCA
+        ACWWKX47ZET5L3QZR7HECZHY6N63KZ42IH4EMLJEAS4AWJWNL4P6BC7K: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJDRDVQN1hMQ1VDVlVBQVBYMjdYQzc0UEZOTDI1VUZKWkZFSkhHQldMTUxMUkRSQjJGRkVRIiwiaWF0IjoxNjU1MTY4ODUwLCJpc3MiOiJPQ01GQTVSSjRSR0NUN0hRV1NZVjZLMzZOMjNDQ05XRDVUN01OWDZFTVNTR0VOUUVYTldVNUU1VCIsIm5hbWUiOiJBRE1JTiIsInN1YiI6IkFDV1dLWDQ3WkVUNUwzUVpSN0hFQ1pIWTZONjNLWjQySUg0RU1MSkVBUzRBV0pXTkw0UDZCQzdLIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.YIkpHFAO5mYoTADEfrWyvZG1pUXvftYkzkSNer6jfrO2qwqvZ4c2G-V4Zj-SRLgJbtjHyMZmCP8TlhmUcUi1DA
+      store:
+        dir: /etc/nats-config/accounts/jwt
+        size: 10Gi
+        storageClassName: standard
+      systemAccount: ABNARIRFRRUEIGXVNLF22VNXVMX6RD5PJPPW6FEPB6CXB3J5A4GJTBA4
+      type: full
+    systemAccount: ABNARIRFRRUEIGXVNLF22VNXVMX6RD5PJPPW6FEPB6CXB3J5A4GJTBA4
+  bootconfig:
+    image: ""
+    pullPolicy: ""
+    securityContext: null
+  cluster:
+    enabled: false
+    extraRoutes: null
+    noAdvertise: false
+    replicas: 0
+  commonLabels: null
+  enabled: true
+  exporter:
+    enabled: true
+    image: ""
+    pullPolicy: ""
+    resources: {}
+    securityContext: null
+    serviceMonitor:
+      annotations: null
+      enabled: true
+      labels:
+        release: kube-prometheus-stack
+      path: /metrics
+  gateway:
+    enabled: false
+    name: ""
+  imagePullSecrets: null
+  k8sClusterDomain: ""
+  leafnodes:
+    enabled: false
+    noAdvertise: false
+  mqtt:
+    ackWait: ""
+    enabled: false
+    maxAckPending: 0
+  nameOverride: ""
+  namespaceOverride: ""
+  nats:
+    advertise: false
+    client:
+      port: 0
+      portName: ""
+    configChecksumAnnotation: false
+    connectRetries: 0
+    externalAccess: true
+    healthcheck:
+      detectHealthz: false
+      enableHealthz: false
+      liveness: null
+      readiness: null
+      startup: null
+    image: ""
+    jetstream:
+      domain: null
+      enabled: true
+      encryption: null
+      fileStorage:
+        accessModes: null
+        annotations: null
+        enabled: true
+        size: 10Gi
+        storageClassName: standard
+        storageDirectory: /nats/jetstream
+      memStorage:
+        enabled: false
+        size: "0"
+      uniqueTag: null
+    limits:
+      lameDuckDuration: ""
+      lameDuckGracePeriod: ""
+      maxConnections: null
+      maxControlLine: null
+      maxPayload: 4Mb
+      maxPending: null
+      maxPings: null
+      maxSubscriptions: null
+      pingInterval: null
+      writeDeadline: null
+    logging:
+      connectErrorReports: null
+      debug: false
+      logtime: null
+      reconnectErrorReports: null
+      trace: false
+    profiling:
+      enabled: false
+      port: 0
+    pullPolicy: ""
+    resources:
+      limits:
+        memory: 2Gi
+      requests:
+        memory: 2Gi
+    securityContext: null
+    selectorLabels: null
+    serverNamePrefix: ""
+    serverTags: null
+    serviceAccount: null
+    terminationGracePeriodSeconds: null
+    tls:
+      allow_non_tls: false
+      ca: ""
+      cert: tls.crt
+      key: tls.key
+      secret:
+        name: ace-cert
+  natsbox:
+    additionalLabels: null
+    affinity: null
+    enabled: false
+    extraVolumeMounts: null
+    extraVolumes: null
+    image: ""
+    imagePullSecrets: null
+    nodeSelector: null
+    podAnnotations: null
+    podLabels: null
+    pullPolicy: ""
+    securityContext: null
+    tolerations: null
+  networkPolicy:
+    allowExternal: false
+    enabled: false
+    extraEgress: null
+    extraIngress: null
+    ingressNSMatchLabels: null
+    ingressNSPodMatchLabels: null
+  nodeSelector: null
+  podAnnotations: null
+  podDisruptionBudget:
+    enabled: false
+    maxUnavailable: 0
+  podManagementPolicy: ""
+  priorityClassName: null
+  reloader:
+    enabled: false
+    extraConfigs: null
+    image: ""
+    pullPolicy: ""
+    securityContext: null
+  securityContext: null
+  serviceAnnotations: null
+  statefulSetAnnotations: null
+  statefulSetPodLabels:
+    secret.reloader.stakater.com/reload: ace-cert
+  tolerations: null
+  topologyKeys: null
+  topologySpreadConstraints: null
+  useFQDN: false
+  websocket:
+    allowedOrigins:
+    - https://
+    - https://console.
+    - https://kubedb.
+    - https://grafana.
+    enabled: true
+    handshakeTimeout: 0s
+    noTLS: false
+    port: 443
+    sameOrigin: false
+    tls:
+      ca: ""
+      cert: tls.crt
+      key: tls.key
+      secret:
+        name: ace-cert
+nats-dns:
+  affinity: null
+  deploymentAnnotations: null
+  domainFilters:
+  - ""
+  enabled: true
+  env:
+  - name: CF_API_TOKEN
+    value: XYZ
+  extraArgs:
+  - --fqdn-template=nats.
+  - --label-filter=
+  extraVolumeMounts: null
+  extraVolumes: null
+  fullnameOverride: ""
+  image:
+    pullPolicy: IfNotPresent
+    repository: appscode/external-dns
+    tag: external-dns-helm-chart-1.9.0-1-gbd1bb40c
+  imagePullSecrets: null
+  interval: ""
+  livenessProbe: null
+  logFormat: ""
+  logLevel: debug
+  nameOverride: ""
+  nodeSelector: null
+  podAnnotations: null
+  podLabels: null
+  podSecurityContext: null
+  policy: sync
+  priorityClassName: ""
+  provider: cloudflare
+  rbac:
+    additionalPermissions: null
+    create: false
+  readinessProbe: null
+  registry: txt
+  resources: {}
+  securityContext: null
+  service:
+    annotations: null
+    port: 0
+  serviceAccount:
+    annotations: null
+    create: false
+    name: ""
+  serviceMonitor:
+    additionalLabels: null
+    enabled: false
+    interval: ""
+    scrapeTimeout: ""
+  shareProcessNamespace: false
+  sources:
+  - node
+  terminationGracePeriodSeconds: null
+  tolerations: null
+  topologySpreadConstraints: null
+  triggerLoopOnEvent: false
+  txtOwnerId: nats-dns
+  txtPrefix: ""
+  txtSuffix: ""
+nodeSelector: null
+platform-api:
+  affinity: null
+  autoscaling:
+    enabled: false
+    maxReplicas: 0
+    minReplicas: 0
+  enabled: true
+  fullnameOverride: ""
+  image:
+    pullPolicy: ""
+    registry: ""
+    repository: ""
+    tag: ""
+  imagePullSecrets: null
+  infra:
+    badger:
+      mountPath: ""
+    invoice:
+      mountPath: ""
+    objstore:
+      mountPath: ""
+      provider: ""
+    storageClass:
+      name: ""
+  monitoring:
+    agent: ""
+    serviceMonitor: null
+  nameOverride: ""
+  nodeSelector: null
+  persistence:
+    size: "0"
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+  podSecurityContext: null
+  registryFQDN: ""
+  replicaCount: 0
+  resources: {}
+  securityContext: null
+  service:
+    port: 0
+    type: ""
+  serviceAccount:
+    name: ""
+  settings:
+    secretName:
+      grafanaConfig: ""
+      nats: ""
+      objstore: ""
+      platformConfig: ""
+  tolerations: null
+platform-ui:
+  affinity: null
+  autoscaling:
+    enabled: false
+    maxReplicas: 0
+    minReplicas: 0
+  enabled: true
+  fullnameOverride: ""
+  image:
+    pullPolicy: ""
+    registry: ""
+    repository: ""
+    tag: ""
+  imagePullSecrets: null
+  nameOverride: ""
+  nodeSelector: null
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+  podSecurityContext: null
+  registryFQDN: ""
+  replicaCount: 0
+  resources: {}
+  securityContext: null
+  service:
+    port: 0
+    type: ""
+  serviceAccount:
+    name: ""
+  tolerations: null
+podAnnotations: null
+podSecurityContext: null
+prom-proxy:
+  affinity: null
+  autoscaling:
+    enabled: false
+    maxReplicas: 0
+    minReplicas: 0
+  enabled: true
+  fullnameOverride: ""
+  image:
+    pullPolicy: ""
+    registry: ""
+    repository: ""
+    tag: ""
+  imagePullSecrets: null
+  infra:
+    badger:
+      mountPath: ""
+    invoice:
+      mountPath: ""
+    objstore:
+      mountPath: ""
+      provider: ""
+    storageClass:
+      name: ""
+  monitoring:
+    agent: ""
+    serviceMonitor: null
+  nameOverride: ""
+  nodeSelector: null
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+  podSecurityContext: null
+  registryFQDN: ""
+  replicaCount: 0
+  resources: {}
+  securityContext: null
+  service:
+    port: 0
+    type: ""
+  serviceAccount:
+    name: ""
+  settings:
+    secretName:
+      grafanaConfig: ""
+      nats: ""
+      objstore: ""
+      platformConfig: ""
+  tolerations: null
+reloader:
+  enabled: true
+resources: {}
+securityContext: null
+settings:
+  cache:
+    auth:
+      password: fr71$tAWungEFdE3
+      username: root
+    cacheInterval: 60
+    persistence:
+      size: 10Gi
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        memory: 512Mi
+    terminationPolicy: Delete
+    version: 6.0.6
+  db:
+    auth:
+      password: 4.$y7DoK~nVb2G6H
+      username: postgres
+    databaseName: ace
+    persistence:
+      size: 20Gi
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        memory: 512Mi
+    terminationPolicy: Delete
+    version: "13.2"
+  grafana:
+    appMode: production
+  nats:
+    adminCreds: |
+      -----BEGIN NATS ACCOUNT JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJDRDVQN1hMQ1VDVlVBQVBYMjdYQzc0UEZOTDI1VUZKWkZFSkhHQldMTUxMUkRSQjJGRkVRIiwiaWF0IjoxNjU1MTY4ODUwLCJpc3MiOiJPQ01GQTVSSjRSR0NUN0hRV1NZVjZLMzZOMjNDQ05XRDVUN01OWDZFTVNTR0VOUUVYTldVNUU1VCIsIm5hbWUiOiJBRE1JTiIsInN1YiI6IkFDV1dLWDQ3WkVUNUwzUVpSN0hFQ1pIWTZONjNLWjQySUg0RU1MSkVBUzRBV0pXTkw0UDZCQzdLIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.YIkpHFAO5mYoTADEfrWyvZG1pUXvftYkzkSNer6jfrO2qwqvZ4c2G-V4Zj-SRLgJbtjHyMZmCP8TlhmUcUi1DA
+      ------END NATS ACCOUNT JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN ACCOUNT NKEY SEED-----
+      SAAD7JBWLYTUOIB2K4EXBGYUJ5WMP3ATUJFB2WCNJXB262GHG4KMOCWY5Q
+      ------END ACCOUNT NKEY SEED------
+
+      *************************************************************
+    adminUserCreds: |
+      -----BEGIN NATS USER JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI3QllHS0dCNEs1TVNHTFM1QlMyS1ZRMkE2RUpWTUZFQjdIR0o0NUxMTEdTNEc1QVJMNUZRIiwiaWF0IjoxNjU1MTY4ODUwLCJpc3MiOiJBQ1dXS1g0N1pFVDVMM1FaUjdIRUNaSFk2TjYzS1o0MklINEVNTEpFQVM0QVdKV05MNFA2QkM3SyIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVBTTdWTTJSRTJXTUJEQ05BMkpHSFg2UVAyVDVJNEc3RlRVTDJCS0xWQjVURUkzTk5LWEgzQjdNIiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.F_3mEfwwnD8Jf3NSJKVy-JIhdqroDoZagdTMX3TIgHAh5yclb-NF6W7AazCWGNrMuvqiUWaovL8fS3vAVz7sDQ
+      ------END NATS USER JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN USER NKEY SEED-----
+      SUAEKRPNCDJ6JXLH36LFJMP6QGQ73OUWYNDEXB74PKOBNQ4L3CHCFPCKFU
+      ------END USER NKEY SEED------
+
+      *************************************************************
+    mountPath: /nats/creds
+    operatorCreds: |
+      -----BEGIN NATS OPERATOR JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQ01GQTVSSjRSR0NUN0hRV1NZVjZLMzZOMjNDQ05XRDVUN01OWDZFTVNTR0VOUUVYTldVNUU1VCIsImV4cCI6NDgxMDg0MjQ1MCwianRpIjoiNUU2SExTQ1RLQjZFTDVHUU1GRlVBR1ZQVkxZRFRBM0EzMkRaS0JPS1ZON0ZBVlBPQUZHQSIsImlhdCI6MTY1NTE2ODg1MCwiaXNzIjoiT0NNRkE1Uko0UkdDVDdIUVdTWVY2SzM2TjIzQ0NOV0Q1VDdNTlg2RU1TU0dFTlFFWE5XVTVFNVQiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUxNjg4NTAsInN1YiI6Ik9DTUZBNVJKNFJHQ1Q3SFFXU1lWNkszNk4yM0NDTldENVQ3TU5YNkVNU1NHRU5RRVhOV1U1RTVUIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0NNRkE1Uko0UkdDVDdIUVdTWVY2SzM2TjIzQ0NOV0Q1VDdNTlg2RU1TU0dFTlFFWE5XVTVFNVQiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.pONaFhROyW0D2zlmb8q5cf9z0xfFYli8ZJnqBsZhGpN0IrETwdcW3tKrLhsucqBG8rbut7pU1zNgtjQpgxV7AQ
+      ------END NATS OPERATOR JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN OPERATOR NKEY SEED-----
+      SOAKYBXFBTZSWDW4BGV4GSJ5WOQATOEMROQXBIWJRNVH4GXI7QN4EE2PVE
+      ------END OPERATOR NKEY SEED------
+
+      *************************************************************
+    operatorJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQ01GQTVSSjRSR0NUN0hRV1NZVjZLMzZOMjNDQ05XRDVUN01OWDZFTVNTR0VOUUVYTldVNUU1VCIsImV4cCI6NDgxMDg0MjQ1MCwianRpIjoiNUU2SExTQ1RLQjZFTDVHUU1GRlVBR1ZQVkxZRFRBM0EzMkRaS0JPS1ZON0ZBVlBPQUZHQSIsImlhdCI6MTY1NTE2ODg1MCwiaXNzIjoiT0NNRkE1Uko0UkdDVDdIUVdTWVY2SzM2TjIzQ0NOV0Q1VDdNTlg2RU1TU0dFTlFFWE5XVTVFNVQiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUxNjg4NTAsInN1YiI6Ik9DTUZBNVJKNFJHQ1Q3SFFXU1lWNkszNk4yM0NDTldENVQ3TU5YNkVNU1NHRU5RRVhOV1U1RTVUIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0NNRkE1Uko0UkdDVDdIUVdTWVY2SzM2TjIzQ0NOV0Q1VDdNTlg2RU1TU0dFTlFFWE5XVTVFNVQiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.pONaFhROyW0D2zlmb8q5cf9z0xfFYli8ZJnqBsZhGpN0IrETwdcW3tKrLhsucqBG8rbut7pU1zNgtjQpgxV7AQ
+    replicas: 1
+    shardCount: 128
+    systemCreds: |
+      -----BEGIN NATS ACCOUNT JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJKQlYyNkNPVlZWUlRSWE1HRFVUR0ZIUExaWE1IUUZZQ1VVUTZKUlNON0NaTTJOUTVWSzZBIiwiaWF0IjoxNjU1MTY4ODUwLCJpc3MiOiJPQ01GQTVSSjRSR0NUN0hRV1NZVjZLMzZOMjNDQ05XRDVUN01OWDZFTVNTR0VOUUVYTldVNUU1VCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQk5BUklSRlJSVUVJR1hWTkxGMjJWTlhWTVg2UkQ1UEpQUFc2RkVQQjZDWEIzSjVBNEdKVEJBNCIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.KwKvICG1Bdmmz3VkVfOTVif2v7TARD2o8MXktXNQ0awfGyKK-FjYPPc_3abUyCNDl5Ztv0S77ywKPxqFfPJrCA
+      ------END NATS ACCOUNT JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN ACCOUNT NKEY SEED-----
+      SAAA5UO6NQ6VVCCQQHVJWYGTYI6XVEFNOZ7BEN3Q7UOW6ZTKSMZ3YBAAIA
+      ------END ACCOUNT NKEY SEED------
+
+      *************************************************************
+    systemJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJKQlYyNkNPVlZWUlRSWE1HRFVUR0ZIUExaWE1IUUZZQ1VVUTZKUlNON0NaTTJOUTVWSzZBIiwiaWF0IjoxNjU1MTY4ODUwLCJpc3MiOiJPQ01GQTVSSjRSR0NUN0hRV1NZVjZLMzZOMjNDQ05XRDVUN01OWDZFTVNTR0VOUUVYTldVNUU1VCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQk5BUklSRlJSVUVJR1hWTkxGMjJWTlhWTVg2UkQ1UEpQUFc2RkVQQjZDWEIzSjVBNEdKVEJBNCIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.KwKvICG1Bdmmz3VkVfOTVif2v7TARD2o8MXktXNQ0awfGyKK-FjYPPc_3abUyCNDl5Ztv0S77ywKPxqFfPJrCA
+    systemPubKey: ABNARIRFRRUEIGXVNLF22VNXVMX6RD5PJPPW6FEPB6CXB3J5A4GJTBA4
+    systemUserCreds: |
+      -----BEGIN NATS USER JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJaUjJUTlA2T1VZS0NCQkJRWVVYVUZMM01MWFdNUTNLNkVPSFYyQzM1NEc3QVRYT0MzTE5BIiwiaWF0IjoxNjU1MTY4ODUwLCJpc3MiOiJBQk5BUklSRlJSVUVJR1hWTkxGMjJWTlhWTVg2UkQ1UEpQUFc2RkVQQjZDWEIzSjVBNEdKVEJBNCIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVRDdRTlNRSUVKUEFQSEZRRk5MVDJLT05KSDJRNzRBVjJQM1o0WFhUVUI0WTZONTdMV0dRTFhFWiIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.86wuLtm4UGrcnQoodHTRCknPePrJN4j82L1Dk7ElYF4t6AFkaFAEvlNTMD5r1UwxTnmDyppj0jE2GmmYhI4uDg
+      ------END NATS USER JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN USER NKEY SEED-----
+      SUADWFPZGDZP2U7MPK2SCUTLAFFSOZQB3AQNYUOAE3JF3WOJYUJLWITTLE
+      ------END USER NKEY SEED------
+
+      *************************************************************
+  platform:
+    appName: 'ACE: Kubernetes Native Data Platform'
+    cookieName: i_like_bytebuilders
+    disableHttpGit: false
+    domain: ""
+    enableCSRFCookieHttpOnly: false
+    experimentalFeatures: false
+    forcePrivate: false
+    installLock: true
+    logLevel: Info
+    logMode: console
+    otherShowFooterBranding: false
+    otherShowFooterTemplateLoadTime: true
+    otherShowFooterVersion: true
+    repositoryUploadAllowedTypes: null
+    repositoryUploadEnabled: true
+    repositoryUploadMaxFileSize: 3
+    repositoryUploadMaxFiles: 5
+    runMode: prod
+    serverLandingPage: home
+    serviceDisableRegistration: false
+    serviceEnableCaptcha: true
+    serviceEnableNotifyMail: true
+    serviceRegisterEmailConfirm: false
+    serviceRequireSignInView: false
+  searchlight:
+    alertmanagerAddr: ""
+    enabled: false
+    m3coordinatorAddr: ""
+    queryAddr: ""
+    rulerAddr: ""
+  security:
+    csrfSecretKey: xlHilR6ULdd6ub2lxcuvmDnldGeB4aQK0uv2nhdZiat1LmkPebwdLgUmceKBtifY
+    oauth2JWTSecret: ygFoS8nSgOA50AI0uR5C8u7ZmMSuvW6GhWWAXmefBwO
+  smtp:
+    from: ""
+    host: ""
+    password: ""
+    sendAsPlainText: false
+    subjectPrefix: ACE |
+    tlsEnabled: false
+    username: ""
+  stripe:
+    endpointSecret: ""
+    stripeKey: ""
+tolerations: null
