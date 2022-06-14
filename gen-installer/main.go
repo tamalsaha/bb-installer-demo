@@ -27,7 +27,17 @@ import (
 // DNS record configure
 
 func main() {
+	if err := os.RemoveAll(confDir()); err != nil {
+		panic(errors.Wrapf(err, "failed to delete %s dir", confDir()))
+	}
+
 	in := NewSampleOptions()
+	if data, err := yaml.Marshal(*in); err != nil {
+		panic(err)
+	} else {
+		_ = ioutil.WriteFile(filepath.Join(confDir(), "options.yaml"), data, 0644)
+	}
+
 	out, err := Convert(in)
 	if err != nil {
 		panic(err)
@@ -536,10 +546,6 @@ func GenerateIngress(in *api.AceOptionsSpec, out *api.AceSpec) error {
 func GenerateNats(in *api.AceOptionsSpec, out *api.AceSpec) error {
 	if in.Nats.Replics != 1 && in.Nats.Replics != 3 {
 		return errors.Errorf("nats replicas can be 1 or 3, found %d", in.Nats.Replics)
-	}
-
-	if err := os.RemoveAll(confDir()); err != nil {
-		return err
 	}
 
 	nc, err := genNatsCredentials()
