@@ -267,19 +267,20 @@ type NatsBootconfigSpec struct {
 }
 
 type NatsboxSpec struct {
-	Enabled           bool                  `json:"enabled"`
-	Image             string                `json:"image"`
-	PullPolicy        string                `json:"pullPolicy"`
-	SecurityContext   *core.SecurityContext `json:"securityContext"`
-	AdditionalLabels  map[string]string     `json:"additionalLabels"`
-	ImagePullSecrets  []string              `json:"imagePullSecrets"`
-	PodAnnotations    map[string]string     `json:"podAnnotations"`
-	PodLabels         map[string]string     `json:"podLabels"`
-	Affinity          *core.Affinity        `json:"affinity"`
-	NodeSelector      map[string]string     `json:"nodeSelector"`
-	Tolerations       []core.Toleration     `json:"tolerations"`
-	ExtraVolumeMounts []core.VolumeMount    `json:"extraVolumeMounts"`
-	ExtraVolumes      []core.Volume         `json:"extraVolumes"`
+	Enabled          bool                  `json:"enabled"`
+	Image            string                `json:"image"`
+	PullPolicy       string                `json:"pullPolicy"`
+	SecurityContext  *core.SecurityContext `json:"securityContext"`
+	AdditionalLabels map[string]string     `json:"additionalLabels"`
+	ImagePullSecrets []string              `json:"imagePullSecrets"`
+	PodAnnotations   map[string]string     `json:"podAnnotations"`
+	PodLabels        map[string]string     `json:"podLabels"`
+	Affinity         *core.Affinity        `json:"affinity"`
+	//+optional
+	NodeSelector      map[string]string  `json:"nodeSelector,omitempty"`
+	Tolerations       []core.Toleration  `json:"tolerations"`
+	ExtraVolumeMounts []core.VolumeMount `json:"extraVolumeMounts"`
+	ExtraVolumes      []core.Volume      `json:"extraVolumes"`
 }
 
 type NatsReloaderSpec struct {

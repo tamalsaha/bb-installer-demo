@@ -1,17 +1,22 @@
 accounts-ui:
   enabled: true
+  nodeSelector: null
   resources: {}
 billing:
   enabled: false
+  nodeSelector: null
   resources: {}
 cluster-ui:
   enabled: true
+  nodeSelector: null
   resources: {}
 deploy-ui:
   enabled: false
+  nodeSelector: null
   resources: {}
 grafana:
   enabled: true
+  nodeSelector: null
   resources: {}
 hosted: false
 imagePullSecrets: null
@@ -37,10 +42,12 @@ ingress:
   resources: {}
 kubedb-ui:
   enabled: true
+  nodeSelector: null
   resources: {}
 license: ""
 marketplace-ui:
   enabled: false
+  nodeSelector: null
   resources: {}
 monitoring:
   agent: prometheus.io/operator
@@ -60,12 +67,15 @@ nats:
   resources: {}
 platform-api:
   enabled: true
+  nodeSelector: null
   resources: {}
 platform-ui:
   enabled: true
+  nodeSelector: null
   resources: {}
 prom-proxy:
   enabled: true
+  nodeSelector: null
   resources: {}
 registry: ""
 registryFQDN: ""
