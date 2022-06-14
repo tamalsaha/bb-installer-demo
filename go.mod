@@ -10,6 +10,7 @@ require (
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
 	go.bytebuilders.dev/installer v0.0.0-20220613195146-011e295a85ea
 	gomodules.xyz/go-sh v0.1.0
+	gomodules.xyz/homedir v0.1.0
 	gomodules.xyz/password-generator v0.2.8
 	gomodules.xyz/pointer v0.1.0
 	k8s.io/api v0.24.1

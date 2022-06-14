@@ -4,14 +4,17 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	shell "gomodules.xyz/go-sh"
+	"io/ioutil"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/url"
 	"os"
 	"path"
+	"path/filepath"
 
 	"k8s.io/apimachinery/pkg/labels"
 
 	api "go.bytebuilders.dev/installer/apis/installer/v1alpha1"
+	"gomodules.xyz/homedir"
 	passgen "gomodules.xyz/password-generator"
 	"gomodules.xyz/pointer"
 	core "k8s.io/api/core/v1"
@@ -26,20 +29,25 @@ import (
 func main() {
 	in := NewSampleOptions()
 	out, err := Convert(in)
-
-	data, err := yaml.Marshal(out)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(string(data))
 
+	if data, err := yaml.Marshal(out); err != nil {
+		panic(err)
+	} else {
+		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0644)
+	}
+
+	chartDir := filepath.Join(homedir.HomeDir(), "go/src/go.bytebuilders.dev/installer")
 	sh := shell.NewSession()
-	sh.SetDir(dir)
+	sh.SetDir(chartDir)
 	sh.ShowCMD = true
 
-	out, err := sh.Command("helm", "template", "charts/kubedb-catalog", "--set", "skipDeprecated=false").Output()
-	if err != nil {
+	if data, err := sh.Command("helm", "template", "charts/ace", "--values", filepath.Join(confDir(), "values.yaml")).Output(); err != nil {
 		panic(err)
+	} else {
+		_ = ioutil.WriteFile(filepath.Join(confDir(), "ace.yaml"), data, 0644)
 	}
 }
 

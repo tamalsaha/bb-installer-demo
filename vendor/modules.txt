@@ -97,6 +97,9 @@ golang.org/x/time/rate
 # gomodules.xyz/go-sh v0.1.0
 ## explicit; go 1.15
 gomodules.xyz/go-sh
+# gomodules.xyz/homedir v0.1.0
+## explicit; go 1.15
+gomodules.xyz/homedir
 # gomodules.xyz/password-generator v0.2.8
 ## explicit; go 1.15
 gomodules.xyz/password-generator
