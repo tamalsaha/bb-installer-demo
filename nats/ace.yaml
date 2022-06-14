@@ -6,12 +6,12 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: RELEASE-NAME-ingress-nginx
+  name: release-name-ingress-nginx
   namespace: default
 automountServiceAccountToken: true
 ---
@@ -19,11 +19,11 @@ automountServiceAccountToken: true
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: RELEASE-NAME-nats
+  name: release-name-nats
   labels:
     helm.sh/chart: nats-0.17.0
     app.kubernetes.io/name: nats
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2.8.0"
     app.kubernetes.io/managed-by: Helm
 ---
@@ -33,63 +33,63 @@ kind: ServiceAccount
 metadata:
   annotations:
     meta.helm.sh/release-namespace: "default"
-    meta.helm.sh/release-name: "RELEASE-NAME"
+    meta.helm.sh/release-name: "release-name"
   labels:
-    app: RELEASE-NAME-reloader
+    app: release-name-reloader
     chart: "reloader-v0.0.110"
-    release: "RELEASE-NAME"
+    release: "release-name"
     heritage: "Helm"
     app.kubernetes.io/managed-by: "Helm"
-  name: RELEASE-NAME-reloader
+  name: release-name-reloader
   namespace: default
 ---
 # Source: ace/templates/cache/cache-auth.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-ace-cache-auth
+  name: release-name-ace-cache-auth
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/component: database
-    app.kubernetes.io/instance: RELEASE-NAME-ace-cache
+    app.kubernetes.io/instance: release-name-ace-cache
     app.kubernetes.io/managed-by: kubedb.com
     app.kubernetes.io/name: redises.kubedb.com
 type: kubernetes.io/basic-auth
 stringData:
   username: 'root'
-  password: 'MlC(hCjPSfsRmrbz'
+  password: 'y95U_uqDU_anUZlI'
 ---
 # Source: ace/templates/db/db-auth.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-ace-db-auth
+  name: release-name-ace-db-auth
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/component: database
-    app.kubernetes.io/instance: RELEASE-NAME-ace-db
+    app.kubernetes.io/instance: release-name-ace-db
     app.kubernetes.io/managed-by: kubedb.com
     app.kubernetes.io/name: postgreses.kubedb.com
 type: kubernetes.io/basic-auth
 stringData:
   username: 'postgres'
-  password: 'CwRWMuVWh((P0O&K'
+  password: 'eRfL$q.$UBK!Jp&A'
 ---
 # Source: ace/templates/db/db-config.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-ace-db-config
+  name: release-name-ace-db-config
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/component: database
-    app.kubernetes.io/instance: RELEASE-NAME-ace-db
+    app.kubernetes.io/instance: release-name-ace-db
     app.kubernetes.io/managed-by: kubedb.com
     app.kubernetes.io/name: postgreses.kubedb.com
 type: Opaque
@@ -102,13 +102,13 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-ace-db-init-script
+  name: release-name-ace-db-init-script
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/component: database
-    app.kubernetes.io/instance: RELEASE-NAME-ace-db
+    app.kubernetes.io/instance: release-name-ace-db
     app.kubernetes.io/managed-by: kubedb.com
     app.kubernetes.io/name: postgreses.kubedb.com
 type: Opaque
@@ -120,12 +120,12 @@ stringData:
 kind: Secret
 apiVersion: v1
 metadata:
-  name: RELEASE-NAME-ace-grafana-config
+  name: release-name-ace-grafana-config
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 stringData:
@@ -202,11 +202,11 @@ stringData:
 
     # Either "mysql", "postgres" or "sqlite3", it's your choice
     type = postgres
-    host = RELEASE-NAME-ace-db.default:5432
+    host = release-name-ace-db.default:5432
     name = ace
     user = postgres
     # If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""
-    password = CwRWMuVWh((P0O&K
+    password = eRfL$q.$UBK!Jp&A
     # Use either URL or the previous fields to configure the database
     # Example: mysql://user:secret@host:port/database
     url =
@@ -255,7 +255,7 @@ stringData:
     # database: will use Grafana primary database.
     # redis: config like redis server e.g. `addr=127.0.0.1:6379,pool_size=100,db=grafana`
     # memcache: 127.0.0.1:11211
-    connstr = addr=RELEASE-NAME-ace-cache.default:6379,password='MlC(hCjPSfsRmrbz',db=1,pool_size=100
+    connstr = addr=release-name-ace-cache.default:6379,password='y95U_uqDU_anUZlI',db=1,pool_size=100
 
     #################################### Session #############################
     [session]
@@ -273,7 +273,7 @@ stringData:
     # memcache: 127.0.0.1:11211
 
 
-    provider_config = addr=RELEASE-NAME-ace-cache.default:6379,password='MlC(hCjPSfsRmrbz',db=0,pool_size=100
+    provider_config = addr=release-name-ace-cache.default:6379,password='y95U_uqDU_anUZlI',db=0,pool_size=100
 
     # Session cookie name
     cookie_name = i_like_bytebuilders
@@ -863,12 +863,12 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-ace-dns-cred
+  name: release-name-ace-dns-cred
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 type: Opaque
@@ -879,18 +879,18 @@ apiVersion: v1
 kind: Secret
 type: Opaque
 metadata:
-  name: RELEASE-NAME-ace-nats-cred
+  name: release-name-ace-nats-cred
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 stringData:
   Operator.creds: |
     -----BEGIN NATS OPERATOR JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsImV4cCI6NDgxMDg0NjMzNSwianRpIjoiWEtJUTQ2RkVYS0laTTU2UUJEUE1QVzZVTDNDREEyS1RUVFg2SE9PU1QzU0o0QVpDUzNNQSIsImlhdCI6MTY1NTE3MjczNSwiaXNzIjoiT0NUUURGTVBGVlE0TFBSTjVMNlNGM0xRNUhOWTI2U1gzVlI3UExSR0Q3TFFXV0VZUFBBNFFQS0QiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUxNzI3MzUsInN1YiI6Ik9DVFFERk1QRlZRNExQUk41TDZTRjNMUTVITlkyNlNYM1ZSN1BMUkdEN0xRV1dFWVBQQTRRUEtEIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0NUUURGTVBGVlE0TFBSTjVMNlNGM0xRNUhOWTI2U1gzVlI3UExSR0Q3TFFXV0VZUFBBNFFQS0QiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.4vqI3GgGMD2LXlL4wcRuNcEAzEpF5XCPaO6YewdyVqFS0CNasSHHeYg5HMcLltHgsb64Nkw-LYPZWgrUEfApAQ
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsImV4cCI6NDgxMDg4NDMyNCwianRpIjoiUjI2UkpCT0pRRVNLTFozRkdTNUNaWkFQN0JHSDRIQ1pMRExEWlFXT0VIWTZPVTRJWkE2USIsImlhdCI6MTY1NTIxMDcyNCwiaXNzIjoiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMTA3MjQsInN1YiI6Ik9BS0dFWjRQVUFHQURCMjRGQ0lJRjZHNDMzWVBCTzNFRVJCUkJOTkFXTENXUDVWSkhCTERTRU1YIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.RBNKC87hagSqm24AVv3DcJzfhHcY6m_AdWe_U51CWTHsCqI4_5rw0Wg_7GarJ3Udy01qiO7BsLQFnZP2xeyLBQ
     ------END NATS OPERATOR JWT------
     
     ************************* IMPORTANT *************************
@@ -898,15 +898,15 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN OPERATOR NKEY SEED-----
-    SOAH7H7FSXPZK66BWWT4AB3B3QRE4IUJON352YX6NECNODMCTZZDRCL3RI
+    SOAK5IJQIV73MNVK4IUCTRVSA4AZXVIMVUILJTL75SX7ZXEBSFRDNDIMOM
     ------END OPERATOR NKEY SEED------
     
     *************************************************************
     
-  Operator.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsImV4cCI6NDgxMDg0NjMzNSwianRpIjoiWEtJUTQ2RkVYS0laTTU2UUJEUE1QVzZVTDNDREEyS1RUVFg2SE9PU1QzU0o0QVpDUzNNQSIsImlhdCI6MTY1NTE3MjczNSwiaXNzIjoiT0NUUURGTVBGVlE0TFBSTjVMNlNGM0xRNUhOWTI2U1gzVlI3UExSR0Q3TFFXV0VZUFBBNFFQS0QiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUxNzI3MzUsInN1YiI6Ik9DVFFERk1QRlZRNExQUk41TDZTRjNMUTVITlkyNlNYM1ZSN1BMUkdEN0xRV1dFWVBQQTRRUEtEIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0NUUURGTVBGVlE0TFBSTjVMNlNGM0xRNUhOWTI2U1gzVlI3UExSR0Q3TFFXV0VZUFBBNFFQS0QiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.4vqI3GgGMD2LXlL4wcRuNcEAzEpF5XCPaO6YewdyVqFS0CNasSHHeYg5HMcLltHgsb64Nkw-LYPZWgrUEfApAQ
+  Operator.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsImV4cCI6NDgxMDg4NDMyNCwianRpIjoiUjI2UkpCT0pRRVNLTFozRkdTNUNaWkFQN0JHSDRIQ1pMRExEWlFXT0VIWTZPVTRJWkE2USIsImlhdCI6MTY1NTIxMDcyNCwiaXNzIjoiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMTA3MjQsInN1YiI6Ik9BS0dFWjRQVUFHQURCMjRGQ0lJRjZHNDMzWVBCTzNFRVJCUkJOTkFXTENXUDVWSkhCTERTRU1YIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.RBNKC87hagSqm24AVv3DcJzfhHcY6m_AdWe_U51CWTHsCqI4_5rw0Wg_7GarJ3Udy01qiO7BsLQFnZP2xeyLBQ
   SYS.creds: |
     -----BEGIN NATS ACCOUNT JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI0S0U3WEFBUkhRWTVHU01TQVJXN0JNSjdIWEhSRkZUV1FIVlVXR0dFV1BUWVVNNVlKRVlRIiwiaWF0IjoxNjU1MTcyNzM1LCJpc3MiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ0w2WlQzVFBHSFdWWEpUSEg3NkNOV1o0TVZYM001V0hUWUhYN0IyM0VKUlAyR0hQS1pOQU1VRCIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.R9rmWVF48QFq6QlLqjOPiHX3AdMeAf4gjg-5f3BLQknqTO2PTU5BP9WaAGXQN25goNF154KpUmVhUgvU-tMLBA
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTV1ZKWEFCRlBaU00zSkI2UzJQSjZUM1JGNEhTQjRMTUFDNVVUNFpWN1FSQk03SEw3TURBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.XVSfx6TcFW2Twg0pe8ubq85S-M16psfdVDmi5Wa1Di6UgsmPq3sPf3VeX9su3WxvTH7gHYheVp3Q36Obw8XzBA
     ------END NATS ACCOUNT JWT------
     
     ************************* IMPORTANT *************************
@@ -914,15 +914,15 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN ACCOUNT NKEY SEED-----
-    SAANH3N45E7OCEDDDIGYCGHLXH2NVOPB7ARUIWJCTXAXMSC7MZF2UITX4I
+    SAAOEQF76G2PLHZZL55YULZUQDUBOLU4MH23ECDSSADUTBJ5LDCCL335RI
     ------END ACCOUNT NKEY SEED------
     
     *************************************************************
     
-  SYS.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI0S0U3WEFBUkhRWTVHU01TQVJXN0JNSjdIWEhSRkZUV1FIVlVXR0dFV1BUWVVNNVlKRVlRIiwiaWF0IjoxNjU1MTcyNzM1LCJpc3MiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ0w2WlQzVFBHSFdWWEpUSEg3NkNOV1o0TVZYM001V0hUWUhYN0IyM0VKUlAyR0hQS1pOQU1VRCIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.R9rmWVF48QFq6QlLqjOPiHX3AdMeAf4gjg-5f3BLQknqTO2PTU5BP9WaAGXQN25goNF154KpUmVhUgvU-tMLBA
+  SYS.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTV1ZKWEFCRlBaU00zSkI2UzJQSjZUM1JGNEhTQjRMTUFDNVVUNFpWN1FSQk03SEw3TURBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.XVSfx6TcFW2Twg0pe8ubq85S-M16psfdVDmi5Wa1Di6UgsmPq3sPf3VeX9su3WxvTH7gHYheVp3Q36Obw8XzBA
   sys.creds: |
     -----BEGIN NATS USER JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI2UEhNU00yUEVZUEk0SUk2Mkk0SVJPWk03V09UMkdaUVFKSjRER0ZFWk1TTVJRWElZUldRIiwiaWF0IjoxNjU1MTcyNzM1LCJpc3MiOiJBQ0w2WlQzVFBHSFdWWEpUSEg3NkNOV1o0TVZYM001V0hUWUhYN0IyM0VKUlAyR0hQS1pOQU1VRCIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVQURNVzRFRUNPQUhaUkpZU1hEVVRFTkFOR0lRSE1BVkpIUTVSQlU1QjRGNzZKVkpOUk9GV1dUSiIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.4og_W3l_faKlx9YKcqxquADW8joywvZQu8H3_NonW6sYOxGlfoK8gNFp2ic4op-gZkBtuXeOPn1OpLgVscnSBg
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI1RlBJNzRXRlM0TUs3TUlQVVJYTlVQTEtPT0NGTlZERFJBQVMyVk9TS0Y0SEFWVUJZNU9RIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVRENTNDVZNDJDQ0lWMkIyV0M1UlRHTFBOWUZRNVRPVElXSTRDSldNWElaUzdUWDNaTExWSk9VSCIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.FYV7QfprzTAPOrbsf8fYgWJXTCo2TVzVD3KbHIhmkATr2cjD3brRsXnvN5IfcszdA3bfy-lu_3tcev3lKjOiDA
     ------END NATS USER JWT------
     
     ************************* IMPORTANT *************************
@@ -930,14 +930,14 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN USER NKEY SEED-----
-    SUALIGLDG2MHVM3WSFP5D6FLIOHP635LNZFKSAAK4BWWYQCSG7EUESRAWM
+    SUAMFE4J735EJCXKCCJNS37HDYOFL62BGEWQVH7IIK7ES6CWNZ7L2BYFVQ
     ------END USER NKEY SEED------
     
     *************************************************************
     
   ADMIN.creds: |
     -----BEGIN NATS ACCOUNT JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQUFVUTFY2UENIUkNCTVZJUjJNR0I3UkE2Q0pRSEo0TDNVV1I0WERIR1lQVTZZV0haWDRRIiwiaWF0IjoxNjU1MTcyNzM1LCJpc3MiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsIm5hbWUiOiJBRE1JTiIsInN1YiI6IkFBWFRJTTdFWTRXS1FHNVNBTzVCQ05RVzIyUjZaQ0gzRFlUNkpQUUVIMkdRVjNSSU9ONDZXUlhHIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.YZmSWW7sYjpxTAg51R6uuVLxyjtSQVWF9TjcpmJlmL42KMwVossEznkQV2rzgC73w2gYLdARnhuw9b0LHxZ1Bw
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJRRk4yWVZRVkU0TFFRTkczTVlRQUdXNFBRRkJPV0Q3UjZZVlpGNkVRU043UFhCUEhVQVlBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJBRE1JTiIsInN1YiI6IkFCUFdOSU9PSFVPQkVGTVY0RkRKRjVZUTM1WTRKRjRKV1dOQVhXSDNLVU1TSkU2TVVLRVNPSU4yIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0._4nb_cI7dBDARc3YZlYmCIstGNYRmQSkjzte4uDWK3C--74Cef3Xu-4NHBKHyfO6LtARE82h_uVCUvaSzX8zDg
     ------END NATS ACCOUNT JWT------
     
     ************************* IMPORTANT *************************
@@ -945,14 +945,14 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN ACCOUNT NKEY SEED-----
-    SAABFTBDZTQEYJPG7F4CVO55FSL72LTFHKC7HCO64GH3GEOJDTOPSKR5QU
+    SAAJB7TZXPNTYNWARAD7BQJS2QQVZSWN3BOZ6HOFGFDBKLEYXGNXIGFEVY
     ------END ACCOUNT NKEY SEED------
     
     *************************************************************
     
   admin.creds: |
     -----BEGIN NATS USER JWT-----
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJLNkNVUlNUSE9DTTJUVUNQUjVGWkxXS1A0NUlPUFFRN08yWEJJNlQzV1BOQjJONVNCNzRBIiwiaWF0IjoxNjU1MTcyNzM1LCJpc3MiOiJBQVhUSU03RVk0V0tRRzVTQU81QkNOUVcyMlI2WkNIM0RZVDZKUFFFSDJHUVYzUklPTjQ2V1JYRyIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVBV0lOQ0VGWVZaTVJRVUpLVUdDR0FBWUtBV1VTV0QySDNRVVVVQjY0R0pJN1UzWVpSV1VMVlNKIiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.aeApPYL0Mo9R6f0Qzi3BvD-1AtslJXA5qeZHivUyYlH7FQuW8yvcwqt2NVN5A70rlO4O8TrbmMmDpWjTWx2SAg
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQNURSTVRQQVVQVjRITU03RkpDSklMUjVDRVdXTVBUU083NFZJSVVBNlZRWjRHWEtUSEdRIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJBQlBXTklPT0hVT0JFRk1WNEZESkY1WVEzNVk0SkY0SldXTkFYV0gzS1VNU0pFNk1VS0VTT0lOMiIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVCSjY0SlRUWlczTlhQVFVOUU1OSVZHQTI3RkdDSjU0NFZFWVZOVjNMUFRHQklaS1lRNTQ1TlQ2IiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.96C7QkrVSPvlUqY3VSMDQf8llje9EG3GLnoBiZDH7JDHVrlo5g_qvoewOxfh1L2-JVCqc8UrhBzZc5Yj3pLyCQ
     ------END NATS USER JWT------
     
     ************************* IMPORTANT *************************
@@ -960,7 +960,7 @@ stringData:
     NKEYs are sensitive and should be treated as secrets.
     
     -----BEGIN USER NKEY SEED-----
-    SUANAFWBV457UEVG2YC3PCXU7WRLOBXYU23VBDFIW56O67LOOJPI7LKDOA
+    SUAOT6MSNORACDVH3IZ5TZLNXZROCOSY5R3HRMUEFFDXTQOPTHXCLTNRYM
     ------END USER NKEY SEED------
     
     *************************************************************
@@ -969,12 +969,12 @@ stringData:
 kind: Secret
 apiVersion: v1
 metadata:
-  name: RELEASE-NAME-ace-config
+  name: release-name-ace-config
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 stringData:
@@ -1020,21 +1020,21 @@ stringData:
 
     [database]
     DB_TYPE = "postgres"
-    HOST = RELEASE-NAME-ace-db.default:5432
+    HOST = release-name-ace-db.default:5432
     NAME = ace
     USER = postgres
-    PASSWD = CwRWMuVWh((P0O&K
+    PASSWD = eRfL$q.$UBK!Jp&A
 
     [session]
     DOMAIN = 
     PROVIDER = redis
-    PROVIDER_CONFIG = network=tcp,addr=RELEASE-NAME-ace-cache.default:6379,password='MlC(hCjPSfsRmrbz',db=0,pool_size=100,idle_timeout=180,prefix=session-
+    PROVIDER_CONFIG = network=tcp,addr=release-name-ace-cache.default:6379,password='y95U_uqDU_anUZlI',db=0,pool_size=100,idle_timeout=180,prefix=session-
     COOKIE_NAME = i_like_bytebuilders
 
     [cache]
     ADAPTER = redis
     INTERVAL = 60
-    HOST = network=tcp,addr=RELEASE-NAME-ace-cache.default:6379,password='MlC(hCjPSfsRmrbz',db=1,pool_size=100,idle_timeout=180,prefix=cache-
+    HOST = network=tcp,addr=release-name-ace-cache.default:6379,password='y95U_uqDU_anUZlI',db=1,pool_size=100,idle_timeout=180,prefix=cache-
     [mailer]
     ENABLED = true
     MAILER_TYPE = smtp
@@ -1051,10 +1051,10 @@ stringData:
     LEVEL = Info
 
     [oauth2]
-    JWT_SECRET = PY47Jqakv5kwmLCVTRThmWOJtDlrkV8X5wKN388YYwJ
+    JWT_SECRET = 3bTUw12V0FIn8RiRUT6bykfi42hzfnEnRcVklBNIPHW
 
     [security]
-    SECRET_KEY     = zbvrYkVnIUcX7eJJsXNyYybC7k6wap3dSVWdZiRIXtdIVJUAVxK2A4czZjmhnNh0
+    SECRET_KEY     = iFHrQwVG3HL6MOUZ1EzQAViYvOYV4DUo90LpWqT0iHFgZs1KDI7ByJbD3lzF78xH
     INSTALL_LOCK = true
     CSRF_COOKIE_HTTP_ONLY = false
 
@@ -1084,7 +1084,7 @@ stringData:
     ALLOW_SUBDOMAIN = true
 
     [kms]
-    MASTER_KEY_URL = 'base64key://5YAsEojSg3623MAqjWGIpAv4WOP4mCEWLlou2mA5WPovuePQ4hxj9xFmX4gTtWr1'
+    MASTER_KEY_URL = 'base64key://4vgi3Se4Kga0V5jPyFBU0L1p5my8jBL3AmaTLAdfSC4plmYqRWRztXPQSQDETbRU'
 
     [searchlight]
     ENABLE = false
@@ -1096,8 +1096,8 @@ stringData:
     ADMIN_USER_CREDS = /nats/creds/admin.creds
 
     ; When TLS is not used, use cluster svc ip
-    ;ACCOUNT_RESOLVER = nats://RELEASE-NAME-ace-nats.default.svc:4222
-    ;SERVER = nats://RELEASE-NAME-ace-nats.default.svc:4222,nats://nats.:4222
+    ;ACCOUNT_RESOLVER = nats://release-name-ace-nats.default.svc:4222
+    ;SERVER = nats://release-name-ace-nats.default.svc:4222,nats://nats.:4222
 
     ACCOUNT_RESOLVER = nats://nats.:4222
     NATS_SERVER = wss://nats.
@@ -1115,12 +1115,12 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-ace-objstore-cred
+  name: release-name-ace-objstore-cred
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 type: Opaque
@@ -1131,12 +1131,12 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-ace-backup-repo-cred
+  name: release-name-ace-backup-repo-cred
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 type: Opaque
@@ -1149,12 +1149,12 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-ace-init-repo-cred
+  name: release-name-ace-init-repo-cred
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 type: Opaque
@@ -1170,12 +1170,12 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: RELEASE-NAME-ingress-nginx-controller
+  name: release-name-ingress-nginx-controller
   namespace: default
 data:
   allow-snippet-annotations: "true"
@@ -1184,12 +1184,12 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: RELEASE-NAME-nats-config
+  name: release-name-nats-config
   namespace: default
   labels:
     helm.sh/chart: nats-0.17.0
     app.kubernetes.io/name: nats
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2.8.0"
     app.kubernetes.io/managed-by: Helm
 data:
@@ -1247,8 +1247,8 @@ data:
     # Authorization  #
     #                #
     ##################
-            operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsImV4cCI6NDgxMDg0NjMzNSwianRpIjoiWEtJUTQ2RkVYS0laTTU2UUJEUE1QVzZVTDNDREEyS1RUVFg2SE9PU1QzU0o0QVpDUzNNQSIsImlhdCI6MTY1NTE3MjczNSwiaXNzIjoiT0NUUURGTVBGVlE0TFBSTjVMNlNGM0xRNUhOWTI2U1gzVlI3UExSR0Q3TFFXV0VZUFBBNFFQS0QiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUxNzI3MzUsInN1YiI6Ik9DVFFERk1QRlZRNExQUk41TDZTRjNMUTVITlkyNlNYM1ZSN1BMUkdEN0xRV1dFWVBQQTRRUEtEIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0NUUURGTVBGVlE0TFBSTjVMNlNGM0xRNUhOWTI2U1gzVlI3UExSR0Q3TFFXV0VZUFBBNFFQS0QiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.4vqI3GgGMD2LXlL4wcRuNcEAzEpF5XCPaO6YewdyVqFS0CNasSHHeYg5HMcLltHgsb64Nkw-LYPZWgrUEfApAQ
-            system_account: ACL6ZT3TPGHWVXJTHH76CNWZ4MVX3M5WHTYHX7B23EJRP2GHPKZNAMUD
+            operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsImV4cCI6NDgxMDg4NDMyNCwianRpIjoiUjI2UkpCT0pRRVNLTFozRkdTNUNaWkFQN0JHSDRIQ1pMRExEWlFXT0VIWTZPVTRJWkE2USIsImlhdCI6MTY1NTIxMDcyNCwiaXNzIjoiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMTA3MjQsInN1YiI6Ik9BS0dFWjRQVUFHQURCMjRGQ0lJRjZHNDMzWVBCTzNFRVJCUkJOTkFXTENXUDVWSkhCTERTRU1YIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.RBNKC87hagSqm24AVv3DcJzfhHcY6m_AdWe_U51CWTHsCqI4_5rw0Wg_7GarJ3Udy01qiO7BsLQFnZP2xeyLBQ
+            system_account: ABLUGBAQSD42JUSNBOIGEAFK3TWVLWMY3YODJ2F47ELOI35LJM4PLGSO
 
           resolver: {
             type: full
@@ -1258,25 +1258,25 @@ data:
 
             interval: ""
           }
-      resolver_preload: {"AAXTIM7EY4WKQG5SAO5BCNQW22R6ZCH3DYT6JPQEH2GQV3RION46WRXG":"eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQUFVUTFY2UENIUkNCTVZJUjJNR0I3UkE2Q0pRSEo0TDNVV1I0WERIR1lQVTZZV0haWDRRIiwiaWF0IjoxNjU1MTcyNzM1LCJpc3MiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsIm5hbWUiOiJBRE1JTiIsInN1YiI6IkFBWFRJTTdFWTRXS1FHNVNBTzVCQ05RVzIyUjZaQ0gzRFlUNkpQUUVIMkdRVjNSSU9ONDZXUlhHIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.YZmSWW7sYjpxTAg51R6uuVLxyjtSQVWF9TjcpmJlmL42KMwVossEznkQV2rzgC73w2gYLdARnhuw9b0LHxZ1Bw","ACL6ZT3TPGHWVXJTHH76CNWZ4MVX3M5WHTYHX7B23EJRP2GHPKZNAMUD":"eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI0S0U3WEFBUkhRWTVHU01TQVJXN0JNSjdIWEhSRkZUV1FIVlVXR0dFV1BUWVVNNVlKRVlRIiwiaWF0IjoxNjU1MTcyNzM1LCJpc3MiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ0w2WlQzVFBHSFdWWEpUSEg3NkNOV1o0TVZYM001V0hUWUhYN0IyM0VKUlAyR0hQS1pOQU1VRCIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.R9rmWVF48QFq6QlLqjOPiHX3AdMeAf4gjg-5f3BLQknqTO2PTU5BP9WaAGXQN25goNF154KpUmVhUgvU-tMLBA"}
-    system_account: ACL6ZT3TPGHWVXJTHH76CNWZ4MVX3M5WHTYHX7B23EJRP2GHPKZNAMUD
+      resolver_preload: {"ABLUGBAQSD42JUSNBOIGEAFK3TWVLWMY3YODJ2F47ELOI35LJM4PLGSO":"eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTV1ZKWEFCRlBaU00zSkI2UzJQSjZUM1JGNEhTQjRMTUFDNVVUNFpWN1FSQk03SEw3TURBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.XVSfx6TcFW2Twg0pe8ubq85S-M16psfdVDmi5Wa1Di6UgsmPq3sPf3VeX9su3WxvTH7gHYheVp3Q36Obw8XzBA","ABPWNIOOHUOBEFMV4FDJF5YQ35Y4JF4JWWNAXWH3KUMSJE6MUKESOIN2":"eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJRRk4yWVZRVkU0TFFRTkczTVlRQUdXNFBRRkJPV0Q3UjZZVlpGNkVRU043UFhCUEhVQVlBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJBRE1JTiIsInN1YiI6IkFCUFdOSU9PSFVPQkVGTVY0RkRKRjVZUTM1WTRKRjRKV1dOQVhXSDNLVU1TSkU2TVVLRVNPSU4yIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0._4nb_cI7dBDARc3YZlYmCIstGNYRmQSkjzte4uDWK3C--74Cef3Xu-4NHBKHyfO6LtARE82h_uVCUvaSzX8zDg"}
+    system_account: ABLUGBAQSD42JUSNBOIGEAFK3TWVLWMY3YODJ2F47ELOI35LJM4PLGSO
 ---
 # Source: ace/templates/nats/nats-cred.yaml
 # mounted into nats-server
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: RELEASE-NAME-ace-nats-cred
+  name: release-name-ace-nats-cred
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 data:
-  Operator.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsImV4cCI6NDgxMDg0NjMzNSwianRpIjoiWEtJUTQ2RkVYS0laTTU2UUJEUE1QVzZVTDNDREEyS1RUVFg2SE9PU1QzU0o0QVpDUzNNQSIsImlhdCI6MTY1NTE3MjczNSwiaXNzIjoiT0NUUURGTVBGVlE0TFBSTjVMNlNGM0xRNUhOWTI2U1gzVlI3UExSR0Q3TFFXV0VZUFBBNFFQS0QiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUxNzI3MzUsInN1YiI6Ik9DVFFERk1QRlZRNExQUk41TDZTRjNMUTVITlkyNlNYM1ZSN1BMUkdEN0xRV1dFWVBQQTRRUEtEIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0NUUURGTVBGVlE0TFBSTjVMNlNGM0xRNUhOWTI2U1gzVlI3UExSR0Q3TFFXV0VZUFBBNFFQS0QiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.4vqI3GgGMD2LXlL4wcRuNcEAzEpF5XCPaO6YewdyVqFS0CNasSHHeYg5HMcLltHgsb64Nkw-LYPZWgrUEfApAQ
-  SYS.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI0S0U3WEFBUkhRWTVHU01TQVJXN0JNSjdIWEhSRkZUV1FIVlVXR0dFV1BUWVVNNVlKRVlRIiwiaWF0IjoxNjU1MTcyNzM1LCJpc3MiOiJPQ1RRREZNUEZWUTRMUFJONUw2U0YzTFE1SE5ZMjZTWDNWUjdQTFJHRDdMUVdXRVlQUEE0UVBLRCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ0w2WlQzVFBHSFdWWEpUSEg3NkNOV1o0TVZYM001V0hUWUhYN0IyM0VKUlAyR0hQS1pOQU1VRCIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.R9rmWVF48QFq6QlLqjOPiHX3AdMeAf4gjg-5f3BLQknqTO2PTU5BP9WaAGXQN25goNF154KpUmVhUgvU-tMLBA
+  Operator.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsImV4cCI6NDgxMDg4NDMyNCwianRpIjoiUjI2UkpCT0pRRVNLTFozRkdTNUNaWkFQN0JHSDRIQ1pMRExEWlFXT0VIWTZPVTRJWkE2USIsImlhdCI6MTY1NTIxMDcyNCwiaXNzIjoiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMTA3MjQsInN1YiI6Ik9BS0dFWjRQVUFHQURCMjRGQ0lJRjZHNDMzWVBCTzNFRVJCUkJOTkFXTENXUDVWSkhCTERTRU1YIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLR0VaNFBVQUdBREIyNEZDSUlGNkc0MzNZUEJPM0VFUkJSQk5OQVdMQ1dQNVZKSEJMRFNFTVgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.RBNKC87hagSqm24AVv3DcJzfhHcY6m_AdWe_U51CWTHsCqI4_5rw0Wg_7GarJ3Udy01qiO7BsLQFnZP2xeyLBQ
+  SYS.jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTV1ZKWEFCRlBaU00zSkI2UzJQSjZUM1JGNEhTQjRMTUFDNVVUNFpWN1FSQk03SEw3TURBIiwiaWF0IjoxNjU1MjEwNzI0LCJpc3MiOiJPQUtHRVo0UFVBR0FEQjI0RkNJSUY2RzQzM1lQQk8zRUVSQlJCTk5BV0xDV1A1VkpIQkxEU0VNWCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkxVR0JBUVNENDJKVVNOQk9JR0VBRkszVFdWTFdNWTNZT0RKMkY0N0VMT0kzNUxKTTRQTEdTTyIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.XVSfx6TcFW2Twg0pe8ubq85S-M16psfdVDmi5Wa1Di6UgsmPq3sPf3VeX9su3WxvTH7gHYheVp3Q36Obw8XzBA
 ---
 # Source: ace/charts/ingress-nginx/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1285,11 +1285,11 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
-  name: RELEASE-NAME-ingress-nginx
+  name: release-name-ingress-nginx
 rules:
   - apiGroups:
       - ""
@@ -1354,14 +1354,14 @@ kind: ClusterRole
 metadata:
   annotations:
     meta.helm.sh/release-namespace: "default"
-    meta.helm.sh/release-name: "RELEASE-NAME"
+    meta.helm.sh/release-name: "release-name"
   labels:
-    app: RELEASE-NAME-reloader
+    app: release-name-reloader
     chart: "reloader-v0.0.110"
-    release: "RELEASE-NAME"
+    release: "release-name"
     heritage: "Helm"
     app.kubernetes.io/managed-by: "Helm"
-  name: RELEASE-NAME-reloader-role
+  name: release-name-reloader-role
   namespace: default
 rules:
   - apiGroups:
@@ -1402,12 +1402,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: RELEASE-NAME-ace
+  name: release-name-ace
   # namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 rules:
@@ -1426,18 +1426,18 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
-  name: RELEASE-NAME-ingress-nginx
+  name: release-name-ingress-nginx
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: RELEASE-NAME-ingress-nginx
+  name: release-name-ingress-nginx
 subjects:
   - kind: ServiceAccount
-    name: RELEASE-NAME-ingress-nginx
+    name: release-name-ingress-nginx
     namespace: "default"
 ---
 # Source: ace/charts/reloader/templates/clusterrolebinding.yaml
@@ -1447,40 +1447,40 @@ kind: ClusterRoleBinding
 metadata:
   annotations:
     meta.helm.sh/release-namespace: "default"
-    meta.helm.sh/release-name: "RELEASE-NAME"
+    meta.helm.sh/release-name: "release-name"
   labels:
-    app: RELEASE-NAME-reloader
+    app: release-name-reloader
     chart: "reloader-v0.0.110"
-    release: "RELEASE-NAME"
+    release: "release-name"
     heritage: "Helm"
     app.kubernetes.io/managed-by: "Helm"
-  name: RELEASE-NAME-reloader-role-binding
+  name: release-name-reloader-role-binding
   namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: RELEASE-NAME-reloader-role
+  name: release-name-reloader-role
 subjects:
   - kind: ServiceAccount
-    name: RELEASE-NAME-reloader
+    name: release-name-reloader
     namespace: default
 ---
 # Source: ace/templates/rbac/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: RELEASE-NAME-ace
+  name: release-name-ace
   # namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: RELEASE-NAME-ace
+  name: release-name-ace
 subjects:
 - kind: ServiceAccount
   name: default
@@ -1493,12 +1493,12 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: RELEASE-NAME-ingress-nginx
+  name: release-name-ingress-nginx
   namespace: default
 rules:
   - apiGroups:
@@ -1578,32 +1578,32 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: RELEASE-NAME-ingress-nginx
+  name: release-name-ingress-nginx
   namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: RELEASE-NAME-ingress-nginx
+  name: release-name-ingress-nginx
 subjects:
   - kind: ServiceAccount
-    name: RELEASE-NAME-ingress-nginx
+    name: release-name-ingress-nginx
     namespace: "default"
 ---
 # Source: ace/charts/accounts-ui/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-accounts-ui
+  name: release-name-accounts-ui
   namespace: default
   labels:
     helm.sh/chart: accounts-ui-0.1.0
     app.kubernetes.io/name: accounts-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -1615,18 +1615,18 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: accounts-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
 ---
 # Source: ace/charts/cluster-ui/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-cluster-ui
+  name: release-name-cluster-ui
   namespace: default
   labels:
     helm.sh/chart: cluster-ui-0.1.0
     app.kubernetes.io/name: cluster-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.3.16"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -1638,18 +1638,18 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: cluster-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
 ---
 # Source: ace/charts/grafana/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-grafana
+  name: release-name-grafana
   namespace: default
   labels:
     helm.sh/chart: grafana-0.1.0
     app.kubernetes.io/name: grafana
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.05.27"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -1661,24 +1661,24 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: grafana
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
 ---
 # Source: ace/charts/ingress-dns/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-ingress-dns
+  name: release-name-ingress-dns
   labels:
     helm.sh/chart: ingress-dns-1.9.0
     app.kubernetes.io/name: ingress-dns
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
   selector:
     app.kubernetes.io/name: ingress-dns
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
   ports:
     - name: http
       port: 0
@@ -1692,12 +1692,12 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: RELEASE-NAME-ingress-nginx-controller-admission
+  name: release-name-ingress-nginx-controller-admission
   namespace: default
 spec:
   type: ClusterIP
@@ -1708,19 +1708,19 @@ spec:
       appProtocol: https
   selector:
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/component: controller
 ---
 # Source: ace/charts/kubedb-ui/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-kubedb-ui
+  name: release-name-kubedb-ui
   namespace: default
   labels:
     helm.sh/chart: kubedb-ui-0.1.0
     app.kubernetes.io/name: kubedb-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.3.9"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -1732,24 +1732,24 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: kubedb-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
 ---
 # Source: ace/charts/nats-dns/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-nats-dns
+  name: release-name-nats-dns
   labels:
     helm.sh/chart: nats-dns-1.9.0
     app.kubernetes.io/name: nats-dns
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
   selector:
     app.kubernetes.io/name: nats-dns
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
   ports:
     - name: http
       port: 0
@@ -1760,18 +1760,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-nats
+  name: release-name-nats
   namespace: default
   labels:
     helm.sh/chart: nats-0.17.0
     app.kubernetes.io/name: nats
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2.8.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
     app.kubernetes.io/name: nats
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
   clusterIP: None
   publishNotReadyAddresses: true
   ports:
@@ -1794,12 +1794,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-platform-api
+  name: release-name-platform-api
   namespace: default
   labels:
     helm.sh/chart: platform-api-0.1.0
     app.kubernetes.io/name: platform-api
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -1811,18 +1811,18 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: platform-api
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
 ---
 # Source: ace/charts/platform-ui/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-platform-ui
+  name: release-name-platform-ui
   namespace: default
   labels:
     helm.sh/chart: platform-ui-0.1.0
     app.kubernetes.io/name: platform-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -1834,18 +1834,18 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: platform-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
 ---
 # Source: ace/charts/prom-proxy/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-prom-proxy
+  name: release-name-prom-proxy
   namespace: default
   labels:
     helm.sh/chart: prom-proxy-0.1.0
     app.kubernetes.io/name: prom-proxy
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -1857,7 +1857,7 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: prom-proxy
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
 ---
 # Source: ace/charts/ingress-nginx/templates/controller-daemonset.yaml
 apiVersion: apps/v1
@@ -1866,18 +1866,18 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: RELEASE-NAME-ingress-nginx-controller
+  name: release-name-ingress-nginx-controller
   namespace: default
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: ingress-nginx
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
       app.kubernetes.io/component: controller
   revisionHistoryLimit: 10
   minReadySeconds: 0
@@ -1885,7 +1885,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: ingress-nginx
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
         app.kubernetes.io/component: controller
     spec:
       dnsPolicy: ClusterFirst
@@ -1903,7 +1903,7 @@ spec:
             - --election-id=ingress-controller-leader
             - --controller-class=k8s.io/ingress-nginx-ace
             - --ingress-class=nginx
-            - --configmap=$(POD_NAMESPACE)/RELEASE-NAME-ingress-nginx-controller
+            - --configmap=$(POD_NAMESPACE)/release-name-ingress-nginx-controller
             - --validating-webhook=:8443
             - --validating-webhook-certificate=/usr/local/certificates/cert
             - --validating-webhook-key=/usr/local/certificates/key
@@ -1969,23 +1969,23 @@ spec:
               memory: 90Mi
       nodeSelector: 
         kubernetes.io/os: linux
-      serviceAccountName: RELEASE-NAME-ingress-nginx
+      serviceAccountName: release-name-ingress-nginx
       terminationGracePeriodSeconds: 300
       volumes:
         - name: webhook-cert
           secret:
-            secretName: RELEASE-NAME-ingress-nginx-admission
+            secretName: release-name-ingress-nginx-admission
 ---
 # Source: ace/charts/accounts-ui/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-accounts-ui
+  name: release-name-accounts-ui
   namespace: default
   labels:
     helm.sh/chart: accounts-ui-0.1.0
     app.kubernetes.io/name: accounts-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -1993,14 +1993,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: accounts-ui
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       annotations:
         secret.reloader.stakater.com/reload: ace-config
       labels:
         app.kubernetes.io/name: accounts-ui
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       imagePullSecrets:
         []
@@ -2044,24 +2044,24 @@ spec:
         - name: config
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-config
+            secretName: release-name-ace-config
         - name: data
           emptyDir: {}
         - name: objstore-cred
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-objstore-cred
+            secretName: release-name-ace-objstore-cred
 ---
 # Source: ace/charts/cluster-ui/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-cluster-ui
+  name: release-name-cluster-ui
   namespace: default
   labels:
     helm.sh/chart: cluster-ui-0.1.0
     app.kubernetes.io/name: cluster-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.3.16"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2069,12 +2069,12 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: cluster-ui
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       labels:
         app.kubernetes.io/name: cluster-ui
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       imagePullSecrets:
         []
@@ -2105,12 +2105,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-grafana
+  name: release-name-grafana
   namespace: default
   labels:
     helm.sh/chart: grafana-0.1.0
     app.kubernetes.io/name: grafana
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.05.27"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2118,14 +2118,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: grafana
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       annotations:
         secret.reloader.stakater.com/reload: ace-config
       labels:
         app.kubernetes.io/name: grafana
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       imagePullSecrets:
         []
@@ -2167,17 +2167,17 @@ spec:
         - name: config
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-grafana-config
+            secretName: release-name-ace-grafana-config
 ---
 # Source: ace/charts/ingress-dns/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-ingress-dns
+  name: release-name-ingress-dns
   labels:
     helm.sh/chart: ingress-dns-1.9.0
     app.kubernetes.io/name: ingress-dns
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2185,12 +2185,12 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: ingress-dns
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       labels:
         app.kubernetes.io/name: ingress-dns
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       serviceAccountName: default
       securityContext:
@@ -2247,12 +2247,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-kubedb-ui
+  name: release-name-kubedb-ui
   namespace: default
   labels:
     helm.sh/chart: kubedb-ui-0.1.0
     app.kubernetes.io/name: kubedb-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.3.9"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2260,12 +2260,12 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: kubedb-ui
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       labels:
         app.kubernetes.io/name: kubedb-ui
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       imagePullSecrets:
         []
@@ -2296,11 +2296,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-nats-dns
+  name: release-name-nats-dns
   labels:
     helm.sh/chart: nats-dns-1.9.0
     app.kubernetes.io/name: nats-dns
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2308,12 +2308,12 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: nats-dns
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       labels:
         app.kubernetes.io/name: nats-dns
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       serviceAccountName: default
       securityContext:
@@ -2371,12 +2371,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-platform-api
+  name: release-name-platform-api
   namespace: default
   labels:
     helm.sh/chart: platform-api-0.1.0
     app.kubernetes.io/name: platform-api
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2384,14 +2384,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: platform-api
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       annotations:
         secret.reloader.stakater.com/reload: ace-config
       labels:
         app.kubernetes.io/name: platform-api
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       imagePullSecrets:
         []
@@ -2436,24 +2436,24 @@ spec:
         - name: config
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-config
+            secretName: release-name-ace-config
         - name: data
           emptyDir: {}
         - name: objstore-cred
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-objstore-cred
+            secretName: release-name-ace-objstore-cred
 ---
 # Source: ace/charts/platform-ui/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-platform-ui
+  name: release-name-platform-ui
   namespace: default
   labels:
     helm.sh/chart: platform-ui-0.1.0
     app.kubernetes.io/name: platform-ui
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2461,14 +2461,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: platform-ui
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       annotations:
         secret.reloader.stakater.com/reload: ace-config
       labels:
         app.kubernetes.io/name: platform-ui
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       imagePullSecrets:
         []
@@ -2512,24 +2512,24 @@ spec:
         - name: config
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-config
+            secretName: release-name-ace-config
         - name: data
           emptyDir: {}
         - name: objstore-cred
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-objstore-cred
+            secretName: release-name-ace-objstore-cred
 ---
 # Source: ace/charts/prom-proxy/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-prom-proxy
+  name: release-name-prom-proxy
   namespace: default
   labels:
     helm.sh/chart: prom-proxy-0.1.0
     app.kubernetes.io/name: prom-proxy
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2537,14 +2537,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: prom-proxy
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       annotations:
         secret.reloader.stakater.com/reload: ace-config
       labels:
         app.kubernetes.io/name: prom-proxy
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
     spec:
       imagePullSecrets:
         []
@@ -2591,11 +2591,11 @@ spec:
         - name: config
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-config
+            secretName: release-name-ace-config
         - name: objstore-cred
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-objstore-cred
+            secretName: release-name-ace-objstore-cred
 ---
 # Source: ace/charts/reloader/templates/deployment.yaml
 apiVersion: apps/v1
@@ -2603,31 +2603,31 @@ kind: Deployment
 metadata:
   annotations:
     meta.helm.sh/release-namespace: "default"
-    meta.helm.sh/release-name: "RELEASE-NAME"
+    meta.helm.sh/release-name: "release-name"
   labels:
-    app: RELEASE-NAME-reloader
+    app: release-name-reloader
     chart: "reloader-v0.0.110"
-    release: "RELEASE-NAME"
+    release: "release-name"
     heritage: "Helm"
     app.kubernetes.io/managed-by: "Helm"
     group: com.stakater.platform
     provider: stakater
     version: v0.0.110
-  name: RELEASE-NAME-reloader
+  name: release-name-reloader
   namespace: default
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: RELEASE-NAME-reloader
-      release: "RELEASE-NAME"
+      app: release-name-reloader
+      release: "release-name"
   template:
     metadata:
       labels:
-        app: RELEASE-NAME-reloader
+        app: release-name-reloader
         chart: "reloader-v0.0.110"
-        release: "RELEASE-NAME"
+        release: "release-name"
         heritage: "Helm"
         app.kubernetes.io/managed-by: "Helm"
         group: com.stakater.platform
@@ -2637,7 +2637,7 @@ spec:
       containers:
       - image: "stakater/reloader:v0.0.110"
         imagePullPolicy: IfNotPresent
-        name: RELEASE-NAME-reloader
+        name: release-name-reloader
 
         ports:
         - name: http
@@ -2661,27 +2661,27 @@ spec:
       securityContext: 
         runAsNonRoot: true
         runAsUser: 65534
-      serviceAccountName: RELEASE-NAME-reloader
+      serviceAccountName: release-name-reloader
 ---
 # Source: ace/charts/nats/templates/statefulset.yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: RELEASE-NAME-nats
+  name: release-name-nats
   namespace: default
   labels:
     helm.sh/chart: nats-0.17.0
     app.kubernetes.io/name: nats
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2.8.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: nats
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   replicas: 1
-  serviceName: RELEASE-NAME-nats
+  serviceName: release-name-nats
 
   podManagementPolicy: 
 
@@ -2693,14 +2693,14 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app.kubernetes.io/name: nats
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
         secret.reloader.stakater.com/reload: ace-cert
     spec:
       # Common volumes for the containers.
       volumes:
       - name: config-volume
         configMap:
-          name: RELEASE-NAME-nats-config
+          name: release-name-nats-config
 
       # Local volume shared with the reloader.
       - name: pid
@@ -2720,7 +2720,7 @@ spec:
         secret:
           secretName: ace-cert
 
-      serviceAccountName: RELEASE-NAME-nats
+      serviceAccountName: release-name-nats
 
       # Required to be able to HUP signal and apply config
       # reload to the server without restarting the pod.
@@ -2775,7 +2775,7 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: CLUSTER_ADVERTISE
-          value: $(POD_NAME).RELEASE-NAME-nats.$(POD_NAMESPACE)
+          value: $(POD_NAME).release-name-nats.$(POD_NAMESPACE)
         volumeMounts:
         - name: config-volume
           mountPath: /etc/nats-config
@@ -2783,7 +2783,7 @@ spec:
           mountPath: /var/run/nats
         - name: nats-jwt-pvc
           mountPath: /etc/nats-config/accounts/jwt
-        - name: RELEASE-NAME-nats-js-pvc
+        - name: release-name-nats-js-pvc
           mountPath: /nats/jetstream
         
         #######################
@@ -2884,7 +2884,7 @@ spec:
   #                                   #
   #####################################
     - metadata:
-        name: RELEASE-NAME-nats-js-pvc
+        name: release-name-nats-js-pvc
       spec:
         accessModes:
           - ReadWriteOnce
@@ -2897,12 +2897,12 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: RELEASE-NAME-ace-setup
+  name: release-name-ace-setup
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -2921,14 +2921,14 @@ spec:
           image: "/:v2022.06.09.1"
           imagePullPolicy: 
           command:
-            - sh
-            - -c
-            - "sleep 120; gitea dev --reload-nats-accounts"
-            # - gitea
-            # - dev
-            # - --reload-nats-accounts
+            # - sh
+            # - -c
+            # - "sleep 120; gitea dev --reload-nats-accounts"
+            - gitea
+            - dev
+            - --reload-nats-accounts
+            
             # - --register-crds
-            # - --crate-nats-stream
             # - --create-products
             # - --migrate
           # ports:
@@ -2966,33 +2966,51 @@ spec:
         - name: config
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-config
+            secretName: release-name-ace-config
         - name: nats-cred
           secret:
             defaultMode: 420
-            secretName: RELEASE-NAME-ace-nats-cred
+            secretName: release-name-ace-nats-cred
         #
         # - name: objstore-cred
         #   secret:
         #     defaultMode: 420
-        #     secretName: RELEASE-NAME-ace-objstore-cred
+        #     secretName: release-name-ace-objstore-cred
         #
       restartPolicy: Never
+---
+# Source: ace/charts/ingress-nginx/templates/controller-ingressclass.yaml
+# We don't support namespaced ingressClass yet
+# So a ClusterRole and a ClusterRoleBinding is required
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  labels:
+    helm.sh/chart: ingress-nginx-4.1.0
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.2.0"
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: controller
+  name: nginx-ace
+spec:
+  controller: k8s.io/ingress-nginx-ace
 ---
 # Source: ace/templates/ingress/ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: RELEASE-NAME-ace
+  name: release-name-ace
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    cert-manager.io/issuer: RELEASE-NAME-ace
+    cert-manager.io/issuer: release-name-ace
 spec:
   ingressClassName: nginx-ace
   rules:
@@ -3001,7 +3019,7 @@ spec:
       paths:
       - backend:
           service:
-            name: RELEASE-NAME-ace-platform-ui
+            name: release-name-ace-platform-ui
             port:
               number: 80
         path: /
@@ -3011,7 +3029,7 @@ spec:
       paths:
       - backend:
           service:
-            name: RELEASE-NAME-ace-accounts-ui
+            name: release-name-ace-accounts-ui
             port:
               number: 80
         path: /
@@ -3021,7 +3039,7 @@ spec:
       paths:
       - backend:
           service:
-            name: RELEASE-NAME-ace-platform-api
+            name: release-name-ace-platform-api
             port:
               number: 80
         path: /api/
@@ -3031,7 +3049,7 @@ spec:
       paths:
       - backend:
           service:
-            name: RELEASE-NAME-ace-cluster-ui
+            name: release-name-ace-cluster-ui
             port:
               number: 80
         path: /
@@ -3041,7 +3059,7 @@ spec:
       paths:
       - backend:
           service:
-            name: RELEASE-NAME-ace-grafana
+            name: release-name-ace-grafana
             port:
               number: 80
         path: /
@@ -3051,7 +3069,7 @@ spec:
       paths:
       - backend:
           service:
-            name: RELEASE-NAME-ace-kubedb-ui
+            name: release-name-ace-kubedb-ui
             port:
               number: 80
         path: /
@@ -3061,13 +3079,13 @@ spec:
       paths:
       - backend:
           service:
-            name: RELEASE-NAME-ace-prom-proxy
+            name: release-name-ace-prom-proxy
             port:
               number: 80
         path: /
         pathType: Prefix
   tls:
-  - secretName: RELEASE-NAME-ace-cert
+  - secretName: release-name-ace-cert
     hosts:
     - ''
     - 'accounts.'
@@ -3086,17 +3104,17 @@ spec:
 apiVersion: stash.appscode.com/v1beta1
 kind: BackupConfiguration
 metadata:
-  name: RELEASE-NAME-ace-db
+  name: release-name-ace-db
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   repository:
-    name: RELEASE-NAME-ace-db-repo
+    name: release-name-ace-db-repo
   retentionPolicy:
     keepLast: 5
     name: keep-last-5
@@ -3106,36 +3124,18 @@ spec:
     ref:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
-      name: RELEASE-NAME-ace-db
----
-# Source: ace/charts/ingress-nginx/templates/controller-ingressclass.yaml
-# We don't support namespaced ingressClass yet
-# So a ClusterRole and a ClusterRoleBinding is required
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  labels:
-    helm.sh/chart: ingress-nginx-4.1.0
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
-    app.kubernetes.io/version: "1.2.0"
-    app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: controller
-  name: nginx-ace
-spec:
-  controller: k8s.io/ingress-nginx-ace
+      name: release-name-ace-db
 ---
 # Source: ace/templates/ingress/issuer.yaml
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: RELEASE-NAME-ace
+  name: release-name-ace
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -3144,7 +3144,7 @@ spec:
     email: ops@appscode.cloud
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: RELEASE-NAME-ace-cert-cred
+      name: release-name-ace-cert-cred
     # ACME DNS-01 provider configurations
     solvers:
     # An empty 'selector' means that this solver matches all domains
@@ -3155,12 +3155,12 @@ spec:
 apiVersion: kubedb.com/v1alpha2
 kind: Postgres
 metadata:
-  name: RELEASE-NAME-ace-db
+  name: release-name-ace-db
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -3184,14 +3184,14 @@ spec:
           memory: 512Mi
   terminationPolicy: Delete
   authSecret:
-    name: RELEASE-NAME-ace-db-auth
+    name: release-name-ace-db-auth
   configSecret:
-    name: RELEASE-NAME-ace-db-config
+    name: release-name-ace-db-config
   init:
     waitForInitialRestore: false
     script:
       secret:
-        secretName: RELEASE-NAME-ace-db-init-script
+        secretName: release-name-ace-db-init-script
   monitor:
     agent: prometheus.io/operator
     prometheus:
@@ -3211,12 +3211,12 @@ spec:
 apiVersion: kubedb.com/v1alpha2
 kind: Redis
 metadata:
-  name: RELEASE-NAME-ace-cache
+  name: release-name-ace-cache
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -3239,7 +3239,7 @@ spec:
           memory: 512Mi
   terminationPolicy: Delete
   authSecret:
-    name: RELEASE-NAME-ace-cache-auth
+    name: release-name-ace-cache-auth
   monitor:
     agent: prometheus.io/operator
     prometheus:
@@ -3259,26 +3259,26 @@ spec:
 apiVersion: stash.appscode.com/v1alpha1
 kind: Repository
 metadata:
-  name: RELEASE-NAME-ace-db-repo
+  name: release-name-ace-db-repo
   namespace: default
   labels:
     helm.sh/chart: ace-0.1.0
     app.kubernetes.io/name: ace
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v2022.06.09.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   backend:
     gcs:
       bucket: stash-testing
-      prefix: /RELEASE-NAME-ace/db
-    storageSecretName: RELEASE-NAME-ace-backup-repo-cred
+      prefix: /release-name-ace/db
+    storageSecretName: release-name-ace-backup-repo-cred
 ---
 # Source: ace/charts/accounts-ui/templates/servicemonitor.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: RELEASE-NAME-accounts-ui
+  name: release-name-accounts-ui
   namespace: default
   labels:
     
@@ -3290,7 +3290,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: accounts-ui
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   endpoints:
   - path: /metrics
     port: metrics
@@ -3300,7 +3300,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: RELEASE-NAME-grafana
+  name: release-name-grafana
   namespace: default
   labels:
     
@@ -3312,7 +3312,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: grafana
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   endpoints:
   - path: /metrics
     port: metrics
@@ -3322,7 +3322,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: RELEASE-NAME-nats
+  name: release-name-nats
   namespace: default
   labels:
     release: kube-prometheus-stack
@@ -3335,13 +3335,13 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: nats
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
 ---
 # Source: ace/charts/platform-api/templates/servicemonitor.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: RELEASE-NAME-platform-api
+  name: release-name-platform-api
   namespace: default
   labels:
     
@@ -3353,7 +3353,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: platform-api
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   endpoints:
   - path: /metrics
     port: metrics
@@ -3363,7 +3363,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: RELEASE-NAME-platform-ui
+  name: release-name-platform-ui
   namespace: default
   labels:
     
@@ -3375,7 +3375,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: platform-ui
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   endpoints:
   - path: /metrics
     port: metrics
@@ -3385,7 +3385,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: RELEASE-NAME-prom-proxy
+  name: release-name-prom-proxy
   namespace: default
   labels:
     
@@ -3397,7 +3397,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: prom-proxy
-      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/instance: release-name
   endpoints:
   - path: /metrics
     port: metrics
@@ -3412,12 +3412,12 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: admission-webhook
-  name: RELEASE-NAME-ingress-nginx-admission
+  name: release-name-ingress-nginx-admission
 webhooks:
   - name: validate.nginx.ingress.kubernetes.io
     matchPolicy: Equivalent
@@ -3438,14 +3438,14 @@ webhooks:
     clientConfig:
       service:
         namespace: "default"
-        name: RELEASE-NAME-ingress-nginx-controller-admission
+        name: release-name-ingress-nginx-controller-admission
         path: /networking/v1/ingresses
 ---
 # Source: ace/charts/ingress-nginx/templates/admission-webhooks/job-patch/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: RELEASE-NAME-ingress-nginx-admission
+  name: release-name-ingress-nginx-admission
   namespace: default
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade
@@ -3453,7 +3453,7 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
@@ -3463,14 +3463,14 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: RELEASE-NAME-ingress-nginx-admission
+  name: release-name-ingress-nginx-admission
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
@@ -3488,14 +3488,14 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name:  RELEASE-NAME-ingress-nginx-admission
+  name:  release-name-ingress-nginx-admission
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
@@ -3503,17 +3503,17 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: RELEASE-NAME-ingress-nginx-admission
+  name: release-name-ingress-nginx-admission
 subjects:
   - kind: ServiceAccount
-    name: RELEASE-NAME-ingress-nginx-admission
+    name: release-name-ingress-nginx-admission
     namespace: "default"
 ---
 # Source: ace/charts/ingress-nginx/templates/admission-webhooks/job-patch/role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name:  RELEASE-NAME-ingress-nginx-admission
+  name:  release-name-ingress-nginx-admission
   namespace: default
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade
@@ -3521,7 +3521,7 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
@@ -3539,7 +3539,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: RELEASE-NAME-ingress-nginx-admission
+  name: release-name-ingress-nginx-admission
   namespace: default
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade
@@ -3547,7 +3547,7 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
@@ -3555,21 +3555,21 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: RELEASE-NAME-ingress-nginx-admission
+  name: release-name-ingress-nginx-admission
 subjects:
   - kind: ServiceAccount
-    name: RELEASE-NAME-ingress-nginx-admission
+    name: release-name-ingress-nginx-admission
     namespace: "default"
 ---
 # Source: ace/charts/nats/templates/tests/test-request-reply.yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "RELEASE-NAME-nats-test-request-reply"
+  name: "release-name-nats-test-request-reply"
   labels:
     helm.sh/chart: nats-0.17.0
     app.kubernetes.io/name: nats
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2.8.0"
     app.kubernetes.io/managed-by: Helm
   annotations:
@@ -3580,7 +3580,7 @@ spec:
     image: synadia/nats-box
     env:
     - name: NATS_HOST
-      value: RELEASE-NAME-nats
+      value: release-name-nats
     command:
     - /bin/sh
     - -ec
@@ -3601,7 +3601,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: RELEASE-NAME-ingress-nginx-admission-create
+  name: release-name-ingress-nginx-admission-create
   namespace: default
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
@@ -3609,7 +3609,7 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
@@ -3617,11 +3617,11 @@ metadata:
 spec:
   template:
     metadata:
-      name: RELEASE-NAME-ingress-nginx-admission-create
+      name: release-name-ingress-nginx-admission-create
       labels:
         helm.sh/chart: ingress-nginx-4.1.0
         app.kubernetes.io/name: ingress-nginx
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
         app.kubernetes.io/version: "1.2.0"
         app.kubernetes.io/part-of: ingress-nginx
         app.kubernetes.io/managed-by: Helm
@@ -3633,9 +3633,9 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - create
-            - --host=RELEASE-NAME-ingress-nginx-controller-admission,RELEASE-NAME-ingress-nginx-controller-admission.$(POD_NAMESPACE).svc
+            - --host=release-name-ingress-nginx-controller-admission,release-name-ingress-nginx-controller-admission.$(POD_NAMESPACE).svc
             - --namespace=$(POD_NAMESPACE)
-            - --secret-name=RELEASE-NAME-ingress-nginx-admission
+            - --secret-name=release-name-ingress-nginx-admission
           env:
             - name: POD_NAMESPACE
               valueFrom:
@@ -3644,7 +3644,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
       restartPolicy: OnFailure
-      serviceAccountName: RELEASE-NAME-ingress-nginx-admission
+      serviceAccountName: release-name-ingress-nginx-admission
       nodeSelector: 
         kubernetes.io/os: linux
       securityContext:
@@ -3656,7 +3656,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: RELEASE-NAME-ingress-nginx-admission-patch
+  name: release-name-ingress-nginx-admission-patch
   namespace: default
   annotations:
     "helm.sh/hook": post-install,post-upgrade
@@ -3664,7 +3664,7 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.1.0
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "1.2.0"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
@@ -3672,11 +3672,11 @@ metadata:
 spec:
   template:
     metadata:
-      name: RELEASE-NAME-ingress-nginx-admission-patch
+      name: release-name-ingress-nginx-admission-patch
       labels:
         helm.sh/chart: ingress-nginx-4.1.0
         app.kubernetes.io/name: ingress-nginx
-        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/instance: release-name
         app.kubernetes.io/version: "1.2.0"
         app.kubernetes.io/part-of: ingress-nginx
         app.kubernetes.io/managed-by: Helm
@@ -3688,10 +3688,10 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - patch
-            - --webhook-name=RELEASE-NAME-ingress-nginx-admission
+            - --webhook-name=release-name-ingress-nginx-admission
             - --namespace=$(POD_NAMESPACE)
             - --patch-mutating=false
-            - --secret-name=RELEASE-NAME-ingress-nginx-admission
+            - --secret-name=release-name-ingress-nginx-admission
             - --patch-failure-policy=Fail
           env:
             - name: POD_NAMESPACE
@@ -3701,7 +3701,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
       restartPolicy: OnFailure
-      serviceAccountName: RELEASE-NAME-ingress-nginx-admission
+      serviceAccountName: release-name-ingress-nginx-admission
       nodeSelector: 
         kubernetes.io/os: linux
       securityContext:
