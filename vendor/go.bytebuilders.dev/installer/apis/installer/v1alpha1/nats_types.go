@@ -51,22 +51,22 @@ type NatsSpec struct {
 	Mqtt                      NatsMqttSpec                    `json:"mqtt"`
 	NameOverride              string                          `json:"nameOverride"`
 	NamespaceOverride         string                          `json:"namespaceOverride"`
-	ImagePullSecrets          []string                        `json:"imagePullSecrets"`
+	ImagePullSecrets          []string                        `json:"imagePullSecrets,omitempty"`
 	SecurityContext           *core.SecurityContext           `json:"securityContext"`
 	Affinity                  *core.Affinity                  `json:"affinity"`
 	PriorityClassName         *string                         `json:"priorityClassName"`
-	TopologyKeys              []string                        `json:"topologyKeys"`
-	TopologySpreadConstraints []core.TopologySpreadConstraint `json:"topologySpreadConstraints"`
+	TopologyKeys              []string                        `json:"topologyKeys,omitempty"`
+	TopologySpreadConstraints []core.TopologySpreadConstraint `json:"topologySpreadConstraints,omitempty"`
 	PodAnnotations            map[string]string               `json:"podAnnotations"`
 	PodDisruptionBudget       NatsPodDisruptionBudgetSpec     `json:"podDisruptionBudget"`
 	NodeSelector              map[string]string               `json:"nodeSelector"`
-	Tolerations               []core.Toleration               `json:"tolerations"`
+	Tolerations               []core.Toleration               `json:"tolerations,omitempty"`
 	StatefulSetAnnotations    map[string]string               `json:"statefulSetAnnotations"`
 	StatefulSetPodLabels      map[string]string               `json:"statefulSetPodLabels"`
 	ServiceAnnotations        map[string]string               `json:"serviceAnnotations"`
-	AdditionalContainers      []core.Container                `json:"additionalContainers"`
-	AdditionalVolumes         []core.Volume                   `json:"additionalVolumes"`
-	AdditionalVolumeMounts    []core.VolumeMount              `json:"additionalVolumeMounts"`
+	AdditionalContainers      []core.Container                `json:"additionalContainers,omitempty"`
+	AdditionalVolumes         []core.Volume                   `json:"additionalVolumes,omitempty"`
+	AdditionalVolumeMounts    []core.VolumeMount              `json:"additionalVolumeMounts,omitempty"`
 	Cluster                   NatsClusterSpec                 `json:"cluster"`
 	Leafnodes                 NatsLeafnodesSpec               `json:"leafnodes"`
 	Gateway                   NatsGatewaySpec                 `json:"gateway"`
@@ -88,7 +88,7 @@ type NatsServerSpec struct {
 	Image                         string                    `json:"image"`
 	PullPolicy                    string                    `json:"pullPolicy"`
 	ServerNamePrefix              string                    `json:"serverNamePrefix"`
-	ServerTags                    []string                  `json:"serverTags"`
+	ServerTags                    []string                  `json:"serverTags,omitempty"`
 	Profiling                     NatsServerProfilingSpec   `json:"profiling"`
 	Healthcheck                   NatsServerHealthcheckSpec `json:"healthcheck"`
 	ConfigChecksumAnnotation      bool                      `json:"configChecksumAnnotation"`
@@ -186,7 +186,7 @@ type JetstreamFileStorage struct {
 	// +optional
 	StorageClassName string            `json:"storageClassName,omitempty"`
 	Size             resource.Quantity `json:"size"`
-	AccessModes      []string          `json:"accessModes"`
+	AccessModes      []string          `json:"accessModes,omitempty"`
 	Annotations      map[string]string `json:"annotations"`
 }
 
@@ -214,7 +214,7 @@ type NatsClusterSpec struct {
 	Enabled       bool               `json:"enabled"`
 	Replicas      int                `json:"replicas"`
 	NoAdvertise   bool               `json:"noAdvertise"`
-	ExtraRoutes   []string           `json:"extraRoutes"`
+	ExtraRoutes   []string           `json:"extraRoutes,omitempty"`
 	Authorization *NatsAuthorization `json:"authorization,omitempty"`
 	TLS           *TLSSpec           `json:"tls,omitempty"`
 }
@@ -272,15 +272,15 @@ type NatsboxSpec struct {
 	PullPolicy       string                `json:"pullPolicy"`
 	SecurityContext  *core.SecurityContext `json:"securityContext"`
 	AdditionalLabels map[string]string     `json:"additionalLabels"`
-	ImagePullSecrets []string              `json:"imagePullSecrets"`
+	ImagePullSecrets []string              `json:"imagePullSecrets,omitempty"`
 	PodAnnotations   map[string]string     `json:"podAnnotations"`
 	PodLabels        map[string]string     `json:"podLabels"`
 	Affinity         *core.Affinity        `json:"affinity"`
 	//+optional
-	NodeSelector      map[string]string  `json:"nodeSelector,omitempty"`
-	Tolerations       []core.Toleration  `json:"tolerations"`
-	ExtraVolumeMounts []core.VolumeMount `json:"extraVolumeMounts"`
-	ExtraVolumes      []core.Volume      `json:"extraVolumes"`
+	NodeSelector      map[string]string  `json:"nodeSelector"`
+	Tolerations       []core.Toleration  `json:"tolerations,omitempty"`
+	ExtraVolumeMounts []core.VolumeMount `json:"extraVolumeMounts,omitempty"`
+	ExtraVolumes      []core.Volume      `json:"extraVolumes,omitempty"`
 }
 
 type NatsReloaderSpec struct {

@@ -49,7 +49,7 @@ type BillingSpec struct {
 	RegistryFQDN string         `json:"registryFQDN"`
 	Image        ImageReference `json:"image"`
 	//+optional
-	ImagePullSecrets []string `json:"imagePullSecrets"`
+	ImagePullSecrets []string `json:"imagePullSecrets,omitempty"`
 	//+optional
 	NameOverride string `json:"nameOverride"`
 	//+optional
@@ -65,10 +65,10 @@ type BillingSpec struct {
 	//+optional
 	Resources core.ResourceRequirements `json:"resources"`
 	//+optional
-	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
+	NodeSelector map[string]string `json:"nodeSelector"`
 	// If specified, the pod's tolerations.
 	// +optional
-	Tolerations []core.Toleration `json:"tolerations"`
+	Tolerations []core.Toleration `json:"tolerations,omitempty"`
 	// If specified, the pod's scheduling constraints
 	// +optional
 	Affinity    *core.Affinity  `json:"affinity"`

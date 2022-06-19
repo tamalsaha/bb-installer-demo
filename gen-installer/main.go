@@ -26,6 +26,8 @@ import (
 // DNS record configure
 
 func main() {
+	chartDir := filepath.Join(homedir.HomeDir(), "go/src/go.bytebuilders.dev/installer")
+
 	if err := os.RemoveAll(confDir()); err != nil {
 		panic(errors.Wrapf(err, "failed to delete dir: %s", confDir()))
 	}
@@ -40,7 +42,17 @@ func main() {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "options.yaml"), data, 0o644)
 	}
 
-	out, err := Convert(in)
+	out := new(api.AceSpec)
+	data, err := ioutil.ReadFile(filepath.Join(chartDir, "charts", "ace", "values.yaml"))
+	if err != nil {
+		panic(err)
+	}
+	err = yaml.Unmarshal(data, out)
+	if err != nil {
+		panic(err)
+	}
+
+	err = Convert(in, out)
 	if err != nil {
 		panic(err)
 	}
@@ -51,7 +63,6 @@ func main() {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0o644)
 	}
 
-	chartDir := filepath.Join(homedir.HomeDir(), "go/src/go.bytebuilders.dev/installer")
 	sh := shell.NewSession()
 	sh.SetDir(chartDir)
 	sh.ShowCMD = true
@@ -63,21 +74,20 @@ func main() {
 	}
 }
 
-func Convert(in *api.AceOptionsSpec) (*api.AceSpec, error) {
-	out := new(api.AceSpec)
+func Convert(in *api.AceOptionsSpec, out *api.AceSpec) error {
 	if err := InitComponents(in, out); err != nil {
-		return nil, err
+		return err
 	}
 	if err := GeneratePlatformValues(in, out); err != nil {
-		return nil, err
+		return err
 	}
 	if err := GenerateIngress(in, out); err != nil {
-		return nil, err
+		return err
 	}
 	if err := GenerateNats(in, out); err != nil {
-		return nil, err
+		return err
 	}
-	return out, nil
+	return nil
 }
 
 func NewOptions() *api.AceOptionsSpec {

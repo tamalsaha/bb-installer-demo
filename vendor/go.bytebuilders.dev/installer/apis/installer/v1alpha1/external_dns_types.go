@@ -46,7 +46,7 @@ type ExternalDns struct {
 // ExternalDnsSpec is the schema for ExternalDns Operator values file
 type ExternalDnsSpec struct {
 	Image                         ExternalDnsImageReference     `json:"image"`
-	ImagePullSecrets              []string                      `json:"imagePullSecrets"`
+	ImagePullSecrets              []string                      `json:"imagePullSecrets,omitempty"`
 	NameOverride                  string                        `json:"nameOverride"`
 	FullnameOverride              string                        `json:"fullnameOverride"`
 	ServiceAccount                ExternalDnsServiceAccountSpec `json:"serviceAccount"`
@@ -60,31 +60,31 @@ type ExternalDnsSpec struct {
 	PriorityClassName             string                        `json:"priorityClassName"`
 	TerminationGracePeriodSeconds *int64                        `json:"terminationGracePeriodSeconds"`
 	ServiceMonitor                ExternalDnsServiceMonitorSpec `json:"serviceMonitor"`
-	Env                           []core.EnvVar                 `json:"env"`
+	Env                           []core.EnvVar                 `json:"env,omitempty"`
 	LivenessProbe                 *core.Probe                   `json:"livenessProbe"`
 	ReadinessProbe                *core.Probe                   `json:"readinessProbe"`
 	Service                       ExternalDnsServiceSpec        `json:"service"`
-	ExtraVolumes                  []core.Volume                 `json:"extraVolumes"`
-	ExtraVolumeMounts             []core.VolumeMount            `json:"extraVolumeMounts"`
+	ExtraVolumes                  []core.Volume                 `json:"extraVolumes,omitempty"`
+	ExtraVolumeMounts             []core.VolumeMount            `json:"extraVolumeMounts,omitempty"`
 	Resources                     core.ResourceRequirements     `json:"resources"`
 	//+optional
-	NodeSelector              map[string]string               `json:"nodeSelector,omitempty"`
-	Tolerations               []core.Toleration               `json:"tolerations"`
+	NodeSelector              map[string]string               `json:"nodeSelector"`
+	Tolerations               []core.Toleration               `json:"tolerations,omitempty"`
 	Affinity                  *core.Affinity                  `json:"affinity"`
-	TopologySpreadConstraints []core.TopologySpreadConstraint `json:"topologySpreadConstraints"`
+	TopologySpreadConstraints []core.TopologySpreadConstraint `json:"topologySpreadConstraints,omitempty"`
 	LogLevel                  string                          `json:"logLevel"`
 	LogFormat                 string                          `json:"logFormat"`
 	Interval                  string                          `json:"interval"`
 	TriggerLoopOnEvent        bool                            `json:"triggerLoopOnEvent"`
-	Sources                   []string                        `json:"sources"`
+	Sources                   []string                        `json:"sources,omitempty"`
 	Policy                    string                          `json:"policy"`
 	Registry                  string                          `json:"registry"`
 	TxtOwnerID                string                          `json:"txtOwnerId"`
 	TxtPrefix                 string                          `json:"txtPrefix"`
 	TxtSuffix                 string                          `json:"txtSuffix"`
-	DomainFilters             []string                        `json:"domainFilters"`
+	DomainFilters             []string                        `json:"domainFilters,omitempty"`
 	Provider                  string                          `json:"provider"`
-	ExtraArgs                 []string                        `json:"extraArgs"`
+	ExtraArgs                 []string                        `json:"extraArgs,omitempty"`
 }
 
 type ExternalDnsImageReference struct {
@@ -101,7 +101,7 @@ type ExternalDnsServiceAccountSpec struct {
 
 type ExternalDnsRbacSpec struct {
 	Create                bool              `json:"create"`
-	AdditionalPermissions []rbac.PolicyRule `json:"additionalPermissions"`
+	AdditionalPermissions []rbac.PolicyRule `json:"additionalPermissions,omitempty"`
 }
 
 type ExternalDnsServiceMonitorSpec struct {

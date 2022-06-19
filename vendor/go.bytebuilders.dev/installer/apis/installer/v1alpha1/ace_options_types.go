@@ -49,7 +49,7 @@ type AceOptionsSpec struct {
 	License          string                  `json:"license"`
 	Registry         string                  `json:"registry"`
 	RegistryFQDN     string                  `json:"registryFQDN"`
-	ImagePullSecrets []string                `json:"imagePullSecrets"`
+	ImagePullSecrets []string                `json:"imagePullSecrets,omitempty"`
 	Monitoring       GlobalMonitoring        `json:"monitoring"`
 	Infra            AceOptionsPlatformInfra `json:"infra"`
 	Settings         AceOptionsSettings      `json:"settings"`
@@ -72,7 +72,7 @@ type AceOptionsComponentSpec struct {
 	//+optional
 	Resources core.ResourceRequirements `json:"resources"`
 	// +optional
-	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
+	NodeSelector map[string]string `json:"nodeSelector"`
 }
 
 // +kubebuilder:validation:Enum=LoadBalancer;HostPort
@@ -100,7 +100,7 @@ type AceOptionsNatsSettings struct {
 	//+optional
 	Resources core.ResourceRequirements `json:"resources"`
 	//+optional
-	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
+	NodeSelector map[string]string `json:"nodeSelector"`
 }
 
 type AceOptionsPlatformInfra struct {
