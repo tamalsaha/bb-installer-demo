@@ -19,6 +19,7 @@ grafana:
   nodeSelector: null
   resources: {}
 hosted: false
+imagePullSecrets: null
 infra:
   cloudServices:
     auth:

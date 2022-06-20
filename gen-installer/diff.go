@@ -49,7 +49,7 @@ func getValuesDiff(original, modified map[string]interface{}, prefix string, dif
 	}
 
 	// https://github.com/kubepack/lib-helm/blob/32de2acacbfb84f57d4a66c6d896360eb664399c/pkg/values/options.go#L133
-	for k := range original {
+	for k, v := range original {
 		if _, found := modified[k]; !found {
 			curKey := ""
 			if prefix == "" {
@@ -60,7 +60,7 @@ func getValuesDiff(original, modified map[string]interface{}, prefix string, dif
 
 			// TODO: how does Helm merge --values remove keys?
 			// diff[k] = nil
-			return nil, fmt.Errorf("key %s is missing in the modified values", curKey)
+			return nil, fmt.Errorf("key %s is missing in the modified values, original values %v", curKey, v)
 		}
 	}
 	return diff, nil
