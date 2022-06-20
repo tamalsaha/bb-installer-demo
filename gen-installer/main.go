@@ -59,7 +59,7 @@ func main() {
 	}
 
 	outMod := outOrig.DeepCopy()
-	err = Convert(in, outMod)
+	err = Convert(in, outOrig, outMod)
 	if err != nil {
 		panic(err)
 	}
@@ -107,11 +107,11 @@ func toJson(v interface{}) (map[string]interface{}, error) {
 	return out, nil
 }
 
-func Convert(in *api.AceOptionsSpec, out *api.AceSpec) error {
+func Convert(in *api.AceOptionsSpec, base, out *api.AceSpec) error {
 	if err := InitComponents(in, out); err != nil {
 		return err
 	}
-	if err := GeneratePlatformValues(in, out); err != nil {
+	if err := GeneratePlatformValues(in, base, out); err != nil {
 		return err
 	}
 	if err := GenerateIngress(in, out); err != nil {
@@ -901,17 +901,17 @@ func GenerateNats(in *api.AceOptionsSpec, out *api.AceSpec) error {
 	return nil
 }
 
-func GeneratePlatformValues(in *api.AceOptionsSpec, out *api.AceSpec) error {
+func GeneratePlatformValues(in *api.AceOptionsSpec, base, out *api.AceSpec) error {
 	out.Global = api.AceGlobalValues{
-		NameOverride: in.Release.Name,
-		Hosted:       in.Hosted,
-		// FullnameOverride: "",
-		// License:          "",
-		// Registry:         "",
-		// RegistryFQDN:     "",
-		// ImagePullSecrets: nil,
-		// ServiceAccount:   api.NatsServiceAccountSpec{},
-		Monitoring: in.Monitoring,
+		NameOverride:     in.Release.Name,
+		Hosted:           in.Hosted,
+		FullnameOverride: base.Global.FullnameOverride,
+		License:          base.Global.License,
+		Registry:         base.Global.Registry,
+		RegistryFQDN:     base.Global.RegistryFQDN,
+		ImagePullSecrets: base.Global.ImagePullSecrets,
+		ServiceAccount:   base.Global.ServiceAccount,
+		Monitoring:       in.Monitoring,
 		Infra: api.PlatformInfra{
 			StorageClass: in.Infra.StorageClass,
 			TLS: api.InfraTLS{

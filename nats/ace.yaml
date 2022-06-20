@@ -23,6 +23,19 @@ metadata:
     app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 ---
+# Source: ace/templates/rbac/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-ace
+  namespace: default
+  labels:
+    helm.sh/chart: ace-v2022.06.14
+    app.kubernetes.io/name: ace
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v2022.06.09.1"
+    app.kubernetes.io/managed-by: Helm
+---
 # Source: ace/templates/cache/cache-auth.yaml
 apiVersion: v1
 kind: Secret
@@ -39,7 +52,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: 'root'
-  password: 'US0bybkuvgkkOf.B'
+  password: 'DF*rN_3g(pKl&FvI'
 ---
 # Source: ace/templates/db/db-auth.yaml
 apiVersion: v1
@@ -57,7 +70,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: 'postgres'
-  password: 'P_6RXAAhFkAYg2~4'
+  password: 'HO&pUpDL5_3PnNnK'
 ---
 # Source: ace/templates/db/db-config.yaml
 apiVersion: v1
@@ -186,7 +199,7 @@ stringData:
     name = ace
     user = postgres
     # If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""
-    password = P_6RXAAhFkAYg2~4
+    password = HO&pUpDL5_3PnNnK
     # Use either URL or the previous fields to configure the database
     # Example: mysql://user:secret@host:port/database
     url =
@@ -235,7 +248,7 @@ stringData:
     # database: will use Grafana primary database.
     # redis: config like redis server e.g. `addr=127.0.0.1:6379,pool_size=100,db=grafana`
     # memcache: 127.0.0.1:11211
-    connstr = addr=release-name-ace-cache.default:6379,password='US0bybkuvgkkOf.B',db=1,pool_size=100
+    connstr = addr=release-name-ace-cache.default:6379,password='DF*rN_3g(pKl&FvI',db=1,pool_size=100
 
     #################################### Session #############################
     [session]
@@ -253,7 +266,7 @@ stringData:
     # memcache: 127.0.0.1:11211
 
 
-    provider_config = addr=release-name-ace-cache.default:6379,password='US0bybkuvgkkOf.B',db=0,pool_size=100
+    provider_config = addr=release-name-ace-cache.default:6379,password='DF*rN_3g(pKl&FvI',db=0,pool_size=100
 
     # Session cookie name
     cookie_name = i_like_bytebuilders
@@ -897,18 +910,18 @@ stringData:
     HOST = release-name-ace-db.default:5432
     NAME = ace
     USER = postgres
-    PASSWD = P_6RXAAhFkAYg2~4
+    PASSWD = HO&pUpDL5_3PnNnK
 
     [session]
     DOMAIN = appscode.cloud
     PROVIDER = redis
-    PROVIDER_CONFIG = network=tcp,addr=release-name-ace-cache.default:6379,password='US0bybkuvgkkOf.B',db=0,pool_size=100,idle_timeout=180,prefix=session-
+    PROVIDER_CONFIG = network=tcp,addr=release-name-ace-cache.default:6379,password='DF*rN_3g(pKl&FvI',db=0,pool_size=100,idle_timeout=180,prefix=session-
     COOKIE_NAME = i_like_bytebuilders
 
     [cache]
     ADAPTER = redis
     INTERVAL = 60
-    HOST = network=tcp,addr=release-name-ace-cache.default:6379,password='US0bybkuvgkkOf.B',db=1,pool_size=100,idle_timeout=180,prefix=cache-
+    HOST = network=tcp,addr=release-name-ace-cache.default:6379,password='DF*rN_3g(pKl&FvI',db=1,pool_size=100,idle_timeout=180,prefix=cache-
     [mailer]
     ENABLED = true
     MAILER_TYPE = smtp
@@ -925,10 +938,10 @@ stringData:
     LEVEL = Info
 
     [oauth2]
-    JWT_SECRET = flnZ9virZGDVtetr1Qsinz9C8G3Vp9F5Y7XbWVaZqnz
+    JWT_SECRET = FpkZdeCPkbolPpo00QS9v3mY0WIwwjtBGbj0LiNQqta
 
     [security]
-    SECRET_KEY     = f8DmWemHfDpFTian2ocGOeSBq4By7MmYYJ9CRmkRykTGNgs5AtPbJnjih9WoX2JX
+    SECRET_KEY     = 1NpCfmYo029kwjsKMXaYrnSrfTR85NdaB2eWOkJiNTFJBeDZgQ8W1gydYBALqVsC
     INSTALL_LOCK = true
     CSRF_COOKIE_HTTP_ONLY = false
 
@@ -958,7 +971,7 @@ stringData:
     ALLOW_SUBDOMAIN = true
 
     [kms]
-    MASTER_KEY_URL = 'base64key://2msYXWTGV6JZrvcIbaRI9LoR4y5y7a6vZVPCvIGJkrO9R9J5Hrd5Ti0Qg2IS9cTV'
+    MASTER_KEY_URL = 'base64key://2A1J3CLtGBDiJzphBibUvZ2QOCoGBHGq4jdoYadk21ovGfdinK5hbQEV96e5VfsW'
 
     [searchlight]
     ENABLE = false
@@ -1134,7 +1147,7 @@ roleRef:
   name: release-name-ace
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: release-name-ace
   namespace: default
 ---
 # Source: ace/charts/ingress-dns/templates/service.yaml
@@ -1348,7 +1361,7 @@ spec:
     spec:
       imagePullSecrets:
         null
-      serviceAccountName: default
+      serviceAccountName: release-name-ace
       securityContext:
         {}
       containers:
