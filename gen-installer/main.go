@@ -20,6 +20,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
+	chartlib "kubepack.dev/lib-helm/pkg/chart"
 	"sigs.k8s.io/yaml"
 )
 
@@ -64,7 +65,7 @@ func main() {
 		panic(err)
 	}
 
-	if data, err := GetValuesDiffYAML(outOrig, outMod); err != nil {
+	if data, err := chartlib.GetValuesDiffYAML(outOrig, outMod); err != nil {
 		panic(err)
 	} else {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0o644)
