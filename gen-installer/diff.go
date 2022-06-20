@@ -32,13 +32,14 @@ func getValuesDiff(original, modified map[string]interface{}, prefix string, dif
 			if !ok {
 				oVal = map[string]interface{}{}
 			}
-			diff[k] = map[string]interface{}{}
 
 			d2, err := getValuesDiff(oVal, val, curKey, nil)
 			if err != nil {
 				return nil, err
 			}
-			diff[k] = d2
+			if len(d2) > 0 {
+				diff[k] = d2
+			}
 		case []interface{}, string, int8, uint8, int16, uint16, int32, uint32, int64, uint64, int, uint, float32, float64, bool, json.Number, nil:
 			if !reflect.DeepEqual(original[k], val) {
 				diff[k] = val

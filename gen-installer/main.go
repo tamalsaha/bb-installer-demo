@@ -53,6 +53,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	err = InitComponentsOut(in, outOrig)
+	if err != nil {
+		panic(err)
+	}
 
 	outMod := outOrig.DeepCopy()
 	err = Convert(in, outMod)
@@ -237,6 +241,74 @@ func SampleResource() core.ResourceRequirements {
 			core.ResourceMemory: resource.MustParse("128Mi"),
 		},
 	}
+}
+
+func InitComponentsOut(in *api.AceOptionsSpec, out *api.AceSpec) error {
+	out.Reloader = api.AceReloader{
+		Enabled: true,
+	}
+
+	if in.Billing.Enabled {
+		out.Billing = api.AceBilling{
+			Enabled:     true,
+			BillingSpec: &api.BillingSpec{},
+		}
+	}
+	if in.PlatformUi.Enabled {
+		out.PlatformUi = api.AcePlatformUi{
+			Enabled:        true,
+			PlatformUiSpec: &api.PlatformUiSpec{},
+		}
+	}
+	if in.AccountsUi.Enabled {
+		out.AccountsUi = api.AceAccountsUi{
+			Enabled:        true,
+			AccountsUiSpec: &api.AccountsUiSpec{},
+		}
+	}
+	if in.ClusterUi.Enabled {
+		out.ClusterUi = api.AceClusterUi{
+			Enabled:       true,
+			ClusterUiSpec: &api.ClusterUiSpec{},
+		}
+	}
+	if in.DeployUi.Enabled {
+		out.DeployUi = api.AceDeployUi{
+			Enabled:      true,
+			DeployUiSpec: &api.DeployUiSpec{},
+		}
+	}
+	if in.Grafana.Enabled {
+		out.Grafana = api.AceGrafana{
+			Enabled:     true,
+			GrafanaSpec: &api.GrafanaSpec{},
+		}
+	}
+	if in.KubedbUi.Enabled {
+		out.KubedbUi = api.AceKubedbUi{
+			Enabled:      true,
+			KubedbUiSpec: &api.KubedbUiSpec{},
+		}
+	}
+	if in.MarketplaceUi.Enabled {
+		out.MarketplaceUi = api.AceMarketplaceUi{
+			Enabled:           true,
+			MarketplaceUiSpec: &api.MarketplaceUiSpec{},
+		}
+	}
+	if in.PlatformApi.Enabled {
+		out.PlatformApi = api.AcePlatformApi{
+			Enabled:         true,
+			PlatformApiSpec: &api.PlatformApiSpec{},
+		}
+	}
+	if in.PromProxy.Enabled {
+		out.PromProxy = api.AcePromProxy{
+			Enabled:       true,
+			PromProxySpec: &api.PromProxySpec{},
+		}
+	}
+	return nil
 }
 
 func NewSampleOptions() *api.AceOptionsSpec {

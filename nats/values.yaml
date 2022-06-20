@@ -1,0 +1,395 @@
+accounts-ui:
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+global:
+  imagePullSecrets: null
+  infra:
+    avatars:
+      bucket: gs://ace/avatars
+    badger:
+      levels: 0
+      mountPath: ""
+    dns:
+      auth:
+        email: '---'
+        token: XYZ
+      provider: cloudflare
+    invoice:
+      bucket: ""
+      mountPath: ""
+      trackerEmail: ""
+    kms:
+      masterKeyURL: base64key://dEWyBTbMOqY5hj9z8ZuxuGIng5j2yAWD9kESDIpDEn5BdHlvXWyL7LJvisdsyd4d
+    objstore:
+      auth:
+        serviceAccountJson: '{"secret": "json"}'
+    tls:
+      email: ops@appscode.cloud
+  monitoring:
+    agent: prometheus.io/operator
+    exporter:
+      resources:
+        limits:
+          memory: 128Mi
+    serviceMonitor:
+      labels:
+        release: kube-prometheus-stack
+  serviceAccount:
+    annotations: null
+    create: false
+grafana:
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+ingress-dns:
+  domainFilters:
+  - ""
+  enabled: true
+  env:
+  - name: CF_API_TOKEN
+    value: XYZ
+  extraArgs:
+  - --ignore-ingress-tls-spec
+  fullnameOverride: ""
+  image:
+    pullPolicy: IfNotPresent
+    repository: appscode/external-dns
+    tag: external-dns-helm-chart-1.9.0-1-gbd1bb40c
+  interval: ""
+  logFormat: ""
+  logLevel: debug
+  nameOverride: ""
+  policy: sync
+  priorityClassName: ""
+  provider: cloudflare
+  rbac:
+    create: false
+  registry: txt
+  service:
+    port: 0
+  serviceAccount:
+    create: false
+    name: ""
+  serviceMonitor:
+    enabled: false
+    interval: ""
+    scrapeTimeout: ""
+  shareProcessNamespace: false
+  sources:
+  - ingress
+  triggerLoopOnEvent: false
+  txtOwnerId: ingress-dns
+  txtPrefix: ""
+  txtSuffix: ""
+ingress-nginx:
+  controller:
+    hostPort:
+      enabled: true
+    ingressClassByName: true
+    ingressClassResource:
+      controllerValue: k8s.io/ingress-nginx-ace
+      enabled: true
+      name: nginx-ace
+    kind: DaemonSet
+    service:
+      external:
+        enabled: false
+  enabled: true
+nats:
+  appProtocol:
+    enabled: false
+  auth:
+    enabled: true
+    operatorjwt:
+      configMap:
+        key: Operator.jwt
+        name: ace-nats-cred
+    resolver:
+      allowDelete: false
+      interval: ""
+      operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsImV4cCI6NDgxMTQzMjI3OSwianRpIjoiM1JIUFpTNkZLWkZKSFUzU05aM0dRUVc3UEVSSFdUN0NYTFVRNTZEUFlSQ0RBRlM3QkIyQSIsImlhdCI6MTY1NTc1ODY3OSwiaXNzIjoiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTg2NzksInN1YiI6Ik9BRVRPTkQ3WDVORDJKUFo0QVlWNFBMT05YUFlHQ0FKQUVHV0w3UTJBMzJKRkdVTldHN1ZJTUJIIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.5446s14XaHm9y2NbVy6mtVA5O1LA0gfoKRCkSKTJQNvxzb_YjiQ_sTBfSkDOhHB524lt86pzHuAyJL99NXIMAg
+      resolverPreload:
+        ABDD6RLSCEJQAYYGBKTN4W7KLNZNWSEKNFCVNPP3MEDN7HKJJUBWAYW5: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJNTDNVNFVQVEtESVRFTFlGQkhTMjVTMkpFSTZVVUlQRVpXV0hPWjU2Q01NVVlUNlpFUUpBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkRENlJMU0NFSlFBWVlHQktUTjRXN0tMTlpOV1NFS05GQ1ZOUFAzTUVETjdIS0pKVUJXQVlXNSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.25iUkX54T_2dnKcv6BbQPmF6NgMgTH1a5xAP8KT47fXbmLazqFd3UKOB27l4AkzvcD2WybhmszG7yP8pUZRwAQ
+        ADYRYAIEAHOXNFRUU3GZO3YY7KJMW56K62VFFNJNLF5T3KFPTKZKREBT: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQTEVZNEFWMjVIRFNXNlJYV1RUQ0xIUlRJM0E3Wk4zSk5WR00zN0gzWDVXSVlFWExUVEdBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFEWVJZQUlFQUhPWE5GUlVVM0daTzNZWTdLSk1XNTZLNjJWRkZOSk5MRjVUM0tGUFRLWktSRUJUIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.aEEs-wIQma44PpzDaIOvVESY_PlbZn7Q9RNoqIaSQ5VW0yf8D7Xwesa8kJB3nviEUFWxjiSsrofFujtuONgTAQ
+      store:
+        dir: /etc/nats-config/accounts/jwt
+        size: 10Gi
+        storageClassName: standard
+      systemAccount: ABDD6RLSCEJQAYYGBKTN4W7KLNZNWSEKNFCVNPP3MEDN7HKJJUBWAYW5
+      type: full
+    systemAccount: ABDD6RLSCEJQAYYGBKTN4W7KLNZNWSEKNFCVNPP3MEDN7HKJJUBWAYW5
+  bootconfig:
+    image: ""
+    pullPolicy: ""
+  cluster:
+    enabled: false
+    noAdvertise: false
+    replicas: 0
+  enabled: true
+  exporter:
+    enabled: true
+    image: ""
+    pullPolicy: ""
+    serviceMonitor:
+      enabled: true
+      labels:
+        release: kube-prometheus-stack
+      path: /metrics
+  gateway:
+    enabled: false
+    name: ""
+  k8sClusterDomain: ""
+  leafnodes:
+    enabled: false
+    noAdvertise: false
+  mqtt:
+    ackWait: ""
+    enabled: false
+    maxAckPending: 0
+  nameOverride: ""
+  namespaceOverride: ""
+  nats:
+    advertise: false
+    client:
+      port: 0
+      portName: ""
+    configChecksumAnnotation: false
+    connectRetries: 0
+    externalAccess: true
+    healthcheck:
+      detectHealthz: false
+      enableHealthz: false
+    image: ""
+    jetstream:
+      enabled: true
+      fileStorage:
+        enabled: true
+        size: 10Gi
+        storageClassName: standard
+        storageDirectory: /nats/jetstream
+      memStorage:
+        enabled: false
+        size: "0"
+    limits:
+      lameDuckDuration: ""
+      lameDuckGracePeriod: ""
+      maxPayload: 4Mb
+    logging:
+      debug: false
+      trace: false
+    profiling:
+      enabled: false
+      port: 0
+    pullPolicy: ""
+    resources:
+      limits:
+        memory: 2Gi
+      requests:
+        memory: 2Gi
+    serverNamePrefix: ""
+    tls:
+      allow_non_tls: false
+      ca: ""
+      cert: tls.crt
+      key: tls.key
+      secret:
+        name: ace-cert
+  natsbox:
+    enabled: false
+    image: ""
+    pullPolicy: ""
+  networkPolicy:
+    allowExternal: false
+    enabled: false
+  podDisruptionBudget:
+    enabled: false
+    maxUnavailable: 0
+  podManagementPolicy: ""
+  reloader:
+    enabled: false
+    image: ""
+    pullPolicy: ""
+  statefulSetPodLabels:
+    secret.reloader.stakater.com/reload: ace-cert
+  useFQDN: false
+  websocket:
+    allowedOrigins:
+    - https://
+    - https://console.
+    - https://kubedb.
+    - https://grafana.
+    enabled: true
+    noTLS: false
+    port: 443
+    sameOrigin: false
+    tls:
+      ca: ""
+      cert: tls.crt
+      key: tls.key
+      secret:
+        name: ace-cert
+nats-dns:
+  domainFilters:
+  - ""
+  enabled: true
+  env:
+  - name: CF_API_TOKEN
+    value: XYZ
+  extraArgs:
+  - --fqdn-template=nats.
+  - --label-filter=
+  fullnameOverride: ""
+  image:
+    pullPolicy: IfNotPresent
+    repository: appscode/external-dns
+    tag: external-dns-helm-chart-1.9.0-1-gbd1bb40c
+  interval: ""
+  logFormat: ""
+  logLevel: debug
+  nameOverride: ""
+  policy: sync
+  priorityClassName: ""
+  provider: cloudflare
+  rbac:
+    create: false
+  registry: txt
+  service:
+    port: 0
+  serviceAccount:
+    create: false
+    name: ""
+  serviceMonitor:
+    enabled: false
+    interval: ""
+    scrapeTimeout: ""
+  shareProcessNamespace: false
+  sources:
+  - node
+  triggerLoopOnEvent: false
+  txtOwnerId: nats-dns
+  txtPrefix: ""
+  txtSuffix: ""
+platform-api:
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+platform-ui:
+  enabled: false
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+prom-proxy:
+  podAnnotations:
+    secret.reloader.stakater.com/reload: ace-config
+settings:
+  cache:
+    auth:
+      password: uaJOi1mKLpy5fT8l
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        memory: 512Mi
+  db:
+    auth:
+      password: bUQ;kJ~gXW08(x(S
+    databaseName: ace
+    persistence:
+      size: 20Gi
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        memory: 512Mi
+  nats:
+    adminCreds: |
+      -----BEGIN NATS ACCOUNT JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQTEVZNEFWMjVIRFNXNlJYV1RUQ0xIUlRJM0E3Wk4zSk5WR00zN0gzWDVXSVlFWExUVEdBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFEWVJZQUlFQUhPWE5GUlVVM0daTzNZWTdLSk1XNTZLNjJWRkZOSk5MRjVUM0tGUFRLWktSRUJUIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.aEEs-wIQma44PpzDaIOvVESY_PlbZn7Q9RNoqIaSQ5VW0yf8D7Xwesa8kJB3nviEUFWxjiSsrofFujtuONgTAQ
+      ------END NATS ACCOUNT JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN ACCOUNT NKEY SEED-----
+      SAAEOU7KXG4HWZUCNTPOBAFFPBWIQSMYXO7DIGDLSTP5ZP7NZ37JKT2QX4
+      ------END ACCOUNT NKEY SEED------
+
+      *************************************************************
+    adminUserCreds: |
+      -----BEGIN NATS USER JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJJWlVNWlFLTEpFV0dOQjU1NFBIWkVRREZKNkxIWlNXQ1RXT0s1NzU1WFRXUDczSTNNN1FBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJBRFlSWUFJRUFIT1hORlJVVTNHWk8zWVk3S0pNVzU2SzYyVkZGTkpOTEY1VDNLRlBUS1pLUkVCVCIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVDS1hWVFdEVDRBQ04yT1BUR0paUVBEVkhFWjNXN1FKS0VVVlI1UkE1UU00SFgyM0g3SldPNkpNIiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.8ZYy6tKbZgGNu4z2Bxra-yJ-cMjxBVVtNb6wSwzjGtu_QVRWeIKFTuu9YpBUA059C-CDKicudXNBJjqwSAN5CQ
+      ------END NATS USER JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN USER NKEY SEED-----
+      SUABHEBO6T2O2USMXBFYAEPO542A3FSB3CB2COUXZSDY6G63HORIYAMKMA
+      ------END USER NKEY SEED------
+
+      *************************************************************
+    operatorCreds: |
+      -----BEGIN NATS OPERATOR JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsImV4cCI6NDgxMTQzMjI3OSwianRpIjoiM1JIUFpTNkZLWkZKSFUzU05aM0dRUVc3UEVSSFdUN0NYTFVRNTZEUFlSQ0RBRlM3QkIyQSIsImlhdCI6MTY1NTc1ODY3OSwiaXNzIjoiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTg2NzksInN1YiI6Ik9BRVRPTkQ3WDVORDJKUFo0QVlWNFBMT05YUFlHQ0FKQUVHV0w3UTJBMzJKRkdVTldHN1ZJTUJIIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.5446s14XaHm9y2NbVy6mtVA5O1LA0gfoKRCkSKTJQNvxzb_YjiQ_sTBfSkDOhHB524lt86pzHuAyJL99NXIMAg
+      ------END NATS OPERATOR JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN OPERATOR NKEY SEED-----
+      SOAEPUDNZPHAJX4VT45K4YX5PEF3MQBAERPOONRXTMIQNHWZ5RDJUSFRWI
+      ------END OPERATOR NKEY SEED------
+
+      *************************************************************
+    operatorJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsImV4cCI6NDgxMTQzMjI3OSwianRpIjoiM1JIUFpTNkZLWkZKSFUzU05aM0dRUVc3UEVSSFdUN0NYTFVRNTZEUFlSQ0RBRlM3QkIyQSIsImlhdCI6MTY1NTc1ODY3OSwiaXNzIjoiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTg2NzksInN1YiI6Ik9BRVRPTkQ3WDVORDJKUFo0QVlWNFBMT05YUFlHQ0FKQUVHV0w3UTJBMzJKRkdVTldHN1ZJTUJIIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.5446s14XaHm9y2NbVy6mtVA5O1LA0gfoKRCkSKTJQNvxzb_YjiQ_sTBfSkDOhHB524lt86pzHuAyJL99NXIMAg
+    systemCreds: |
+      -----BEGIN NATS ACCOUNT JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJNTDNVNFVQVEtESVRFTFlGQkhTMjVTMkpFSTZVVUlQRVpXV0hPWjU2Q01NVVlUNlpFUUpBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkRENlJMU0NFSlFBWVlHQktUTjRXN0tMTlpOV1NFS05GQ1ZOUFAzTUVETjdIS0pKVUJXQVlXNSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.25iUkX54T_2dnKcv6BbQPmF6NgMgTH1a5xAP8KT47fXbmLazqFd3UKOB27l4AkzvcD2WybhmszG7yP8pUZRwAQ
+      ------END NATS ACCOUNT JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN ACCOUNT NKEY SEED-----
+      SAADTQXV6FBXDAM3VNB63G6NHW75MJT2IG37B6KQXQKOCYLQLZZVZZYQS4
+      ------END ACCOUNT NKEY SEED------
+
+      *************************************************************
+    systemJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJNTDNVNFVQVEtESVRFTFlGQkhTMjVTMkpFSTZVVUlQRVpXV0hPWjU2Q01NVVlUNlpFUUpBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkRENlJMU0NFSlFBWVlHQktUTjRXN0tMTlpOV1NFS05GQ1ZOUFAzTUVETjdIS0pKVUJXQVlXNSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.25iUkX54T_2dnKcv6BbQPmF6NgMgTH1a5xAP8KT47fXbmLazqFd3UKOB27l4AkzvcD2WybhmszG7yP8pUZRwAQ
+    systemPubKey: ABDD6RLSCEJQAYYGBKTN4W7KLNZNWSEKNFCVNPP3MEDN7HKJJUBWAYW5
+    systemUserCreds: |
+      -----BEGIN NATS USER JWT-----
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJZQks3VU5YS05OUlc1MlY2V0VFWVc3SkVOMlRZNkFUTTZQNVE2WlJNUDNKNFczNEVJNU9RIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJBQkRENlJMU0NFSlFBWVlHQktUTjRXN0tMTlpOV1NFS05GQ1ZOUFAzTUVETjdIS0pKVUJXQVlXNSIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVRFRHTUxZNk5DNzY3VjJHUkVZV1YySVBGMlo0SlFNUVpLSlRLSE9CV0ZQRVA2VVU1NzIyVTJURiIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.Ge6VZrtMohJ0B5yr6xvxYQ1ogc2ZMZCSQ9MtDPHjRBDELyF6zzQ7_mtAKf-pWM7YpxWMOuhp0PQsfOLtXs6BCw
+      ------END NATS USER JWT------
+
+      ************************* IMPORTANT *************************
+      NKEY Seed printed below can be used to sign and prove identity.
+      NKEYs are sensitive and should be treated as secrets.
+
+      -----BEGIN USER NKEY SEED-----
+      SUAOXA755BEN5OYOC3ER5K6URLIQKS77IJXPYDRPNUDOGW74HPMW64AYBY
+      ------END USER NKEY SEED------
+
+      *************************************************************
+  platform:
+    domain: ""
+    serviceRegisterEmailConfirm: false
+  searchlight:
+    alertmanagerAddr: ""
+    enabled: false
+    m3coordinatorAddr: ""
+    queryAddr: ""
+    rulerAddr: ""
+  security:
+    csrfSecretKey: HypdllzabQPDsznsdKKitnU5f7JnUWAwnuAhFdVyBBeb2rQmEcSyUIhwtgLVUMcZ
+    oauth2JWTSecret: ptbOHA2DgF0jl5OSZUTUQkyGOLKdaPEOxn6El7H7WlH
+  smtp:
+    from: ""
+    host: ""
+    password: ""
+    subjectPrefix: ACE |
+    username: ""
+  stripe:
+    endpointSecret: ""
+    stripeKey: ""
