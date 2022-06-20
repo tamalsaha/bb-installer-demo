@@ -3,12 +3,14 @@ module github.com/tamalsaha/bb-installer-demo
 go 1.18
 
 require (
+	github.com/alessio/shellescape v1.4.1
 	github.com/nats-io/jwt/v2 v2.2.1-0.20220330180145-442af02fd36a
 	github.com/nats-io/nats-server/v2 v2.8.4
 	github.com/nats-io/nkeys v0.3.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
 	go.bytebuilders.dev/installer v0.0.0-20220613195146-011e295a85ea
+	gomodules.xyz/encoding v0.0.7
 	gomodules.xyz/go-sh v0.1.0
 	gomodules.xyz/homedir v0.1.0
 	gomodules.xyz/password-generator v0.2.8
@@ -22,6 +24,7 @@ replace go.bytebuilders.dev/installer => ../../../go.bytebuilders.dev/installer
 
 require (
 	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
+	github.com/fatih/structs v1.1.0 // indirect
 	github.com/go-logr/logr v1.2.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect

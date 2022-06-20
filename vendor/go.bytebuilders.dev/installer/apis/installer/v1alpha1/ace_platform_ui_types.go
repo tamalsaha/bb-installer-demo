@@ -49,7 +49,7 @@ type PlatformUiSpec struct {
 	RegistryFQDN string         `json:"registryFQDN"`
 	Image        ImageReference `json:"image"`
 	//+optional
-	ImagePullSecrets []string `json:"imagePullSecrets,omitempty"`
+	ImagePullSecrets []string `json:"imagePullSecrets"`
 	//+optional
 	NameOverride string `json:"nameOverride"`
 	//+optional
@@ -69,7 +69,7 @@ type PlatformUiSpec struct {
 	NodeSelector map[string]string `json:"nodeSelector"`
 	// If specified, the pod's tolerations.
 	// +optional
-	Tolerations []core.Toleration `json:"tolerations,omitempty"`
+	Tolerations []core.Toleration `json:"tolerations"`
 	// If specified, the pod's scheduling constraints
 	// +optional
 	Affinity *core.Affinity `json:"affinity"`

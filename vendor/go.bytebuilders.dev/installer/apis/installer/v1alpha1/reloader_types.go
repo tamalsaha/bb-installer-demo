@@ -50,7 +50,7 @@ type ReloaderSpec struct {
 }
 
 type ReloaderGlobal struct {
-	ImagePullSecrets []string `json:"imagePullSecrets,omitempty"`
+	ImagePullSecrets []string `json:"imagePullSecrets"`
 }
 
 type ReloaderKubernetes struct {
@@ -90,11 +90,11 @@ type ReloaderDeploymentSpec struct {
 	Affinity                 *core.Affinity            `json:"affinity"`
 	SecurityContext          *core.PodSecurityContext  `json:"securityContext"`
 	ContainerSecurityContext *core.SecurityContext     `json:"containerSecurityContext"`
-	Tolerations              []core.Toleration         `json:"tolerations,omitempty"`
+	Tolerations              []core.Toleration         `json:"tolerations"`
 	Annotations              map[string]string         `json:"annotations"`
 	Labels                   ReloaderLabels            `json:"labels"`
 	Image                    ReloaderImageReference    `json:"image"`
-	Env                      ReloaderEnvVars           `json:"env,omitempty"`
+	Env                      ReloaderEnvVars           `json:"env"`
 	LivenessProbe            *core.Probe               `json:"livenessProbe"`
 	ReadinessProbe           *core.Probe               `json:"readinessProbe"`
 	Resources                core.ResourceRequirements `json:"resources"`
@@ -115,9 +115,9 @@ type ReloaderImageReference struct {
 }
 
 type ReloaderEnvVars struct {
-	Open   []EnvVar `json:"open,omitempty"`
-	Secret []EnvVar `json:"secret,omitempty"`
-	Field  []EnvVar `json:"field,omitempty"`
+	Open   []EnvVar `json:"open"`
+	Secret []EnvVar `json:"secret"`
+	Field  []EnvVar `json:"field"`
 }
 
 type ReloaderPodSpec struct {

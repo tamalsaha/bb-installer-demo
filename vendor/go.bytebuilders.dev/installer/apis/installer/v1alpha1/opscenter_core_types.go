@@ -57,7 +57,7 @@ type GlobalValues struct {
 	License          string     `json:"license"`
 	Registry         string     `json:"registry"`
 	RegistryFQDN     string     `json:"registryFQDN"`
-	ImagePullSecrets []string   `json:"imagePullSecrets,omitempty"`
+	ImagePullSecrets []string   `json:"imagePullSecrets"`
 	Monitoring       Monitoring `json:"monitoring"`
 }
 

@@ -69,7 +69,7 @@ type AceSpec struct {
 	Resources          core.ResourceRequirements `json:"resources"`
 	//+optional
 	NodeSelector map[string]string `json:"nodeSelector"`
-	Tolerations  []core.Toleration `json:"tolerations,omitempty"`
+	Tolerations  []core.Toleration `json:"tolerations"`
 	Affinity     *core.Affinity    `json:"affinity"`
 }
 
@@ -155,7 +155,7 @@ type AceGlobalValues struct {
 	License          string                 `json:"license"`
 	Registry         string                 `json:"registry"`
 	RegistryFQDN     string                 `json:"registryFQDN"`
-	ImagePullSecrets []string               `json:"imagePullSecrets,omitempty"`
+	ImagePullSecrets []string               `json:"imagePullSecrets"`
 	ServiceAccount   NatsServiceAccountSpec `json:"serviceAccount"`
 	Monitoring       GlobalMonitoring       `json:"monitoring"`
 	Infra            PlatformInfra          `json:"infra"`

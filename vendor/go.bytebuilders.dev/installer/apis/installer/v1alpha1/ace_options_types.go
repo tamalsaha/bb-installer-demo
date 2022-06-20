@@ -49,7 +49,7 @@ type AceOptionsSpec struct {
 	License          string                  `json:"license"`
 	Registry         string                  `json:"registry"`
 	RegistryFQDN     string                  `json:"registryFQDN"`
-	ImagePullSecrets []string                `json:"imagePullSecrets,omitempty"`
+	ImagePullSecrets []string                `json:"imagePullSecrets"`
 	Monitoring       GlobalMonitoring        `json:"monitoring"`
 	Infra            AceOptionsPlatformInfra `json:"infra"`
 	Settings         AceOptionsSettings      `json:"settings"`

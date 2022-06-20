@@ -11,7 +11,6 @@ accounts-ui:
     registry: ""
     repository: ""
     tag: ""
-  imagePullSecrets: null
   infra:
     badger:
       mountPath: ""
@@ -26,6 +25,7 @@ accounts-ui:
     agent: ""
     serviceMonitor: null
   nameOverride: ""
+  nodeSelector: null
   persistence:
     size: "0"
   podAnnotations:
@@ -46,8 +46,7 @@ accounts-ui:
       nats: ""
       objstore: ""
       platformConfig: ""
-  tolerations: null
-affinity: null
+affinity: {}
 billing:
   enabled: false
 cluster-ui:
@@ -63,8 +62,8 @@ cluster-ui:
     registry: ""
     repository: ""
     tag: ""
-  imagePullSecrets: null
   nameOverride: ""
+  nodeSelector: null
   podAnnotations: null
   podSecurityContext: null
   registryFQDN: ""
@@ -76,7 +75,6 @@ cluster-ui:
     type: ""
   serviceAccount:
     name: ""
-  tolerations: null
 clusterConnector:
   registry: ""
   repository: ""
@@ -86,7 +84,6 @@ deploy-ui:
 global:
   fullnameOverride: ""
   hosted: false
-  imagePullSecrets: null
   infra:
     avatars:
       bucket: gs://ace/avatars
@@ -103,7 +100,7 @@ global:
       mountPath: ""
       trackerEmail: ""
     kms:
-      masterKeyURL: base64key://EIQF61TSDloKobhgqGHbHH2y265wqPk7mS0tYCoA0td2RMIRjAcTDjNyEfBJ9ryL
+      masterKeyURL: base64key://4aiZjKJWjFFHyHdGn6bnkonj9uEuVMRqlxMrCvUIE9gJE5em5LEpi2yBK0oe5oVM
     kubepack:
       bucket: ""
       host: ""
@@ -149,7 +146,6 @@ grafana:
     registry: ""
     repository: ""
     tag: ""
-  imagePullSecrets: null
   infra:
     badger:
       mountPath: ""
@@ -164,6 +160,7 @@ grafana:
     agent: ""
     serviceMonitor: null
   nameOverride: ""
+  nodeSelector: null
   podAnnotations:
     secret.reloader.stakater.com/reload: ace-config
   podSecurityContext: null
@@ -182,11 +179,10 @@ grafana:
       nats: ""
       objstore: ""
       platformConfig: ""
-  tolerations: null
 image:
-  pullPolicy: ""
-  registry: ""
-  repository: ""
+  pullPolicy: Always
+  registry: appscode
+  repository: gitea
   tag: ""
 ingress-dns:
   affinity: null
@@ -199,19 +195,17 @@ ingress-dns:
     value: XYZ
   extraArgs:
   - --ignore-ingress-tls-spec
-  extraVolumeMounts: null
-  extraVolumes: null
   fullnameOverride: ""
   image:
     pullPolicy: IfNotPresent
     repository: appscode/external-dns
     tag: external-dns-helm-chart-1.9.0-1-gbd1bb40c
-  imagePullSecrets: null
   interval: ""
   livenessProbe: null
   logFormat: ""
   logLevel: debug
   nameOverride: ""
+  nodeSelector: null
   podAnnotations: null
   podLabels: null
   podSecurityContext: null
@@ -219,7 +213,6 @@ ingress-dns:
   priorityClassName: ""
   provider: cloudflare
   rbac:
-    additionalPermissions: null
     create: false
   readinessProbe: null
   registry: txt
@@ -241,8 +234,6 @@ ingress-dns:
   sources:
   - ingress
   terminationGracePeriodSeconds: null
-  tolerations: null
-  topologySpreadConstraints: null
   triggerLoopOnEvent: false
   txtOwnerId: ingress-dns
   txtPrefix: ""
@@ -257,6 +248,7 @@ ingress-nginx:
       enabled: true
       name: nginx-ace
     kind: DaemonSet
+    nodeSelector: null
     resources: {}
     service:
       external:
@@ -275,8 +267,8 @@ kubedb-ui:
     registry: ""
     repository: ""
     tag: ""
-  imagePullSecrets: null
   nameOverride: ""
+  nodeSelector: null
   podAnnotations: null
   podSecurityContext: null
   registryFQDN: ""
@@ -288,13 +280,9 @@ kubedb-ui:
     type: ""
   serviceAccount:
     name: ""
-  tolerations: null
 marketplace-ui:
   enabled: false
 nats:
-  additionalContainers: null
-  additionalVolumeMounts: null
-  additionalVolumes: null
   affinity: null
   appProtocol:
     enabled: false
@@ -307,24 +295,23 @@ nats:
     resolver:
       allowDelete: false
       interval: ""
-      operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsImV4cCI6NDgxMDkxMzUxMSwianRpIjoiQVlESERGVTZWV01KVDZTWkkyUjZZU01YVEhEWkVFRjQzNkREN1RYUElGT0oyQzI1WUtSUSIsImlhdCI6MTY1NTIzOTkxMSwiaXNzIjoiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMzk5MTEsInN1YiI6Ik9CUkI2WlhUUzNSSzQ3TlpGQ01STVZTVE1CNzJUQldSQjJWQ0pMV0FWREQ1R0ZDQUFFTUxINUtMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.1usrOBQIqY5h5o7GZmxKw2DTOqTTLqMuEmbp8sMy6d6FrOQv31QO5hnzqIX0Frfv1tdSzorr_nEKjrC36HBDBw
+      operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPRFNGNTRISTROUVo0UU1OT1NSQjRYVEQySFhUV0VOV1VYSjRFNlZLNFhJNklCSEY3TVFKSVkzTiIsImV4cCI6NDgxMTM0MTQyMCwianRpIjoiUFpaTUYzVUJJN0s2WURaS0Y1Q1dTSU9ZNzczUlgyVENaNERXUkU2N0hEVDRJUkdQQ0xFUSIsImlhdCI6MTY1NTY2NzgyMCwiaXNzIjoiT0RTRjU0SEk0TlFaNFFNTk9TUkI0WFREMkhYVFdFTldVWEo0RTZWSzRYSTZJQkhGN01RSklZM04iLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU2Njc4MjAsInN1YiI6Ik9EU0Y1NEhJNE5RWjRRTU5PU1JCNFhURDJIWFRXRU5XVVhKNEU2Vks0WEk2SUJIRjdNUUpJWTNOIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0RTRjU0SEk0TlFaNFFNTk9TUkI0WFREMkhYVFdFTldVWEo0RTZWSzRYSTZJQkhGN01RSklZM04iXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.--aqYfM-TsDcP6MIftzW1A-dS0FWr7mfIXHWrOM7bUuTeL2xOJXsPRQsKAmIzruiSPICyFDpX_eRLaywCiH7Cg
       resolverPreload:
-        ACODTHQ5QO3F47VEDDJ5F3KMMFED6IKELNX5QFC2VSUZWFJWKR5CRJUY: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIWkwyUFdGU0cyVTZFUkM2S09GM0JQNERXTTY3RU5HR09JUFdORUdSS0NGQlEzN1RKWlpRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.4ly9W6VvSQQYo1bRRnzK5NjVl0fQU2UE2HSXv10mNLQq522RMgQ3tPjLP5pWGUaOjxn18r29QN8J0mmnizQ5CQ
-        ADPB6YA73UDJYLGV5L2NJMRSETJWVIWUBOYSDI673R36KHK4UZMGSYCB: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJZSjM2Q04zUllNVVRFVkUyVkZQQkRNTkI2SE5HRExJTE5XN0Y3UDRQWE9VRVpCN1QzUVVRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFEUEI2WUE3M1VESllMR1Y1TDJOSk1SU0VUSldWSVdVQk9ZU0RJNjczUjM2S0hLNFVaTUdTWUNCIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.zxkYulRNkSnofjF1R_w7vQp4u5vSzqRCmxku71EukhGPjYg7yl9axOqG7bs73XKq8sXm-N2UrBLEtB8WIRWcDA
+        ABV4HSX45AOVFI2JO476GVRALPERKITR23PFVYTGVGZXWVM4VBDPDQEV: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI2WUNPUVRaRFNDNjNRU0RTNU9ESVdYQU1GMk4zV0VGVTJURTNXR01QT1RIQzVCV0tORFpRIiwiaWF0IjoxNjU1NjY3ODIwLCJpc3MiOiJPRFNGNTRISTROUVo0UU1OT1NSQjRYVEQySFhUV0VOV1VYSjRFNlZLNFhJNklCSEY3TVFKSVkzTiIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQlY0SFNYNDVBT1ZGSTJKTzQ3NkdWUkFMUEVSS0lUUjIzUEZWWVRHVkdaWFdWTTRWQkRQRFFFViIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.JTXkCdSrKMWpgUNbFt0iL-HiLUx_EB9SQSwEWdnM-RAGDBrhLwIyBK1sNTxMBGcEsXbJVmCgsv9xCnANI1qMDg
+        AD6F4EIQ3S4PZXBXQDKKHKVHFOT2QRSPGAWT2KR6C6YF7ULW3CNIGAGZ: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIRE8ySllTRUNKUFc1WEhENlRWUkdYMkY1TFhMREhaVk9VM0ozRDZITEhEQ1JES0NJSUJBIiwiaWF0IjoxNjU1NjY3ODIwLCJpc3MiOiJPRFNGNTRISTROUVo0UU1OT1NSQjRYVEQySFhUV0VOV1VYSjRFNlZLNFhJNklCSEY3TVFKSVkzTiIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFENkY0RUlRM1M0UFpYQlhRREtLSEtWSEZPVDJRUlNQR0FXVDJLUjZDNllGN1VMVzNDTklHQUdaIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.PX1S2GO0EishkkppzIUF8OVafzAXDljWh4IVEj_x9AWOmajfS6JG_teki5dxxdhG_gcNYFGfWsnO1ovbq6UBBw
       store:
         dir: /etc/nats-config/accounts/jwt
         size: 10Gi
         storageClassName: standard
-      systemAccount: ACODTHQ5QO3F47VEDDJ5F3KMMFED6IKELNX5QFC2VSUZWFJWKR5CRJUY
+      systemAccount: ABV4HSX45AOVFI2JO476GVRALPERKITR23PFVYTGVGZXWVM4VBDPDQEV
       type: full
-    systemAccount: ACODTHQ5QO3F47VEDDJ5F3KMMFED6IKELNX5QFC2VSUZWFJWKR5CRJUY
+    systemAccount: ABV4HSX45AOVFI2JO476GVRALPERKITR23PFVYTGVGZXWVM4VBDPDQEV
   bootconfig:
     image: ""
     pullPolicy: ""
     securityContext: null
   cluster:
     enabled: false
-    extraRoutes: null
     noAdvertise: false
     replicas: 0
   commonLabels: null
@@ -344,7 +331,6 @@ nats:
   gateway:
     enabled: false
     name: ""
-  imagePullSecrets: null
   k8sClusterDomain: ""
   leafnodes:
     enabled: false
@@ -375,7 +361,6 @@ nats:
       enabled: true
       encryption: null
       fileStorage:
-        accessModes: null
         annotations: null
         enabled: true
         size: 10Gi
@@ -414,7 +399,6 @@ nats:
     securityContext: null
     selectorLabels: null
     serverNamePrefix: ""
-    serverTags: null
     serviceAccount: null
     terminationGracePeriodSeconds: null
     tls:
@@ -428,15 +412,12 @@ nats:
     additionalLabels: null
     affinity: null
     enabled: false
-    extraVolumeMounts: null
-    extraVolumes: null
     image: ""
-    imagePullSecrets: null
+    nodeSelector: null
     podAnnotations: null
     podLabels: null
     pullPolicy: ""
     securityContext: null
-    tolerations: null
   networkPolicy:
     allowExternal: false
     enabled: false
@@ -462,9 +443,6 @@ nats:
   statefulSetAnnotations: null
   statefulSetPodLabels:
     secret.reloader.stakater.com/reload: ace-cert
-  tolerations: null
-  topologyKeys: null
-  topologySpreadConstraints: null
   useFQDN: false
   websocket:
     allowedOrigins:
@@ -494,19 +472,17 @@ nats-dns:
   extraArgs:
   - --fqdn-template=nats.
   - --label-filter=
-  extraVolumeMounts: null
-  extraVolumes: null
   fullnameOverride: ""
   image:
     pullPolicy: IfNotPresent
     repository: appscode/external-dns
     tag: external-dns-helm-chart-1.9.0-1-gbd1bb40c
-  imagePullSecrets: null
   interval: ""
   livenessProbe: null
   logFormat: ""
   logLevel: debug
   nameOverride: ""
+  nodeSelector: null
   podAnnotations: null
   podLabels: null
   podSecurityContext: null
@@ -514,7 +490,6 @@ nats-dns:
   priorityClassName: ""
   provider: cloudflare
   rbac:
-    additionalPermissions: null
     create: false
   readinessProbe: null
   registry: txt
@@ -536,12 +511,11 @@ nats-dns:
   sources:
   - node
   terminationGracePeriodSeconds: null
-  tolerations: null
-  topologySpreadConstraints: null
   triggerLoopOnEvent: false
   txtOwnerId: nats-dns
   txtPrefix: ""
   txtSuffix: ""
+nodeSelector: {}
 platform-api:
   affinity: null
   autoscaling:
@@ -555,7 +529,6 @@ platform-api:
     registry: ""
     repository: ""
     tag: ""
-  imagePullSecrets: null
   infra:
     badger:
       mountPath: ""
@@ -570,6 +543,7 @@ platform-api:
     agent: ""
     serviceMonitor: null
   nameOverride: ""
+  nodeSelector: null
   persistence:
     size: "0"
   podAnnotations:
@@ -590,7 +564,6 @@ platform-api:
       nats: ""
       objstore: ""
       platformConfig: ""
-  tolerations: null
 platform-ui:
   affinity: null
   autoscaling:
@@ -604,8 +577,8 @@ platform-ui:
     registry: ""
     repository: ""
     tag: ""
-  imagePullSecrets: null
   nameOverride: ""
+  nodeSelector: null
   podAnnotations:
     secret.reloader.stakater.com/reload: ace-config
   podSecurityContext: null
@@ -618,9 +591,8 @@ platform-ui:
     type: ""
   serviceAccount:
     name: ""
-  tolerations: null
-podAnnotations: null
-podSecurityContext: null
+podAnnotations: {}
+podSecurityContext: {}
 prom-proxy:
   affinity: null
   autoscaling:
@@ -634,7 +606,6 @@ prom-proxy:
     registry: ""
     repository: ""
     tag: ""
-  imagePullSecrets: null
   infra:
     badger:
       mountPath: ""
@@ -649,6 +620,7 @@ prom-proxy:
     agent: ""
     serviceMonitor: null
   nameOverride: ""
+  nodeSelector: null
   podAnnotations:
     secret.reloader.stakater.com/reload: ace-config
   podSecurityContext: null
@@ -667,15 +639,14 @@ prom-proxy:
       nats: ""
       objstore: ""
       platformConfig: ""
-  tolerations: null
 reloader:
   enabled: true
 resources: {}
-securityContext: null
+securityContext: {}
 settings:
   cache:
     auth:
-      password: cRIcq6~s~J7HUq83
+      password: rvtVVxEvbNIh2.iS
       username: root
     cacheInterval: 60
     persistence:
@@ -689,7 +660,7 @@ settings:
     version: 6.0.6
   db:
     auth:
-      password: kNqncq(OKQe2n*fX
+      password: rPDa3s1VDg_J3h68
       username: postgres
     databaseName: ace
     persistence:
@@ -706,7 +677,7 @@ settings:
   nats:
     adminCreds: |
       -----BEGIN NATS ACCOUNT JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJZSjM2Q04zUllNVVRFVkUyVkZQQkRNTkI2SE5HRExJTE5XN0Y3UDRQWE9VRVpCN1QzUVVRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFEUEI2WUE3M1VESllMR1Y1TDJOSk1SU0VUSldWSVdVQk9ZU0RJNjczUjM2S0hLNFVaTUdTWUNCIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.zxkYulRNkSnofjF1R_w7vQp4u5vSzqRCmxku71EukhGPjYg7yl9axOqG7bs73XKq8sXm-N2UrBLEtB8WIRWcDA
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIRE8ySllTRUNKUFc1WEhENlRWUkdYMkY1TFhMREhaVk9VM0ozRDZITEhEQ1JES0NJSUJBIiwiaWF0IjoxNjU1NjY3ODIwLCJpc3MiOiJPRFNGNTRISTROUVo0UU1OT1NSQjRYVEQySFhUV0VOV1VYSjRFNlZLNFhJNklCSEY3TVFKSVkzTiIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFENkY0RUlRM1M0UFpYQlhRREtLSEtWSEZPVDJRUlNQR0FXVDJLUjZDNllGN1VMVzNDTklHQUdaIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.PX1S2GO0EishkkppzIUF8OVafzAXDljWh4IVEj_x9AWOmajfS6JG_teki5dxxdhG_gcNYFGfWsnO1ovbq6UBBw
       ------END NATS ACCOUNT JWT------
 
       ************************* IMPORTANT *************************
@@ -714,13 +685,13 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN ACCOUNT NKEY SEED-----
-      SAAG3WHHKEWTJRZCIUQGDKLJHY5VU4UMNFY6EGCJ4IWUNIJHJFFR42YGMI
+      SAABYENEOU5KCXQ3BTHBFWMKF7KXO5GOZ4LO3TATBCWTR5MJBBBMTWNVGU
       ------END ACCOUNT NKEY SEED------
 
       *************************************************************
     adminUserCreds: |
       -----BEGIN NATS USER JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJTTTQ0SldTVVFZSFdDM1dGQ09HQ0hYR1lXUlRLWUxYQTc0SzVTTzJCS0pKTzRBNjdJNUhRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJBRFBCNllBNzNVREpZTEdWNUwyTkpNUlNFVEpXVklXVUJPWVNESTY3M1IzNktISzRVWk1HU1lDQiIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVDUldCUkE2UkRYVFRVVjdTTkdZVlBGTlhRSTdTUE1TM0tUS0tSNlVGR0FRWEY3SjZVSTRCSkRaIiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.YNoc70ZVdVyN4NPuXE_KwcoU7RPIZuiD6efvC5PnFsbjJXZjvwJ3M8NP_x4_9NJoYkg9AlDtHJBQlzQGpX_nDA
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI3S1FCV1MzRVVaVzNQR00zVVI3REpaT0czRzY3VFFMRlRTRU4zTFhRUzVMUU9VTlRLNTdRIiwiaWF0IjoxNjU1NjY3ODIwLCJpc3MiOiJBRDZGNEVJUTNTNFBaWEJYUURLS0hLVkhGT1QyUVJTUEdBV1QyS1I2QzZZRjdVTFczQ05JR0FHWiIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVDTDZOWUJYQUxFUTZOQlhSVFZYRzdaSjZUWFBST0lGV1BVN0xJR0pKRlVWTVJWN1BNMkNJV0dCIiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.v7iqDCk_LSC-O9P9DPXi2GsHqYiTBtlmNlRwULaSciGsBWbHUVMUYfnkxiI3uahIcuHFVGz1iaaAJCMYoX1XAA
       ------END NATS USER JWT------
 
       ************************* IMPORTANT *************************
@@ -728,14 +699,14 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN USER NKEY SEED-----
-      SUAKERPJ7KC7IQ3OZBLO5SDUS4NKM2CVUJHZ45PI25OVLDINMSGYFOMKU4
+      SUAL7RLEJK2NDRARYBA5YQ5GAACRB6XISNHZ3WXU7BVTATKC5T6ADONHGE
       ------END USER NKEY SEED------
 
       *************************************************************
     mountPath: /nats/creds
     operatorCreds: |
       -----BEGIN NATS OPERATOR JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsImV4cCI6NDgxMDkxMzUxMSwianRpIjoiQVlESERGVTZWV01KVDZTWkkyUjZZU01YVEhEWkVFRjQzNkREN1RYUElGT0oyQzI1WUtSUSIsImlhdCI6MTY1NTIzOTkxMSwiaXNzIjoiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMzk5MTEsInN1YiI6Ik9CUkI2WlhUUzNSSzQ3TlpGQ01STVZTVE1CNzJUQldSQjJWQ0pMV0FWREQ1R0ZDQUFFTUxINUtMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.1usrOBQIqY5h5o7GZmxKw2DTOqTTLqMuEmbp8sMy6d6FrOQv31QO5hnzqIX0Frfv1tdSzorr_nEKjrC36HBDBw
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPRFNGNTRISTROUVo0UU1OT1NSQjRYVEQySFhUV0VOV1VYSjRFNlZLNFhJNklCSEY3TVFKSVkzTiIsImV4cCI6NDgxMTM0MTQyMCwianRpIjoiUFpaTUYzVUJJN0s2WURaS0Y1Q1dTSU9ZNzczUlgyVENaNERXUkU2N0hEVDRJUkdQQ0xFUSIsImlhdCI6MTY1NTY2NzgyMCwiaXNzIjoiT0RTRjU0SEk0TlFaNFFNTk9TUkI0WFREMkhYVFdFTldVWEo0RTZWSzRYSTZJQkhGN01RSklZM04iLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU2Njc4MjAsInN1YiI6Ik9EU0Y1NEhJNE5RWjRRTU5PU1JCNFhURDJIWFRXRU5XVVhKNEU2Vks0WEk2SUJIRjdNUUpJWTNOIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0RTRjU0SEk0TlFaNFFNTk9TUkI0WFREMkhYVFdFTldVWEo0RTZWSzRYSTZJQkhGN01RSklZM04iXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.--aqYfM-TsDcP6MIftzW1A-dS0FWr7mfIXHWrOM7bUuTeL2xOJXsPRQsKAmIzruiSPICyFDpX_eRLaywCiH7Cg
       ------END NATS OPERATOR JWT------
 
       ************************* IMPORTANT *************************
@@ -743,16 +714,16 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN OPERATOR NKEY SEED-----
-      SOAIEJWWURPWLA3RX52SHFLNOXSOOJQR2ZD3BXQ3BA7EEGGUOKSKOP6F4U
+      SOAJQRPBLURIY6GPVCAYDYABDRZ6DI7C52IFK22XYFPJ7UWGJ5JRUEZBLU
       ------END OPERATOR NKEY SEED------
 
       *************************************************************
-    operatorJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsImV4cCI6NDgxMDkxMzUxMSwianRpIjoiQVlESERGVTZWV01KVDZTWkkyUjZZU01YVEhEWkVFRjQzNkREN1RYUElGT0oyQzI1WUtSUSIsImlhdCI6MTY1NTIzOTkxMSwiaXNzIjoiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTUyMzk5MTEsInN1YiI6Ik9CUkI2WlhUUzNSSzQ3TlpGQ01STVZTVE1CNzJUQldSQjJWQ0pMV0FWREQ1R0ZDQUFFTUxINUtMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0JSQjZaWFRTM1JLNDdOWkZDTVJNVlNUTUI3MlRCV1JCMlZDSkxXQVZERDVHRkNBQUVNTEg1S0wiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.1usrOBQIqY5h5o7GZmxKw2DTOqTTLqMuEmbp8sMy6d6FrOQv31QO5hnzqIX0Frfv1tdSzorr_nEKjrC36HBDBw
+    operatorJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPRFNGNTRISTROUVo0UU1OT1NSQjRYVEQySFhUV0VOV1VYSjRFNlZLNFhJNklCSEY3TVFKSVkzTiIsImV4cCI6NDgxMTM0MTQyMCwianRpIjoiUFpaTUYzVUJJN0s2WURaS0Y1Q1dTSU9ZNzczUlgyVENaNERXUkU2N0hEVDRJUkdQQ0xFUSIsImlhdCI6MTY1NTY2NzgyMCwiaXNzIjoiT0RTRjU0SEk0TlFaNFFNTk9TUkI0WFREMkhYVFdFTldVWEo0RTZWSzRYSTZJQkhGN01RSklZM04iLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU2Njc4MjAsInN1YiI6Ik9EU0Y1NEhJNE5RWjRRTU5PU1JCNFhURDJIWFRXRU5XVVhKNEU2Vks0WEk2SUJIRjdNUUpJWTNOIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0RTRjU0SEk0TlFaNFFNTk9TUkI0WFREMkhYVFdFTldVWEo0RTZWSzRYSTZJQkhGN01RSklZM04iXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.--aqYfM-TsDcP6MIftzW1A-dS0FWr7mfIXHWrOM7bUuTeL2xOJXsPRQsKAmIzruiSPICyFDpX_eRLaywCiH7Cg
     replicas: 1
     shardCount: 128
     systemCreds: |
       -----BEGIN NATS ACCOUNT JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIWkwyUFdGU0cyVTZFUkM2S09GM0JQNERXTTY3RU5HR09JUFdORUdSS0NGQlEzN1RKWlpRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.4ly9W6VvSQQYo1bRRnzK5NjVl0fQU2UE2HSXv10mNLQq522RMgQ3tPjLP5pWGUaOjxn18r29QN8J0mmnizQ5CQ
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI2WUNPUVRaRFNDNjNRU0RTNU9ESVdYQU1GMk4zV0VGVTJURTNXR01QT1RIQzVCV0tORFpRIiwiaWF0IjoxNjU1NjY3ODIwLCJpc3MiOiJPRFNGNTRISTROUVo0UU1OT1NSQjRYVEQySFhUV0VOV1VYSjRFNlZLNFhJNklCSEY3TVFKSVkzTiIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQlY0SFNYNDVBT1ZGSTJKTzQ3NkdWUkFMUEVSS0lUUjIzUEZWWVRHVkdaWFdWTTRWQkRQRFFFViIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.JTXkCdSrKMWpgUNbFt0iL-HiLUx_EB9SQSwEWdnM-RAGDBrhLwIyBK1sNTxMBGcEsXbJVmCgsv9xCnANI1qMDg
       ------END NATS ACCOUNT JWT------
 
       ************************* IMPORTANT *************************
@@ -760,15 +731,15 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN ACCOUNT NKEY SEED-----
-      SAAPVOVJ6IEJ6QD6BE3ELYDQR4DX2NJFNFQAQ4VZ4BPVVVYPZFMZH63KHI
+      SAAE2L3SLSFW3D7UNYJAHC3M37DIBSMBDEQ2GDWYQOV6RKGGRUG4QAZFD4
       ------END ACCOUNT NKEY SEED------
 
       *************************************************************
-    systemJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJIWkwyUFdGU0cyVTZFUkM2S09GM0JQNERXTTY3RU5HR09JUFdORUdSS0NGQlEzN1RKWlpRIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJPQlJCNlpYVFMzUks0N05aRkNNUk1WU1RNQjcyVEJXUkIyVkNKTFdBVkRENUdGQ0FBRU1MSDVLTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.4ly9W6VvSQQYo1bRRnzK5NjVl0fQU2UE2HSXv10mNLQq522RMgQ3tPjLP5pWGUaOjxn18r29QN8J0mmnizQ5CQ
-    systemPubKey: ACODTHQ5QO3F47VEDDJ5F3KMMFED6IKELNX5QFC2VSUZWFJWKR5CRJUY
+    systemJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI2WUNPUVRaRFNDNjNRU0RTNU9ESVdYQU1GMk4zV0VGVTJURTNXR01QT1RIQzVCV0tORFpRIiwiaWF0IjoxNjU1NjY3ODIwLCJpc3MiOiJPRFNGNTRISTROUVo0UU1OT1NSQjRYVEQySFhUV0VOV1VYSjRFNlZLNFhJNklCSEY3TVFKSVkzTiIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQlY0SFNYNDVBT1ZGSTJKTzQ3NkdWUkFMUEVSS0lUUjIzUEZWWVRHVkdaWFdWTTRWQkRQRFFFViIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.JTXkCdSrKMWpgUNbFt0iL-HiLUx_EB9SQSwEWdnM-RAGDBrhLwIyBK1sNTxMBGcEsXbJVmCgsv9xCnANI1qMDg
+    systemPubKey: ABV4HSX45AOVFI2JO476GVRALPERKITR23PFVYTGVGZXWVM4VBDPDQEV
     systemUserCreds: |
       -----BEGIN NATS USER JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJGNVJETjdEWFFRN1pWNVdSWllRNkEyMjJEM0hUSUo0UUJaVUgyUlhRNE9JVEU1MllNWk5RIiwiaWF0IjoxNjU1MjM5OTExLCJpc3MiOiJBQ09EVEhRNVFPM0Y0N1ZFRERKNUYzS01NRkVENklLRUxOWDVRRkMyVlNVWldGSldLUjVDUkpVWSIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVQTNRVUdKWUVYMlJJU1NURkU2TzNMSVFOWDVLNVAyUko2R05TUjVRUUtZNkI0UlhUVjJDTENZViIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.VF9TeuyKziLuXgig1Qjk7VKexFv9y_IEL9o1Z-qwZC_7_US2QAWerd2YNrKbjvFionbEWa_VRCc1DA42G-RfAw
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiIyNlhDU0tTRDVPVVdQRFU2M1lWU0JRUVVRNzRTNE1TSFhDQUhWV05RQ1RERTVFTEVXSjNRIiwiaWF0IjoxNjU1NjY3ODIwLCJpc3MiOiJBQlY0SFNYNDVBT1ZGSTJKTzQ3NkdWUkFMUEVSS0lUUjIzUEZWWVRHVkdaWFdWTTRWQkRQRFFFViIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVQ0pMU1A1VjZXS0M3UTVFVzJDUkZUSzc2R0lCVVBGSDNHTUJIRjc0QkFWVzc3SFNZNjdaVEZPSyIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.w52J4vicspkaG9vWRj83DZEnH2MNHQUQ8i3PLXsEx3rpk0NyXfjiRX4RY6jN1rjr54n-SZ5dmVQY8AilrHTsBQ
       ------END NATS USER JWT------
 
       ************************* IMPORTANT *************************
@@ -776,7 +747,7 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN USER NKEY SEED-----
-      SUANAJXJT3LFCQUXE4PJZXNYUEGZXLZFYARLT2SK3OEVSN46U32OYOF6VI
+      SUAGR2U4MNDRUPMIBI3M3226DNYBMMGVPAP6KXGSSN45GF6AFBXRXR2M2Y
       ------END USER NKEY SEED------
 
       *************************************************************
@@ -812,8 +783,8 @@ settings:
     queryAddr: ""
     rulerAddr: ""
   security:
-    csrfSecretKey: V0nRXLoEvGHGtXyVoFh251V91Z0coJ2j82rpaWEpGdRzq7OJul0WBTLM6zNljpC2
-    oauth2JWTSecret: GjekYEwLtjg59PW5cVOuokv1rMIi6wVIB57A73H9K38
+    csrfSecretKey: rmVPWTYtWFRaJqbnDMebVXx9j23F6CbYXmce4vGwoM7AXWVzCTMSuIvSuJ09LVIs
+    oauth2JWTSecret: mlSRPXukv4FvjZGJJ21mni7ak5eLyRFiaM7rXiSi4KE
   smtp:
     from: ""
     host: ""
@@ -825,4 +796,3 @@ settings:
   stripe:
     endpointSecret: ""
     stripeKey: ""
-tolerations: null

@@ -8,6 +8,8 @@ import (
 	"path"
 	"path/filepath"
 
+	"gomodules.xyz/encoding/json"
+
 	"github.com/pkg/errors"
 	api "go.bytebuilders.dev/installer/apis/installer/v1alpha1"
 	shell "gomodules.xyz/go-sh"
@@ -42,22 +44,36 @@ func main() {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "options.yaml"), data, 0o644)
 	}
 
-	out := new(api.AceSpec)
+	outOrig := new(api.AceSpec)
 	data, err := ioutil.ReadFile(filepath.Join(chartDir, "charts", "ace", "values.yaml"))
 	if err != nil {
 		panic(err)
 	}
-	err = yaml.Unmarshal(data, out)
+	err = yaml.Unmarshal(data, outOrig)
 	if err != nil {
 		panic(err)
 	}
 
-	err = Convert(in, out)
+	outMod := outOrig.DeepCopy()
+	err = Convert(in, outMod)
 	if err != nil {
 		panic(err)
 	}
 
-	if data, err := yaml.Marshal(out); err != nil {
+	ooMap, err := toJson(outOrig)
+	if err != nil {
+		panic(err)
+	}
+	omMap, err := toJson(outMod)
+	if err != nil {
+		panic(err)
+	}
+	mod, err := GetValuesDiff(ooMap, omMap)
+	if err != nil {
+		panic(err)
+	}
+
+	if data, err := yaml.Marshal(mod); err != nil {
 		panic(err)
 	} else {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0o644)
@@ -72,6 +88,19 @@ func main() {
 	} else {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "ace.yaml"), data, 0o644)
 	}
+}
+
+func toJson(v interface{}) (map[string]interface{}, error) {
+	data, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	var out map[string]interface{}
+	err = json.Unmarshal(data, &out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func Convert(in *api.AceOptionsSpec, out *api.AceSpec) error {
