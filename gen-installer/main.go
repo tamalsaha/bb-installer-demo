@@ -64,20 +64,7 @@ func main() {
 		panic(err)
 	}
 
-	ooMap, err := toJson(outOrig)
-	if err != nil {
-		panic(err)
-	}
-	omMap, err := toJson(outMod)
-	if err != nil {
-		panic(err)
-	}
-	mod, err := GetValuesDiff(ooMap, omMap)
-	if err != nil {
-		panic(err)
-	}
-
-	if data, err := yaml.Marshal(mod); err != nil {
+	if data, err := GetValuesDiffYAML(outOrig, outMod); err != nil {
 		panic(err)
 	} else {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0o644)
@@ -92,6 +79,23 @@ func main() {
 	} else {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "ace.yaml"), data, 0o644)
 	}
+}
+
+func GetValuesDiffYAML(orig, od interface{}) ([]byte, error) {
+	origMap, err := toJson(orig)
+	if err != nil {
+		return nil, err
+	}
+	modMap, err := toJson(od)
+	if err != nil {
+		return nil, err
+	}
+
+	diff, err := GetValuesDiff(origMap, modMap)
+	if err != nil {
+		return nil, err
+	}
+	return yaml.Marshal(diff)
 }
 
 func toJson(v interface{}) (map[string]interface{}, error) {
