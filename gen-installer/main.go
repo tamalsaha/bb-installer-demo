@@ -308,6 +308,27 @@ func InitComponentsOut(in *api.AceOptionsSpec, out *api.AceSpec) error {
 			PromProxySpec: &api.PromProxySpec{},
 		}
 	}
+
+	out.IngressNginx = api.AceIngressNginx{
+		Enabled:          true,
+		IngressNginxSpec: &api.IngressNginxSpec{},
+	}
+	out.IngressDns = api.AceIngressDns{
+		Enabled:         false,
+		ExternalDnsSpec: &api.ExternalDnsSpec{},
+	}
+
+	out.Nats = api.AceNats{
+		Enabled:  true,
+		NatsSpec: &api.NatsSpec{},
+	}
+	if in.Nats.ExposeVia != api.ServiceTypeLoadBalancer {
+		out.NatsDns = api.AceNatsDns{
+			Enabled:         false,
+			ExternalDnsSpec: &api.ExternalDnsSpec{},
+		}
+	}
+
 	return nil
 }
 
@@ -388,8 +409,10 @@ func NewSampleOptions() *api.AceOptionsSpec {
 					},
 				},
 			},
-			SMTP:     api.AceOptionsSMTPSettings{},
-			Platform: api.AceOptionsPlatformSettings{},
+			SMTP: api.AceOptionsSMTPSettings{},
+			Platform: api.AceOptionsPlatformSettings{
+				Domain: "appscode.cloud",
+			},
 			//Security: api.SecuritySettings{
 			//	Oauth2JWTSecret: "",
 			//	CsrfSecretKey:   "",

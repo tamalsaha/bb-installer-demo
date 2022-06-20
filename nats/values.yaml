@@ -19,7 +19,7 @@ global:
       mountPath: ""
       trackerEmail: ""
     kms:
-      masterKeyURL: base64key://dEWyBTbMOqY5hj9z8ZuxuGIng5j2yAWD9kESDIpDEn5BdHlvXWyL7LJvisdsyd4d
+      masterKeyURL: base64key://2msYXWTGV6JZrvcIbaRI9LoR4y5y7a6vZVPCvIGJkrO9R9J5Hrd5Ti0Qg2IS9cTV
     objstore:
       auth:
         serviceAccountJson: '{"secret": "json"}'
@@ -42,44 +42,24 @@ grafana:
     secret.reloader.stakater.com/reload: ace-config
 ingress-dns:
   domainFilters:
-  - ""
+  - appscode.cloud
   enabled: true
   env:
   - name: CF_API_TOKEN
     value: XYZ
   extraArgs:
   - --ignore-ingress-tls-spec
-  fullnameOverride: ""
   image:
     pullPolicy: IfNotPresent
     repository: appscode/external-dns
     tag: external-dns-helm-chart-1.9.0-1-gbd1bb40c
-  interval: ""
-  logFormat: ""
   logLevel: debug
-  nameOverride: ""
   policy: sync
-  priorityClassName: ""
   provider: cloudflare
-  rbac:
-    create: false
   registry: txt
-  service:
-    port: 0
-  serviceAccount:
-    create: false
-    name: ""
-  serviceMonitor:
-    enabled: false
-    interval: ""
-    scrapeTimeout: ""
-  shareProcessNamespace: false
   sources:
   - ingress
-  triggerLoopOnEvent: false
   txtOwnerId: ingress-dns
-  txtPrefix: ""
-  txtSuffix: ""
 ingress-nginx:
   controller:
     hostPort:
@@ -93,10 +73,7 @@ ingress-nginx:
     service:
       external:
         enabled: false
-  enabled: true
 nats:
-  appProtocol:
-    enabled: false
   auth:
     enabled: true
     operatorjwt:
@@ -104,61 +81,26 @@ nats:
         key: Operator.jwt
         name: ace-nats-cred
     resolver:
-      allowDelete: false
-      interval: ""
-      operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsImV4cCI6NDgxMTQzMjI3OSwianRpIjoiM1JIUFpTNkZLWkZKSFUzU05aM0dRUVc3UEVSSFdUN0NYTFVRNTZEUFlSQ0RBRlM3QkIyQSIsImlhdCI6MTY1NTc1ODY3OSwiaXNzIjoiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTg2NzksInN1YiI6Ik9BRVRPTkQ3WDVORDJKUFo0QVlWNFBMT05YUFlHQ0FKQUVHV0w3UTJBMzJKRkdVTldHN1ZJTUJIIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.5446s14XaHm9y2NbVy6mtVA5O1LA0gfoKRCkSKTJQNvxzb_YjiQ_sTBfSkDOhHB524lt86pzHuAyJL99NXIMAg
+      operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUs2QU9LU0pYQ01TVkEySEdWUTdYVUpYWVFaSE1ITDVEUlNTTU5ENkFFNzdUQUxWR1lBNzMyTCIsImV4cCI6NDgxMTQzMzM2OSwianRpIjoiUTMzT0ZIMzJXQkxFQ0JRSzJPWDRWR04zRlJCSE5MTTdHMlhBRUJQV0g0TjJPRU9ZRUY0QSIsImlhdCI6MTY1NTc1OTc2OSwiaXNzIjoiT0FLNkFPS1NKWENNU1ZBMkhHVlE3WFVKWFlRWkhNSEw1RFJTU01ORDZBRTc3VEFMVkdZQTczMkwiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTk3NjksInN1YiI6Ik9BSzZBT0tTSlhDTVNWQTJIR1ZRN1hVSlhZUVpITUhMNURSU1NNTkQ2QUU3N1RBTFZHWUE3MzJMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLNkFPS1NKWENNU1ZBMkhHVlE3WFVKWFlRWkhNSEw1RFJTU01ORDZBRTc3VEFMVkdZQTczMkwiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.pStD0lhwGM8MPs1g4HnID6JH9xy8cf_1G57EeRAkIA-vDnzx9aO__p0j298C_A6Eun3RI73mo0DFVi7K5AplDA
       resolverPreload:
-        ABDD6RLSCEJQAYYGBKTN4W7KLNZNWSEKNFCVNPP3MEDN7HKJJUBWAYW5: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJNTDNVNFVQVEtESVRFTFlGQkhTMjVTMkpFSTZVVUlQRVpXV0hPWjU2Q01NVVlUNlpFUUpBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkRENlJMU0NFSlFBWVlHQktUTjRXN0tMTlpOV1NFS05GQ1ZOUFAzTUVETjdIS0pKVUJXQVlXNSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.25iUkX54T_2dnKcv6BbQPmF6NgMgTH1a5xAP8KT47fXbmLazqFd3UKOB27l4AkzvcD2WybhmszG7yP8pUZRwAQ
-        ADYRYAIEAHOXNFRUU3GZO3YY7KJMW56K62VFFNJNLF5T3KFPTKZKREBT: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQTEVZNEFWMjVIRFNXNlJYV1RUQ0xIUlRJM0E3Wk4zSk5WR00zN0gzWDVXSVlFWExUVEdBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFEWVJZQUlFQUhPWE5GUlVVM0daTzNZWTdLSk1XNTZLNjJWRkZOSk5MRjVUM0tGUFRLWktSRUJUIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.aEEs-wIQma44PpzDaIOvVESY_PlbZn7Q9RNoqIaSQ5VW0yf8D7Xwesa8kJB3nviEUFWxjiSsrofFujtuONgTAQ
+        AAJ453YRTEZEOTIHQOC3YOF4M7Y4TYUEFJZQTU6QMWQQLPZQIK5JB5I2: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiIzTktaNFVYV05GTzNVQklVNlpXT1hCRzZaTk5TM0NCMlVWN0RMWjVHTEJSSEJQQk5HWkRBIiwiaWF0IjoxNjU1NzU5NzY5LCJpc3MiOiJPQUs2QU9LU0pYQ01TVkEySEdWUTdYVUpYWVFaSE1ITDVEUlNTTU5ENkFFNzdUQUxWR1lBNzMyTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQUo0NTNZUlRFWkVPVElIUU9DM1lPRjRNN1k0VFlVRUZKWlFUVTZRTVdRUUxQWlFJSzVKQjVJMiIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.Xw0LzBGbk0qTJlItw2KcpbTu5GG-ifw_2I-SQE-FwDVoo4pt5VeFu42ewa3crp6Pt3SIiIf2vrm92D45jC2BAQ
+        ABHTNZ4NO3QKF5C6LPKWZFUKJP2NPXYQOTZQBVJ2EWE2YJUBG7K43O2S: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJOWFBRQjVYR1VEV05SVDY2UkpUQUdFQ09WRDZQTkZORjZCVkJYTlhNN0xCUkZQNTVUVUJBIiwiaWF0IjoxNjU1NzU5NzY5LCJpc3MiOiJPQUs2QU9LU0pYQ01TVkEySEdWUTdYVUpYWVFaSE1ITDVEUlNTTU5ENkFFNzdUQUxWR1lBNzMyTCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFCSFROWjROTzNRS0Y1QzZMUEtXWkZVS0pQMk5QWFlRT1RaUUJWSjJFV0UyWUpVQkc3SzQzTzJTIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.PuaCpgrrBTl8oHCgQKsOPxcqTglRFpVP_dsyvsY94R_6M0yC8HXQdbof--IZSF6DbqqRJ9fNvqAMIFKjdjSKDg
       store:
         dir: /etc/nats-config/accounts/jwt
         size: 10Gi
         storageClassName: standard
-      systemAccount: ABDD6RLSCEJQAYYGBKTN4W7KLNZNWSEKNFCVNPP3MEDN7HKJJUBWAYW5
+      systemAccount: AAJ453YRTEZEOTIHQOC3YOF4M7Y4TYUEFJZQTU6QMWQQLPZQIK5JB5I2
       type: full
-    systemAccount: ABDD6RLSCEJQAYYGBKTN4W7KLNZNWSEKNFCVNPP3MEDN7HKJJUBWAYW5
-  bootconfig:
-    image: ""
-    pullPolicy: ""
-  cluster:
-    enabled: false
-    noAdvertise: false
-    replicas: 0
-  enabled: true
+    systemAccount: AAJ453YRTEZEOTIHQOC3YOF4M7Y4TYUEFJZQTU6QMWQQLPZQIK5JB5I2
   exporter:
     enabled: true
-    image: ""
-    pullPolicy: ""
     serviceMonitor:
       enabled: true
       labels:
         release: kube-prometheus-stack
       path: /metrics
-  gateway:
-    enabled: false
-    name: ""
-  k8sClusterDomain: ""
-  leafnodes:
-    enabled: false
-    noAdvertise: false
-  mqtt:
-    ackWait: ""
-    enabled: false
-    maxAckPending: 0
-  nameOverride: ""
-  namespaceOverride: ""
   nats:
-    advertise: false
-    client:
-      port: 0
-      portName: ""
-    configChecksumAnnotation: false
-    connectRetries: 0
     externalAccess: true
-    healthcheck:
-      detectHealthz: false
-      enableHealthz: false
-    image: ""
     jetstream:
       enabled: true
       fileStorage:
@@ -166,26 +108,16 @@ nats:
         size: 10Gi
         storageClassName: standard
         storageDirectory: /nats/jetstream
-      memStorage:
-        enabled: false
-        size: "0"
     limits:
-      lameDuckDuration: ""
-      lameDuckGracePeriod: ""
       maxPayload: 4Mb
     logging:
       debug: false
       trace: false
-    profiling:
-      enabled: false
-      port: 0
-    pullPolicy: ""
     resources:
       limits:
         memory: 2Gi
       requests:
         memory: 2Gi
-    serverNamePrefix: ""
     tls:
       allow_non_tls: false
       ca: ""
@@ -193,34 +125,16 @@ nats:
       key: tls.key
       secret:
         name: ace-cert
-  natsbox:
-    enabled: false
-    image: ""
-    pullPolicy: ""
-  networkPolicy:
-    allowExternal: false
-    enabled: false
-  podDisruptionBudget:
-    enabled: false
-    maxUnavailable: 0
-  podManagementPolicy: ""
-  reloader:
-    enabled: false
-    image: ""
-    pullPolicy: ""
   statefulSetPodLabels:
     secret.reloader.stakater.com/reload: ace-cert
-  useFQDN: false
   websocket:
     allowedOrigins:
-    - https://
-    - https://console.
-    - https://kubedb.
-    - https://grafana.
+    - https://appscode.cloud
+    - https://console.appscode.cloud
+    - https://kubedb.appscode.cloud
+    - https://grafana.appscode.cloud
     enabled: true
-    noTLS: false
     port: 443
-    sameOrigin: false
     tls:
       ca: ""
       cert: tls.crt
@@ -229,50 +143,29 @@ nats:
         name: ace-cert
 nats-dns:
   domainFilters:
-  - ""
+  - appscode.cloud
   enabled: true
   env:
   - name: CF_API_TOKEN
     value: XYZ
   extraArgs:
-  - --fqdn-template=nats.
+  - --fqdn-template=nats.appscode.cloud
   - --label-filter=
-  fullnameOverride: ""
   image:
     pullPolicy: IfNotPresent
     repository: appscode/external-dns
     tag: external-dns-helm-chart-1.9.0-1-gbd1bb40c
-  interval: ""
-  logFormat: ""
   logLevel: debug
-  nameOverride: ""
   policy: sync
-  priorityClassName: ""
   provider: cloudflare
-  rbac:
-    create: false
   registry: txt
-  service:
-    port: 0
-  serviceAccount:
-    create: false
-    name: ""
-  serviceMonitor:
-    enabled: false
-    interval: ""
-    scrapeTimeout: ""
-  shareProcessNamespace: false
   sources:
   - node
-  triggerLoopOnEvent: false
   txtOwnerId: nats-dns
-  txtPrefix: ""
-  txtSuffix: ""
 platform-api:
   podAnnotations:
     secret.reloader.stakater.com/reload: ace-config
 platform-ui:
-  enabled: false
   podAnnotations:
     secret.reloader.stakater.com/reload: ace-config
 prom-proxy:
@@ -281,7 +174,7 @@ prom-proxy:
 settings:
   cache:
     auth:
-      password: uaJOi1mKLpy5fT8l
+      password: US0bybkuvgkkOf.B
     resources:
       limits:
         memory: 512Mi
@@ -289,7 +182,7 @@ settings:
         memory: 512Mi
   db:
     auth:
-      password: bUQ;kJ~gXW08(x(S
+      password: P_6RXAAhFkAYg2~4
     databaseName: ace
     persistence:
       size: 20Gi
@@ -301,7 +194,7 @@ settings:
   nats:
     adminCreds: |
       -----BEGIN NATS ACCOUNT JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQTEVZNEFWMjVIRFNXNlJYV1RUQ0xIUlRJM0E3Wk4zSk5WR00zN0gzWDVXSVlFWExUVEdBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFEWVJZQUlFQUhPWE5GUlVVM0daTzNZWTdLSk1XNTZLNjJWRkZOSk5MRjVUM0tGUFRLWktSRUJUIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.aEEs-wIQma44PpzDaIOvVESY_PlbZn7Q9RNoqIaSQ5VW0yf8D7Xwesa8kJB3nviEUFWxjiSsrofFujtuONgTAQ
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJOWFBRQjVYR1VEV05SVDY2UkpUQUdFQ09WRDZQTkZORjZCVkJYTlhNN0xCUkZQNTVUVUJBIiwiaWF0IjoxNjU1NzU5NzY5LCJpc3MiOiJPQUs2QU9LU0pYQ01TVkEySEdWUTdYVUpYWVFaSE1ITDVEUlNTTU5ENkFFNzdUQUxWR1lBNzMyTCIsIm5hbWUiOiJBZG1pbiIsInN1YiI6IkFCSFROWjROTzNRS0Y1QzZMUEtXWkZVS0pQMk5QWFlRT1RaUUJWSjJFV0UyWUpVQkc3SzQzTzJTIiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJ3aWxkY2FyZHMiOnRydWUsImNvbm4iOi0xLCJsZWFmIjotMSwibWVtX3N0b3JhZ2UiOi0xLCJkaXNrX3N0b3JhZ2UiOi0xLCJzdHJlYW1zIjotMSwiY29uc3VtZXIiOi0xfSwiZGVmYXVsdF9wZXJtaXNzaW9ucyI6eyJwdWIiOnt9LCJzdWIiOnt9fSwidHlwZSI6ImFjY291bnQiLCJ2ZXJzaW9uIjoyfX0.PuaCpgrrBTl8oHCgQKsOPxcqTglRFpVP_dsyvsY94R_6M0yC8HXQdbof--IZSF6DbqqRJ9fNvqAMIFKjdjSKDg
       ------END NATS ACCOUNT JWT------
 
       ************************* IMPORTANT *************************
@@ -309,13 +202,13 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN ACCOUNT NKEY SEED-----
-      SAAEOU7KXG4HWZUCNTPOBAFFPBWIQSMYXO7DIGDLSTP5ZP7NZ37JKT2QX4
+      SAAEOD6RLLT7FXQWLRIRXCYNB5HCOKGLJBY5ORJTJDQKMF4V65TT3DXDJI
       ------END ACCOUNT NKEY SEED------
 
       *************************************************************
     adminUserCreds: |
       -----BEGIN NATS USER JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJJWlVNWlFLTEpFV0dOQjU1NFBIWkVRREZKNkxIWlNXQ1RXT0s1NzU1WFRXUDczSTNNN1FBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJBRFlSWUFJRUFIT1hORlJVVTNHWk8zWVk3S0pNVzU2SzYyVkZGTkpOTEY1VDNLRlBUS1pLUkVCVCIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVDS1hWVFdEVDRBQ04yT1BUR0paUVBEVkhFWjNXN1FKS0VVVlI1UkE1UU00SFgyM0g3SldPNkpNIiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.8ZYy6tKbZgGNu4z2Bxra-yJ-cMjxBVVtNb6wSwzjGtu_QVRWeIKFTuu9YpBUA059C-CDKicudXNBJjqwSAN5CQ
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJSSEpMNDNUMlIyWkxIWVBUT09MSUNQRloyTkFLTlpVMzdMQ0Y3NFhORUEzNUROTTNXU0ZBIiwiaWF0IjoxNjU1NzU5NzY5LCJpc3MiOiJBQkhUTlo0Tk8zUUtGNUM2TFBLV1pGVUtKUDJOUFhZUU9UWlFCVkoyRVdFMllKVUJHN0s0M08yUyIsIm5hbWUiOiJhZG1pbiIsInN1YiI6IlVDQ0Y1QjZKSjQ2RUJWUjNMVU9WSk80V0lGVkFaQkRRQkNHNERNTVVJSlo0Rk5LM1dDU0VMT1pCIiwibmF0cyI6eyJwdWIiOnt9LCJzdWIiOnt9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.w1J6q6Nm2n4tKlS3pyaH8aitixIytXDkUZocgHBVxZxft88pHrePhGD1TsxuLYbjvvXZbB5fYyLi1wClAn4wBQ
       ------END NATS USER JWT------
 
       ************************* IMPORTANT *************************
@@ -323,13 +216,13 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN USER NKEY SEED-----
-      SUABHEBO6T2O2USMXBFYAEPO542A3FSB3CB2COUXZSDY6G63HORIYAMKMA
+      SUANUYSPZFTUWJLEA6PQDWF35TFKSDSGVYLO6FZLDIAIJCTGBM4Y6GL4JY
       ------END USER NKEY SEED------
 
       *************************************************************
     operatorCreds: |
       -----BEGIN NATS OPERATOR JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsImV4cCI6NDgxMTQzMjI3OSwianRpIjoiM1JIUFpTNkZLWkZKSFUzU05aM0dRUVc3UEVSSFdUN0NYTFVRNTZEUFlSQ0RBRlM3QkIyQSIsImlhdCI6MTY1NTc1ODY3OSwiaXNzIjoiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTg2NzksInN1YiI6Ik9BRVRPTkQ3WDVORDJKUFo0QVlWNFBMT05YUFlHQ0FKQUVHV0w3UTJBMzJKRkdVTldHN1ZJTUJIIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.5446s14XaHm9y2NbVy6mtVA5O1LA0gfoKRCkSKTJQNvxzb_YjiQ_sTBfSkDOhHB524lt86pzHuAyJL99NXIMAg
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUs2QU9LU0pYQ01TVkEySEdWUTdYVUpYWVFaSE1ITDVEUlNTTU5ENkFFNzdUQUxWR1lBNzMyTCIsImV4cCI6NDgxMTQzMzM2OSwianRpIjoiUTMzT0ZIMzJXQkxFQ0JRSzJPWDRWR04zRlJCSE5MTTdHMlhBRUJQV0g0TjJPRU9ZRUY0QSIsImlhdCI6MTY1NTc1OTc2OSwiaXNzIjoiT0FLNkFPS1NKWENNU1ZBMkhHVlE3WFVKWFlRWkhNSEw1RFJTU01ORDZBRTc3VEFMVkdZQTczMkwiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTk3NjksInN1YiI6Ik9BSzZBT0tTSlhDTVNWQTJIR1ZRN1hVSlhZUVpITUhMNURSU1NNTkQ2QUU3N1RBTFZHWUE3MzJMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLNkFPS1NKWENNU1ZBMkhHVlE3WFVKWFlRWkhNSEw1RFJTU01ORDZBRTc3VEFMVkdZQTczMkwiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.pStD0lhwGM8MPs1g4HnID6JH9xy8cf_1G57EeRAkIA-vDnzx9aO__p0j298C_A6Eun3RI73mo0DFVi7K5AplDA
       ------END NATS OPERATOR JWT------
 
       ************************* IMPORTANT *************************
@@ -337,14 +230,14 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN OPERATOR NKEY SEED-----
-      SOAEPUDNZPHAJX4VT45K4YX5PEF3MQBAERPOONRXTMIQNHWZ5RDJUSFRWI
+      SOADKWJCVQGUDUNCVOWE5CCJARKHUTDV5CQBMNHBEHR7T5PWHNLJUZTB6E
       ------END OPERATOR NKEY SEED------
 
       *************************************************************
-    operatorJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsImV4cCI6NDgxMTQzMjI3OSwianRpIjoiM1JIUFpTNkZLWkZKSFUzU05aM0dRUVc3UEVSSFdUN0NYTFVRNTZEUFlSQ0RBRlM3QkIyQSIsImlhdCI6MTY1NTc1ODY3OSwiaXNzIjoiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTg2NzksInN1YiI6Ik9BRVRPTkQ3WDVORDJKUFo0QVlWNFBMT05YUFlHQ0FKQUVHV0w3UTJBMzJKRkdVTldHN1ZJTUJIIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FFVE9ORDdYNU5EMkpQWjRBWVY0UExPTlhQWUdDQUpBRUdXTDdRMkEzMkpGR1VOV0c3VklNQkgiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.5446s14XaHm9y2NbVy6mtVA5O1LA0gfoKRCkSKTJQNvxzb_YjiQ_sTBfSkDOhHB524lt86pzHuAyJL99NXIMAg
+    operatorJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJhdWQiOiJPQUs2QU9LU0pYQ01TVkEySEdWUTdYVUpYWVFaSE1ITDVEUlNTTU5ENkFFNzdUQUxWR1lBNzMyTCIsImV4cCI6NDgxMTQzMzM2OSwianRpIjoiUTMzT0ZIMzJXQkxFQ0JRSzJPWDRWR04zRlJCSE5MTTdHMlhBRUJQV0g0TjJPRU9ZRUY0QSIsImlhdCI6MTY1NTc1OTc2OSwiaXNzIjoiT0FLNkFPS1NKWENNU1ZBMkhHVlE3WFVKWFlRWkhNSEw1RFJTU01ORDZBRTc3VEFMVkdZQTczMkwiLCJuYW1lIjoiT3BlcmF0b3IiLCJuYmYiOjE2NTU3NTk3NjksInN1YiI6Ik9BSzZBT0tTSlhDTVNWQTJIR1ZRN1hVSlhZUVpITUhMNURSU1NNTkQ2QUU3N1RBTFZHWUE3MzJMIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FLNkFPS1NKWENNU1ZBMkhHVlE3WFVKWFlRWkhNSEw1RFJTU01ORDZBRTc3VEFMVkdZQTczMkwiXSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.pStD0lhwGM8MPs1g4HnID6JH9xy8cf_1G57EeRAkIA-vDnzx9aO__p0j298C_A6Eun3RI73mo0DFVi7K5AplDA
     systemCreds: |
       -----BEGIN NATS ACCOUNT JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJNTDNVNFVQVEtESVRFTFlGQkhTMjVTMkpFSTZVVUlQRVpXV0hPWjU2Q01NVVlUNlpFUUpBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkRENlJMU0NFSlFBWVlHQktUTjRXN0tMTlpOV1NFS05GQ1ZOUFAzTUVETjdIS0pKVUJXQVlXNSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.25iUkX54T_2dnKcv6BbQPmF6NgMgTH1a5xAP8KT47fXbmLazqFd3UKOB27l4AkzvcD2WybhmszG7yP8pUZRwAQ
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiIzTktaNFVYV05GTzNVQklVNlpXT1hCRzZaTk5TM0NCMlVWN0RMWjVHTEJSSEJQQk5HWkRBIiwiaWF0IjoxNjU1NzU5NzY5LCJpc3MiOiJPQUs2QU9LU0pYQ01TVkEySEdWUTdYVUpYWVFaSE1ITDVEUlNTTU5ENkFFNzdUQUxWR1lBNzMyTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQUo0NTNZUlRFWkVPVElIUU9DM1lPRjRNN1k0VFlVRUZKWlFUVTZRTVdRUUxQWlFJSzVKQjVJMiIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.Xw0LzBGbk0qTJlItw2KcpbTu5GG-ifw_2I-SQE-FwDVoo4pt5VeFu42ewa3crp6Pt3SIiIf2vrm92D45jC2BAQ
       ------END NATS ACCOUNT JWT------
 
       ************************* IMPORTANT *************************
@@ -352,15 +245,15 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN ACCOUNT NKEY SEED-----
-      SAADTQXV6FBXDAM3VNB63G6NHW75MJT2IG37B6KQXQKOCYLQLZZVZZYQS4
+      SAAIW4BGKX5SVSFHXNG3G55PDASU3FOJD6DC66F4JT7GUXKKUD2GRUH42A
       ------END ACCOUNT NKEY SEED------
 
       *************************************************************
-    systemJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJNTDNVNFVQVEtESVRFTFlGQkhTMjVTMkpFSTZVVUlQRVpXV0hPWjU2Q01NVVlUNlpFUUpBIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJPQUVUT05EN1g1TkQySlBaNEFZVjRQTE9OWFBZR0NBSkFFR1dMN1EyQTMySkZHVU5XRzdWSU1CSCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQkRENlJMU0NFSlFBWVlHQktUTjRXN0tMTlpOV1NFS05GQ1ZOUFAzTUVETjdIS0pKVUJXQVlXNSIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.25iUkX54T_2dnKcv6BbQPmF6NgMgTH1a5xAP8KT47fXbmLazqFd3UKOB27l4AkzvcD2WybhmszG7yP8pUZRwAQ
-    systemPubKey: ABDD6RLSCEJQAYYGBKTN4W7KLNZNWSEKNFCVNPP3MEDN7HKJJUBWAYW5
+    systemJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiIzTktaNFVYV05GTzNVQklVNlpXT1hCRzZaTk5TM0NCMlVWN0RMWjVHTEJSSEJQQk5HWkRBIiwiaWF0IjoxNjU1NzU5NzY5LCJpc3MiOiJPQUs2QU9LU0pYQ01TVkEySEdWUTdYVUpYWVFaSE1ITDVEUlNTTU5ENkFFNzdUQUxWR1lBNzMyTCIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQUo0NTNZUlRFWkVPVElIUU9DM1lPRjRNN1k0VFlVRUZKWlFUVTZRTVdRUUxQWlFJSzVKQjVJMiIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwid2lsZGNhcmRzIjp0cnVlLCJjb25uIjotMSwibGVhZiI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.Xw0LzBGbk0qTJlItw2KcpbTu5GG-ifw_2I-SQE-FwDVoo4pt5VeFu42ewa3crp6Pt3SIiIf2vrm92D45jC2BAQ
+    systemPubKey: AAJ453YRTEZEOTIHQOC3YOF4M7Y4TYUEFJZQTU6QMWQQLPZQIK5JB5I2
     systemUserCreds: |
       -----BEGIN NATS USER JWT-----
-      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJZQks3VU5YS05OUlc1MlY2V0VFWVc3SkVOMlRZNkFUTTZQNVE2WlJNUDNKNFczNEVJNU9RIiwiaWF0IjoxNjU1NzU4Njc5LCJpc3MiOiJBQkRENlJMU0NFSlFBWVlHQktUTjRXN0tMTlpOV1NFS05GQ1ZOUFAzTUVETjdIS0pKVUJXQVlXNSIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVRFRHTUxZNk5DNzY3VjJHUkVZV1YySVBGMlo0SlFNUVpLSlRLSE9CV0ZQRVA2VVU1NzIyVTJURiIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.Ge6VZrtMohJ0B5yr6xvxYQ1ogc2ZMZCSQ9MtDPHjRBDELyF6zzQ7_mtAKf-pWM7YpxWMOuhp0PQsfOLtXs6BCw
+      eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJUN1gyVVJMWFNNU0VaTUw0TE5WRE5NNVhET0JMWUhRRVJTS1hKWlI1QkNOU1NBRURFNEFBIiwiaWF0IjoxNjU1NzU5NzY5LCJpc3MiOiJBQUo0NTNZUlRFWkVPVElIUU9DM1lPRjRNN1k0VFlVRUZKWlFUVTZRTVdRUUxQWlFJSzVKQjVJMiIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVREs0VkkzU0hLR0JHSDNMREVHSFhDNU5MR1NRWVMyVU9IVDRKWlZaVkhJR1E1TEtPQ1BYN0tPSyIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.dxdg0HJmCgdDrXQKo01FzuVBZ7DHbZLgtdHzSw0Cj-E6skojpSOyrdW5qRzs1_lDU9Pu9fkjtygwMp0VTpy2Dw
       ------END NATS USER JWT------
 
       ************************* IMPORTANT *************************
@@ -368,12 +261,12 @@ settings:
       NKEYs are sensitive and should be treated as secrets.
 
       -----BEGIN USER NKEY SEED-----
-      SUAOXA755BEN5OYOC3ER5K6URLIQKS77IJXPYDRPNUDOGW74HPMW64AYBY
+      SUAA62FMRMCMWCSA42HH6IFHK4AON7TAOPRDTQCVEQMGZDFCMG4XJEHLVQ
       ------END USER NKEY SEED------
 
       *************************************************************
   platform:
-    domain: ""
+    domain: appscode.cloud
     serviceRegisterEmailConfirm: false
   searchlight:
     alertmanagerAddr: ""
@@ -382,8 +275,8 @@ settings:
     queryAddr: ""
     rulerAddr: ""
   security:
-    csrfSecretKey: HypdllzabQPDsznsdKKitnU5f7JnUWAwnuAhFdVyBBeb2rQmEcSyUIhwtgLVUMcZ
-    oauth2JWTSecret: ptbOHA2DgF0jl5OSZUTUQkyGOLKdaPEOxn6El7H7WlH
+    csrfSecretKey: f8DmWemHfDpFTian2ocGOeSBq4By7MmYYJ9CRmkRykTGNgs5AtPbJnjih9WoX2JX
+    oauth2JWTSecret: flnZ9virZGDVtetr1Qsinz9C8G3Vp9F5Y7XbWVaZqnz
   smtp:
     from: ""
     host: ""

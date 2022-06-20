@@ -100,7 +100,7 @@ settings:
       requests:
         memory: 512Mi
   platform:
-    domain: ""
+    domain: appscode.cloud
   smtp:
     from: ""
     host: ""
