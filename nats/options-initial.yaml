@@ -18,7 +18,6 @@ grafana:
   enabled: true
   nodeSelector: null
   resources: {}
-hosted: false
 imagePullSecrets: null
 infra:
   cloudServices:
@@ -96,6 +95,7 @@ settings:
         memory: 512Mi
   platform:
     domain: ""
+    hosted: false
   smtp:
     from: ""
     host: ""

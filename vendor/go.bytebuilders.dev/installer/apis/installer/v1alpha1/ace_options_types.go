@@ -45,7 +45,6 @@ type AceOptions struct {
 // AceOptionsSpec is the schema for AceOptions Operator values file
 type AceOptionsSpec struct {
 	Release          ObjectReference         `json:"release"`
-	Hosted           bool                    `json:"hosted"`
 	License          string                  `json:"license"`
 	Registry         string                  `json:"registry"`
 	RegistryFQDN     string                  `json:"registryFQDN"`

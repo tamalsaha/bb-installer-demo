@@ -144,7 +144,6 @@ func NewOptions() *api.AceOptionsSpec {
 			Name:      "ace",
 			Namespace: "ace",
 		},
-		Hosted:           hosted,
 		License:          "",
 		Registry:         "",
 		RegistryFQDN:     "",
@@ -192,8 +191,11 @@ func NewOptions() *api.AceOptionsSpec {
 					},
 				},
 			},
-			SMTP:     api.AceOptionsSMTPSettings{},
-			Platform: api.AceOptionsPlatformSettings{},
+			SMTP: api.AceOptionsSMTPSettings{},
+			Platform: api.AceOptionsPlatformSettings{
+				Domain: "",
+				Hosted: hosted,
+			},
 			//Security: api.SecuritySettings{
 			//	Oauth2JWTSecret: "",
 			//	CsrfSecretKey:   "",
@@ -353,7 +355,6 @@ func NewSampleOptions() *api.AceOptionsSpec {
 			Name:      "ace",
 			Namespace: "ace",
 		},
-		Hosted:           hosted,
 		License:          "",
 		Registry:         "",
 		RegistryFQDN:     "",
@@ -426,6 +427,7 @@ func NewSampleOptions() *api.AceOptionsSpec {
 			SMTP: api.AceOptionsSMTPSettings{},
 			Platform: api.AceOptionsPlatformSettings{
 				Domain: "appscode.cloud",
+				Hosted: hosted,
 			},
 			//Security: api.SecuritySettings{
 			//	Oauth2JWTSecret: "",
@@ -921,7 +923,7 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, base, out *api.AceSpec) erro
 		FullnameOverride: base.Global.FullnameOverride,
 		Platform: api.AceOptionsPlatformSettings{
 			Domain: in.Settings.Platform.Domain,
-			Hosted: in.Hosted,
+			Hosted: in.Settings.Platform.Hosted,
 		},
 		License:          base.Global.License,
 		Registry:         base.Global.Registry,
@@ -976,7 +978,7 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, base, out *api.AceSpec) erro
 		}
 	}
 
-	if in.Hosted {
+	if in.Settings.Platform.Hosted {
 		// TODO: bucket proxy
 		//out.Global.Infra.Kubepack = api.InfraKubepack{
 		//	Host:   "",
@@ -1023,7 +1025,7 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, base, out *api.AceSpec) erro
 			Username:   in.Settings.SMTP.Username,
 			Password:   in.Settings.SMTP.Password,
 			SubjectPrefix: func() string {
-				if in.Hosted {
+				if in.Settings.Platform.Hosted {
 					return "ByteBuilders |"
 				}
 				return "ACE |"
@@ -1033,7 +1035,7 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, base, out *api.AceSpec) erro
 		// Nats:        api.AceOptionsNatsSettings{},
 		Platform: api.PlatformSettings{
 			AppName: func() string {
-				if in.Hosted {
+				if in.Settings.Platform.Hosted {
 					return "ByteBuilders: Kubernetes Native Data Platform"
 				}
 				return "ACE: Kubernetes Native Data Platform"
@@ -1071,7 +1073,7 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, base, out *api.AceSpec) erro
 			AppMode: "production",
 		},
 	}
-	if in.Hosted {
+	if in.Settings.Platform.Hosted {
 		// out.AceOptionsSettings.Stripe = api.StripeSettings{}
 		// out.AceOptionsSettings.Searchlight: api.SearchlightSettings{},
 	}
