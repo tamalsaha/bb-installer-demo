@@ -159,6 +159,7 @@ type AceOptionsSMTPSettings struct {
 
 type AceOptionsPlatformSettings struct {
 	Domain string `json:"domain"`
+	Hosted bool   `json:"hosted"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

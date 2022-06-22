@@ -918,8 +918,11 @@ func GenerateNats(in *api.AceOptionsSpec, out *api.AceSpec) error {
 func GeneratePlatformValues(in *api.AceOptionsSpec, base, out *api.AceSpec) error {
 	out.Global = api.AceGlobalValues{
 		NameOverride:     in.Release.Name,
-		Hosted:           in.Hosted,
 		FullnameOverride: base.Global.FullnameOverride,
+		Platform: api.AceOptionsPlatformSettings{
+			Domain: in.Settings.Platform.Domain,
+			Hosted: in.Hosted,
+		},
 		License:          base.Global.License,
 		Registry:         base.Global.Registry,
 		RegistryFQDN:     base.Global.RegistryFQDN,
@@ -1029,7 +1032,6 @@ func GeneratePlatformValues(in *api.AceOptionsSpec, base, out *api.AceSpec) erro
 		},
 		// Nats:        api.AceOptionsNatsSettings{},
 		Platform: api.PlatformSettings{
-			Domain: in.Settings.Platform.Domain,
 			AppName: func() string {
 				if in.Hosted {
 					return "ByteBuilders: Kubernetes Native Data Platform"
