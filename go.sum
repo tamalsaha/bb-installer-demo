@@ -991,8 +991,8 @@ k8s.io/utils v0.0.0-20210802155522-efc7438f0176/go.mod h1:jPW/WVKK9YHAvNhRxK0md/
 k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9 h1:HNSDgDCrr/6Ly3WEGKZftiE7IY19Vz2GdbOCyI4qqhc=
 k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9/go.mod h1:jPW/WVKK9YHAvNhRxK0md/EJ228hCsBRufyofKtW8HA=
 kmodules.xyz/schema-checker v0.4.1 h1:V5UEjR6UMAXf307lTgw+9rDRfHLTNA8g/q9DngqYI9M=
-kubeops.dev/installer v0.0.0-20220604094109-ce62286902ed h1:q4YEuHhbUnOfXl8ZDMDktP/s1fNQKDLvuE7dcDJczIs=
-kubeops.dev/installer v0.0.0-20220604094109-ce62286902ed/go.mod h1:RXPGTjXy3O+lOOsK7jmJjP4/fFyASRU31wayX6+1rsQ=
+kubeops.dev/installer v0.0.0-20220627095147-82e789070444 h1:eL1LeH9XNNZwUTChaewfxxDNZ45wE2nOSG4zQgP/jBk=
+kubeops.dev/installer v0.0.0-20220627095147-82e789070444/go.mod h1:RXPGTjXy3O+lOOsK7jmJjP4/fFyASRU31wayX6+1rsQ=
 kubepack.dev/lib-helm v0.3.2-0.20220620214914-ae2ddd1c076d h1:Lpm6NXKrgC2OB//qSLAtCC67oUbrBCIm8MeWhXgHvQ4=
 kubepack.dev/lib-helm v0.3.2-0.20220620214914-ae2ddd1c076d/go.mod h1:DZgePv7249k4ACaoXFACG14/adq5B8THWpta8lqVyaY=
 rsc.io/binaryregexp v0.2.0/go.mod h1:qTv7/COck+e2FymRvadv62gMdZztPaShugOCi3I+8D8=

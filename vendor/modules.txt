@@ -434,7 +434,7 @@ k8s.io/utils/internal/third_party/forked/golang/net
 k8s.io/utils/net
 k8s.io/utils/pointer
 k8s.io/utils/strings/slices
-# kubeops.dev/installer v0.0.0-20220604094109-ce62286902ed
+# kubeops.dev/installer v0.0.0-20220627095147-82e789070444
 ## explicit; go 1.18
 kubeops.dev/installer/apis/installer
 kubeops.dev/installer/apis/installer/v1alpha1
