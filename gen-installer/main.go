@@ -1,8 +1,13 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"gomodules.xyz/jsonpatch/v2"
+	"helm.sh/helm/v3/pkg/chartutil"
 	"io/ioutil"
+	"k8s.io/apimachinery/pkg/runtime"
+	"kubepack.dev/kubepack/apis/kubepack/v1alpha1"
 	"net/url"
 	"os"
 	"path"
@@ -20,6 +25,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
+	pkglib "kubepack.dev/kubepack/pkg/lib"
 	chartlib "kubepack.dev/lib-helm/pkg/chart"
 	"sigs.k8s.io/yaml"
 )
@@ -80,6 +86,19 @@ func main() {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0o644)
 	}
 
+	err = showHelm(ChartSelection{
+		ChartRef: v1alpha1.ChartRef{
+			URL:  "https://charts.appscode.com/stable/",
+			Name: "ace",
+		},
+		Version:     "",
+		ReleaseName: "ace",
+		Namespace:   "ace",
+	}, outOrig, outMod)
+	if err != nil {
+		panic(err)
+	}
+
 	sh := shell.NewSession()
 	sh.SetDir(chartDir)
 	sh.ShowCMD = true
@@ -91,12 +110,12 @@ func main() {
 	}
 }
 
-func GetValuesDiffYAML(orig, od interface{}) ([]byte, error) {
+func GetValuesDiffYAML(orig, mod interface{}) ([]byte, error) {
 	origMap, err := toJson(orig)
 	if err != nil {
 		return nil, err
 	}
-	modMap, err := toJson(od)
+	modMap, err := toJson(mod)
 	if err != nil {
 		return nil, err
 	}
@@ -106,6 +125,54 @@ func GetValuesDiffYAML(orig, od interface{}) ([]byte, error) {
 		return nil, err
 	}
 	return yaml.Marshal(diff)
+}
+
+type ChartSelection struct {
+	v1alpha1.ChartRef `json:",inline" protobuf:"bytes,1,opt,name=chartRef"`
+	Version           string `json:"version"`
+	ReleaseName       string `json:"releaseName" protobuf:"bytes,3,opt,name=releaseName"`
+	Namespace         string `json:"namespace" protobuf:"bytes,4,opt,name=namespace"`
+}
+
+func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
+	origMap, err := json.Marshal(origValues)
+	if err != nil {
+		return err
+	}
+	modMap, err := json.Marshal(modValues)
+	if err != nil {
+		return err
+	}
+	patch, err := jsonpatch.CreatePatch(origMap, modMap)
+	if err != nil {
+		return err
+	}
+	pb, err := json.Marshal(patch)
+	if err != nil {
+		return err
+	}
+
+	var buf bytes.Buffer
+	f3 := &pkglib.Helm3CommandPrinter{
+		Registry:    pkglib.DefaultRegistry,
+		ChartRef:    pkg.ChartRef,
+		Version:     pkg.Version,
+		ReleaseName: pkg.ReleaseName,
+		Namespace:   pkg.Namespace,
+		ValuesFile:  chartutil.ValuesfileName,
+		ValuesPatch: &runtime.RawExtension{
+			Raw: pb,
+		},
+		W: &buf,
+	}
+	err = f3.Do()
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(buf.String())
+
+	return nil
 }
 
 func toJson(v interface{}) (map[string]interface{}, error) {
