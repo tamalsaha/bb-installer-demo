@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"gomodules.xyz/jsonpatch/v2"
-	"helm.sh/helm/v3/pkg/chartutil"
 	"io/ioutil"
 	"k8s.io/apimachinery/pkg/runtime"
 	"kubepack.dev/kubepack/apis/kubepack/v1alpha1"
@@ -135,15 +134,36 @@ type ChartSelection struct {
 }
 
 func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
-	origMap, err := json.Marshal(origValues)
+	origMap, err := toJson(origValues)
 	if err != nil {
 		return err
 	}
-	modMap, err := json.Marshal(modValues)
+	modMap, err := toJson(modValues)
 	if err != nil {
 		return err
 	}
-	patch, err := jsonpatch.CreatePatch(origMap, modMap)
+	sanitizedMap, err := chartlib.GetValuesDiff(origMap, modMap)
+	if err != nil {
+		return err
+	}
+
+	chrt, err := pkglib.DefaultRegistry.GetChart(pkg.URL, pkg.Name, pkg.Version)
+	if err != nil {
+		return err
+	}
+
+	defValuesBytes, err := json.Marshal(chrt.Values)
+	if err != nil {
+		return err
+	}
+
+	appliedValues := mergeMaps(chrt.Values, sanitizedMap)
+	sanitizedValuesBytes, err := json.Marshal(appliedValues)
+	if err != nil {
+		return err
+	}
+
+	patch, err := jsonpatch.CreatePatch(defValuesBytes, sanitizedValuesBytes)
 	if err != nil {
 		return err
 	}
@@ -151,6 +171,7 @@ func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println(string(pb))
 
 	var buf bytes.Buffer
 	f3 := &pkglib.Helm3CommandPrinter{
@@ -159,7 +180,7 @@ func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
 		Version:     pkg.Version,
 		ReleaseName: pkg.ReleaseName,
 		Namespace:   pkg.Namespace,
-		ValuesFile:  chartutil.ValuesfileName,
+		// ValuesFile:  chartutil.ValuesfileName,
 		ValuesPatch: &runtime.RawExtension{
 			Raw: pb,
 		},
@@ -173,6 +194,25 @@ func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
 	fmt.Println(buf.String())
 
 	return nil
+}
+
+func mergeMaps(a, b map[string]interface{}) map[string]interface{} {
+	out := make(map[string]interface{}, len(a))
+	for k, v := range a {
+		out[k] = v
+	}
+	for k, v := range b {
+		if v, ok := v.(map[string]interface{}); ok {
+			if bv, ok := out[k]; ok {
+				if bv, ok := bv.(map[string]interface{}); ok {
+					out[k] = mergeMaps(bv, v)
+					continue
+				}
+			}
+		}
+		out[k] = v
+	}
+	return out
 }
 
 func toJson(v interface{}) (map[string]interface{}, error) {

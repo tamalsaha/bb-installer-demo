@@ -13,11 +13,13 @@ require (
 	gomodules.xyz/encoding v0.0.7
 	gomodules.xyz/go-sh v0.1.0
 	gomodules.xyz/homedir v0.1.0
+	gomodules.xyz/jsonpatch/v2 v2.2.0
 	gomodules.xyz/password-generator v0.2.8
 	gomodules.xyz/pointer v0.1.0
+	helm.sh/helm/v3 v3.0.0-00010101000000-000000000000
 	k8s.io/api v0.24.1
 	k8s.io/apimachinery v0.24.1
-	kubepack.dev/kubepack v0.4.0
+	kubepack.dev/kubepack v0.4.1-0.20220629235108-2c84b49ce121
 	kubepack.dev/lib-helm v0.3.2-0.20220620214914-ae2ddd1c076d
 	sigs.k8s.io/yaml v1.3.0
 )
@@ -82,6 +84,7 @@ require (
 	github.com/dustin/go-humanize v1.0.1-0.20220316001817-d5090ed65664 // indirect
 	github.com/emicklei/go-restful v2.9.5+incompatible // indirect
 	github.com/evanphx/json-patch v4.12.0+incompatible // indirect
+	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
 	github.com/exponent-io/jsonpath v0.0.0-20151013193312-d6023ce2651d // indirect
 	github.com/fatih/camelcase v1.0.0 // indirect
 	github.com/fatih/color v1.13.0 // indirect
@@ -182,7 +185,6 @@ require (
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gomodules.xyz/blobfs v0.1.10 // indirect
-	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	gomodules.xyz/jsonpath v0.0.2 // indirect
 	gomodules.xyz/mergo v0.3.13 // indirect
 	gomodules.xyz/sets v0.2.1 // indirect
@@ -195,7 +197,6 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0 // indirect
-	helm.sh/helm/v3 v3.0.0-00010101000000-000000000000 // indirect
 	k8s.io/apiextensions-apiserver v0.24.1 // indirect
 	k8s.io/apiserver v0.24.1 // indirect
 	k8s.io/cli-runtime v0.24.1 // indirect
@@ -207,7 +208,7 @@ require (
 	k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9 // indirect
 	kmodules.xyz/apply v0.24.1 // indirect
 	kmodules.xyz/client-go v0.24.0 // indirect
-	kmodules.xyz/resource-metadata v0.11.0 // indirect
+	kmodules.xyz/resource-metadata v0.11.3 // indirect
 	kubeops.dev/installer v0.0.0-20220627095147-82e789070444 // indirect
 	kubepack.dev/preset v0.0.0-20220318014008-5b564b7dc9e7 // indirect
 	oras.land/oras-go v1.1.0 // indirect
