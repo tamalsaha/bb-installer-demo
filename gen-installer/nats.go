@@ -21,11 +21,15 @@ func confDir() string {
 	if err != nil {
 		panic(errors.Wrap(err, "failed to detect current working dir"))
 	}
-	return filepath.Join(dir, "nats")
+	return filepath.Join(dir, "ace-installer")
+}
+
+func natsDir() string {
+	return filepath.Join(confDir(), "nats")
 }
 
 func genNatsCredentials() (map[string]string, error) {
-	fmt.Println("Configuration directory: ", confDir())
+	fmt.Println("Configuration directory: ", natsDir())
 
 	nc := map[string]string{}
 
@@ -33,7 +37,7 @@ func genNatsCredentials() (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := storeOperator(confDir(), "Operator", oPub, oSeed, oJwt, nc); err != nil {
+	if err := storeOperator(natsDir(), "Operator", oPub, oSeed, oJwt, nc); err != nil {
 		return nil, err
 	}
 
@@ -41,7 +45,7 @@ func genNatsCredentials() (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := storeAccount(confDir(), "Operator", "SYS", sPub, sSeed, sJwt, nc); err != nil {
+	if err := storeAccount(natsDir(), "Operator", "SYS", sPub, sSeed, sJwt, nc); err != nil {
 		return nil, err
 	}
 
@@ -49,7 +53,7 @@ func genNatsCredentials() (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := storeUser(confDir(), "Operator", "SYS", "sys", suPub, suSeed, suJwt, nc); err != nil {
+	if err := storeUser(natsDir(), "Operator", "SYS", "sys", suPub, suSeed, suJwt, nc); err != nil {
 		return nil, err
 	}
 
@@ -57,7 +61,7 @@ func genNatsCredentials() (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := storeAccount(confDir(), "Operator", "Admin", aPub, aSeed, aJwt, nc); err != nil {
+	if err := storeAccount(natsDir(), "Operator", "Admin", aPub, aSeed, aJwt, nc); err != nil {
 		return nil, err
 	}
 
@@ -65,7 +69,7 @@ func genNatsCredentials() (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := storeUser(confDir(), "Operator", "Admin", "admin", auPub, auSeed, auJwt, nc); err != nil {
+	if err := storeUser(natsDir(), "Operator", "Admin", "admin", auPub, auSeed, auJwt, nc); err != nil {
 		return nil, err
 	}
 
@@ -74,7 +78,7 @@ func genNatsCredentials() (map[string]string, error) {
 		if err != nil {
 			return nil, err
 		}
-		err = ioutil.WriteFile(filepath.Join(confDir(), "nats-credentials.yaml"), data, 0o644)
+		err = ioutil.WriteFile(filepath.Join(natsDir(), "nats-credentials.yaml"), data, 0o644)
 		if err != nil {
 			return nil, err
 		}
@@ -87,7 +91,7 @@ func genNatsCredentials() (map[string]string, error) {
 		if err != nil {
 			return nil, err
 		}
-		err = ioutil.WriteFile(filepath.Join(confDir(), "nats-credentials.enc.yaml"), data, 0o644)
+		err = ioutil.WriteFile(filepath.Join(natsDir(), "nats-credentials.enc.yaml"), data, 0o644)
 		if err != nil {
 			return nil, err
 		}
