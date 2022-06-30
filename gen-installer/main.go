@@ -109,6 +109,60 @@ func main() {
 		}
 		fmt.Println(cmd)
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), vb, 0o644)
+
+		delim := "---"
+		md := fmt.Sprintf(`# Install ACE
+
+## Install Prerequisites
+
+- Create New Google Cloud Project appscode-ace
+- Add Billing account
+- Gave eng@appscode.com owner access
+
+- create buckets gs://ace-avatars, gs://ace-invoices
+- TODO: create bucket for kubepack
+- created new service account
+- Add "Storage Object Creator" permission to the buckets
+
+- Get token from Cloudflare for appscode.cloud Domain
+- not using KMS
+
+
+%s
+helm upgrade -i kubedb appscode/kubedb \
+  --version v2022.05.24 \
+  --namespace kubedb --create-namespace \
+  --set kubedb-provisioner.enabled=true \
+  --set kubedb-ops-manager.enabled=false \
+  --set kubedb-autoscaler.enabled=false \
+  --set kubedb-dashboard.enabled=false \
+  --set kubedb-schema-manager.enabled=false \
+  --set-file global.license=/Users/tamal/Downloads/kubedb-enterprise-license-20aae10d-67db-4041-bcdf-fe46f58d9231.txt
+
+helm upgrade -i stash appscode/stash \
+  --version v2022.05.18 \
+  --namespace stash --create-namespace \
+  --set features.enterprise=true \
+  --set-file global.license=/Users/tamal/Downloads/kubedb-enterprise-license-20aae10d-67db-4041-bcdf-fe46f58d9231.txt
+
+helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.8.0 \
+  --set installCRDs=true
+
+helm upgrade -i kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+  --namespace monitoring --create-namespace
+%s
+
+## Deply ACE
+
+
+%s
+%s
+%s`, delim, delim, delim, cmd, delim)
+		_ = ioutil.WriteFile(filepath.Join(confDir(), "README.md"), []byte(md), 0o644)
 	}
 
 	sh := shell.NewSession()
@@ -120,6 +174,12 @@ func main() {
 	} else {
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "ace.yaml"), data, 0o644)
 	}
+}
+
+func GenerateREADME() string {
+	rd := ``
+
+	return rd
 }
 
 func GetValuesDiffYAML(orig, mod interface{}) ([]byte, error) {
