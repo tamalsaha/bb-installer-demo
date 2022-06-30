@@ -42,14 +42,14 @@ func main() {
 		panic(errors.Wrapf(err, "failed to create dir: %s", confDir()))
 	}
 
-	{
-		opts := NewOptions()
-		if data, err := yaml.Marshal(*opts); err != nil {
-			panic(err)
-		} else {
-			_ = ioutil.WriteFile(filepath.Join(confDir(), "options-initial.yaml"), data, 0o644)
-		}
-	}
+	//{
+	//	opts := NewOptions()
+	//	if data, err := yaml.Marshal(*opts); err != nil {
+	//		panic(err)
+	//	} else {
+	//		_ = ioutil.WriteFile(filepath.Join(confDir(), "options-initial.yaml"), data, 0o644)
+	//	}
+	//}
 
 	in := NewSampleOptions()
 	if data, err := yaml.Marshal(*in); err != nil {
