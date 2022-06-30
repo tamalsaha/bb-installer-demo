@@ -3,29 +3,28 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"gomodules.xyz/jsonpatch/v2"
 	"io/ioutil"
-	"k8s.io/apimachinery/pkg/runtime"
-	"kubepack.dev/kubepack/apis/kubepack/v1alpha1"
+	"kubepack.dev/lib-helm/pkg/values"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
 
-	"gomodules.xyz/encoding/json"
-
 	"github.com/pkg/errors"
 	api "go.bytebuilders.dev/installer/apis/installer/v1alpha1"
+	"gomodules.xyz/encoding/json"
 	shell "gomodules.xyz/go-sh"
 	"gomodules.xyz/homedir"
+	"gomodules.xyz/jsonpatch/v2"
 	passgen "gomodules.xyz/password-generator"
 	"gomodules.xyz/pointer"
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/runtime"
+	"kubepack.dev/kubepack/apis/kubepack/v1alpha1"
 	pkglib "kubepack.dev/kubepack/pkg/lib"
-	chartlib "kubepack.dev/lib-helm/pkg/chart"
 	"sigs.k8s.io/yaml"
 )
 
@@ -79,23 +78,37 @@ func main() {
 		panic(err)
 	}
 
-	if data, err := chartlib.GetValuesDiffYAML(outOrig, outMod); err != nil {
-		panic(err)
-	} else {
-		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), data, 0o644)
+	{
+		cmd, _, err := pkglib.PrintHelm3CommandFromStructValues(v1alpha1.InstallOptions{
+			ChartRef: v1alpha1.ChartRef{
+				URL:  "https://charts.appscode.com/stable/",
+				Name: "ace",
+			},
+			Version:     "",
+			ReleaseName: "ace",
+			Namespace:   "ace",
+		}, outOrig, outMod, false)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(cmd)
 	}
 
-	err = showHelm(ChartSelection{
-		ChartRef: v1alpha1.ChartRef{
-			URL:  "https://charts.appscode.com/stable/",
-			Name: "ace",
-		},
-		Version:     "",
-		ReleaseName: "ace",
-		Namespace:   "ace",
-	}, outOrig, outMod)
-	if err != nil {
-		panic(err)
+	{
+		cmd, vb, err := pkglib.PrintHelm3CommandFromStructValues(v1alpha1.InstallOptions{
+			ChartRef: v1alpha1.ChartRef{
+				URL:  "https://charts.appscode.com/stable/",
+				Name: "ace",
+			},
+			Version:     "",
+			ReleaseName: "ace",
+			Namespace:   "ace",
+		}, outOrig, outMod, true)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(cmd)
+		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), vb, 0o644)
 	}
 
 	sh := shell.NewSession()
@@ -126,15 +139,8 @@ func GetValuesDiffYAML(orig, mod interface{}) ([]byte, error) {
 	return yaml.Marshal(diff)
 }
 
-type ChartSelection struct {
-	v1alpha1.ChartRef `json:",inline" protobuf:"bytes,1,opt,name=chartRef"`
-	Version           string `json:"version"`
-	ReleaseName       string `json:"releaseName" protobuf:"bytes,3,opt,name=releaseName"`
-	Namespace         string `json:"namespace" protobuf:"bytes,4,opt,name=namespace"`
-}
-
-func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
-	origMap, err := toJson(origValues)
+func showHelm(pkg v1alpha1.InstallOptions, baseValues, modValues interface{}) error {
+	baseMap, err := toJson(baseValues)
 	if err != nil {
 		return err
 	}
@@ -142,7 +148,7 @@ func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
 	if err != nil {
 		return err
 	}
-	sanitizedMap, err := chartlib.GetValuesDiff(origMap, modMap)
+	valuesMap, err := values.GetValuesDiff(baseMap, modMap)
 	if err != nil {
 		return err
 	}
@@ -157,7 +163,7 @@ func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
 		return err
 	}
 
-	appliedValues := mergeMaps(chrt.Values, sanitizedMap)
+	appliedValues := mergeMaps(chrt.Values, valuesMap)
 	sanitizedValuesBytes, err := json.Marshal(appliedValues)
 	if err != nil {
 		return err
@@ -180,9 +186,11 @@ func showHelm(pkg ChartSelection, origValues, modValues interface{}) error {
 		Version:     pkg.Version,
 		ReleaseName: pkg.ReleaseName,
 		Namespace:   pkg.Namespace,
-		// ValuesFile:  chartutil.ValuesfileName,
-		ValuesPatch: &runtime.RawExtension{
-			Raw: pb,
+		Values: values.Options{
+			// ValuesFile:  chartutil.ValuesfileName,
+			ValuesPatch: &runtime.RawExtension{
+				Raw: pb,
+			},
 		},
 		W: &buf,
 	}
