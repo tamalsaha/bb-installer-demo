@@ -118,15 +118,12 @@ func main() {
 - Create New Google Cloud Project appscode-ace
 - Add Billing account
 - Gave eng@appscode.com owner access
-
 - create buckets gs://ace-avatars, gs://ace-invoices
 - TODO: create bucket for kubepack
 - created new service account
 - Add "Storage Object Creator" permission to the buckets
-
 - Get token from Cloudflare for appscode.cloud Domain
 - not using KMS
-
 
 %s
 helm upgrade -i kubedb appscode/kubedb \

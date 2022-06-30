@@ -52,7 +52,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: 'root'
-  password: 'yNjJ1BF6VCwaPrLv'
+  password: 'ko9rPJPw4MqZ;L5h'
 ---
 # Source: ace/templates/db/db-auth.yaml
 apiVersion: v1
@@ -70,7 +70,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: 'postgres'
-  password: '9AdcoDLQ7&AFRsXM'
+  password: 'toU6O_rOJowlcJE1'
 ---
 # Source: ace/templates/db/db-config.yaml
 apiVersion: v1
@@ -199,7 +199,7 @@ stringData:
     name = ace
     user = postgres
     # If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""
-    password = 9AdcoDLQ7&AFRsXM
+    password = toU6O_rOJowlcJE1
     # Use either URL or the previous fields to configure the database
     # Example: mysql://user:secret@host:port/database
     url =
@@ -248,7 +248,7 @@ stringData:
     # database: will use Grafana primary database.
     # redis: config like redis server e.g. `addr=127.0.0.1:6379,pool_size=100,db=grafana`
     # memcache: 127.0.0.1:11211
-    connstr = addr=release-name-ace-cache.default:6379,password='yNjJ1BF6VCwaPrLv',db=1,pool_size=100
+    connstr = addr=release-name-ace-cache.default:6379,password='ko9rPJPw4MqZ;L5h',db=1,pool_size=100
 
     #################################### Session #############################
     [session]
@@ -266,7 +266,7 @@ stringData:
     # memcache: 127.0.0.1:11211
 
 
-    provider_config = addr=release-name-ace-cache.default:6379,password='yNjJ1BF6VCwaPrLv',db=0,pool_size=100
+    provider_config = addr=release-name-ace-cache.default:6379,password='ko9rPJPw4MqZ;L5h',db=0,pool_size=100
 
     # Session cookie name
     cookie_name = i_like_bytebuilders
@@ -910,18 +910,18 @@ stringData:
     HOST = release-name-ace-db.default:5432
     NAME = ace
     USER = postgres
-    PASSWD = 9AdcoDLQ7&AFRsXM
+    PASSWD = toU6O_rOJowlcJE1
 
     [session]
     DOMAIN = appscode.cloud
     PROVIDER = redis
-    PROVIDER_CONFIG = network=tcp,addr=release-name-ace-cache.default:6379,password='yNjJ1BF6VCwaPrLv',db=0,pool_size=100,idle_timeout=180,prefix=session-
+    PROVIDER_CONFIG = network=tcp,addr=release-name-ace-cache.default:6379,password='ko9rPJPw4MqZ;L5h',db=0,pool_size=100,idle_timeout=180,prefix=session-
     COOKIE_NAME = i_like_bytebuilders
 
     [cache]
     ADAPTER = redis
     INTERVAL = 60
-    HOST = network=tcp,addr=release-name-ace-cache.default:6379,password='yNjJ1BF6VCwaPrLv',db=1,pool_size=100,idle_timeout=180,prefix=cache-
+    HOST = network=tcp,addr=release-name-ace-cache.default:6379,password='ko9rPJPw4MqZ;L5h',db=1,pool_size=100,idle_timeout=180,prefix=cache-
     [mailer]
     ENABLED = true
     MAILER_TYPE = smtp
@@ -938,10 +938,10 @@ stringData:
     LEVEL = Info
 
     [oauth2]
-    JWT_SECRET = BRuqlphw7hsTjQMauCnkVi6BTZl1ZE4KyAB4o3FA2uf
+    JWT_SECRET = 3r1dBuPK3eUPBa4Lu6Gqs7s2ZCN4vC6xvlKHCc9XTkb
 
     [security]
-    SECRET_KEY     = aHppfny8wTpE0dPWo2SR4HwlfmWDFMJg1mnjGWHiwAUCGYwF23JNs1jhwWpyiemt
+    SECRET_KEY     = ff8zxIAuUVFrL06SvcXX2TOi9w8OxmOTmA4193QTXay6Wc88WQRdwiPQrcOq9zz5
     INSTALL_LOCK = true
     CSRF_COOKIE_HTTP_ONLY = false
 
@@ -971,7 +971,7 @@ stringData:
     ALLOW_SUBDOMAIN = true
 
     [kms]
-    MASTER_KEY_URL = 'base64key://mbkhfuAlscr188oGyIYWXmcaDCPAFbR7n7xCBqa5GpvXDf1QidCe9Eps6oJhb5kx'
+    MASTER_KEY_URL = 'base64key://ZogSeY3mYmCNzgghWvzf2dhYhxJ57AUVNlHyrX1xl5NyD92dbsNDBsxsn5zxDkbM'
 
     [searchlight]
     ENABLE = false
