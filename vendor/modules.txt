@@ -676,7 +676,7 @@ github.com/yudai/gojsondiff/formatter
 # github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82
 ## explicit
 github.com/yudai/golcs
-# go.bytebuilders.dev/installer v0.0.0-20220613195146-011e295a85ea => ../../../go.bytebuilders.dev/installer
+# go.bytebuilders.dev/installer v0.0.0-20220630033147-841be3914218 => ../../../go.bytebuilders.dev/installer
 ## explicit; go 1.18
 go.bytebuilders.dev/installer/apis/installer
 go.bytebuilders.dev/installer/apis/installer/v1alpha1

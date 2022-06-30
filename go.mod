@@ -9,7 +9,7 @@ require (
 	github.com/nats-io/nkeys v0.3.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.57.0
-	go.bytebuilders.dev/installer v0.0.0-20220613195146-011e295a85ea
+	go.bytebuilders.dev/installer v0.0.0-20220630033147-841be3914218
 	gomodules.xyz/encoding v0.0.7
 	gomodules.xyz/go-sh v0.1.0
 	gomodules.xyz/homedir v0.1.0
