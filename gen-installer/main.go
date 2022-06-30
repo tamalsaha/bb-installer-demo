@@ -110,7 +110,7 @@ func main() {
 		fmt.Println(cmd)
 		_ = ioutil.WriteFile(filepath.Join(confDir(), "values.yaml"), vb, 0o644)
 
-		delim := "---"
+		delim := "```"
 		md := fmt.Sprintf(`# Install ACE
 
 ## Install Prerequisites

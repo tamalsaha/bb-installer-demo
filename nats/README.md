@@ -15,7 +15,7 @@
 - not using KMS
 
 
----
+```
 helm upgrade -i kubedb appscode/kubedb \
   --version v2022.05.24 \
   --namespace kubedb --create-namespace \
@@ -41,12 +41,12 @@ helm install \
 
 helm upgrade -i kube-prometheus-stack prometheus-community/kube-prometheus-stack \
   --namespace monitoring --create-namespace
----
+```
 
 ## Deply ACE
 
 
----
+```
 # add helm repository appscode
 helm repo add appscode https://charts.appscode.com/stable/
 helm repo update
@@ -56,4 +56,4 @@ helm upgrade --install ace appscode/ace \
   --namespace ace --create-namespace \
   --values=values.yaml
 
----
+```
