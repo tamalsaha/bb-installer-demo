@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	pkglib "kubepack.dev/kubepack/pkg/lib"
-	chartlib "kubepack.dev/lib-helm/pkg/chart"
+	"kubepack.dev/lib-helm/pkg/values"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func gen() error {
 	if err != nil {
 		return err
 	}
-	cmd, err := chartlib.GetChangedValues(chrt.Values, nil)
+	cmd, err := values.GetChangedValues(chrt.Values, nil)
 	if err != nil {
 		return err
 	}
