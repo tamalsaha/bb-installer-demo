@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "hello.serviceAccountName" . }}-cred
+  namespace: {{ .Release.Namespace }}
+type: Opaque
+stringData:
+  crds: {{ .Values.creds | quote}}
+  credfile: {{ .Values.credfile | quote}}
